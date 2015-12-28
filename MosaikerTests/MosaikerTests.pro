@@ -1,0 +1,39 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2015-12-28T16:32:47
+#
+#-------------------------------------------------
+
+include(../include.pri)
+
+QT       += testlib
+
+QT       -= gui
+
+TARGET = tst_MosaikerTest
+CONFIG   += console
+CONFIG   -= app_bundle
+
+TEMPLATE = app
+
+SOURCES += \
+    tst_ResourceFinderTest.cpp
+DEFINES += SRCDIR=\\\"$$PWD/\\\"
+
+unix|win32: LIBS += -L$$OUT_PWD/../MosaikerLib/ -lMosaikerLib
+
+INCLUDEPATH += $$PWD/../MosaikerLib
+DEPENDPATH += $$PWD/../MosaikerLib
+
+win32:!win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../MosaikerLib/MosaikerLib.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../MosaikerLib/libMosaikerLib.a
+
+win32: {
+    error("Not implemented")
+}
+else:unix: {
+    copyfiles.commands = cp -rf $$PWD/TestResources $$OUT_PWD
+}
+
+QMAKE_EXTRA_TARGETS += copyfiles
+POST_TARGETDEPS += copyfiles
