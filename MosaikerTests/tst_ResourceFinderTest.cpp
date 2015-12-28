@@ -1,5 +1,4 @@
-﻿#ifndef __TST_RESOURCE_FINDER_H__
-#define __TST_RESOURCE_FINDER_H__
+﻿#include "tst_ResourceFinderTest.h"
 
 #include <QString>
 #include <QtTest>
@@ -8,24 +7,6 @@
 #include "Exceptions.h"
 
 #define TEST_RESOURCES_DIR QString("./TestResources")
-
-class ResourceFinderTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    ResourceFinderTest()
-    {}
-
-private Q_SLOTS:
-    void testFindAllResources();
-    void testDirectoryNotExists();
-    void testResourcesCleared();
-    void testAddSingleFilter();
-    void testMultipleAddFilters();
-    void testSetFilters();
-    void testFoundResources();
-};
 
 void ResourceFinderTest::testFindAllResources()
 {
@@ -122,6 +103,4 @@ void ResourceFinderTest::testFoundResources()
     QCOMPARE(finder.resourcesList(), expected);
 }
 
-#include "tst_ResourceFinderTest.moc"
-
-#endif // __TST_RESOURCE_FINDER_H__
+//#include "tst_ResourceFinderTest.moc"

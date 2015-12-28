@@ -12,9 +12,11 @@ TARGET = MosaikerLib
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += ResourceFinder.cpp
+SOURCES += ResourceFinder.cpp \
+    ResourceIndexBuilder.cpp
 
 HEADERS += ResourceFinder.h \
+    ResourceIndexBuilder.h
     Exceptions.h
 
 unix {

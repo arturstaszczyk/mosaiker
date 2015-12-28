@@ -18,7 +18,10 @@ TEMPLATE = app
 
 SOURCES += \
     main.cpp \
-    tst_ResourceFinderTest.cpp
+    tst_ResourceFinderTest.cpp \
+    tst_ResourceIndexBuilderTest.cpp \
+    tst_ImageWrapperTest.cpp
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 unix|win32: LIBS += -L$$OUT_PWD/../MosaikerLib/ -lMosaikerLib
@@ -39,4 +42,6 @@ else:unix: {
 QMAKE_EXTRA_TARGETS += copyfiles
 POST_TARGETDEPS += copyfiles
 
-HEADERS +=
+HEADERS += \
+    tst_ResourceFinderTest.h \
+    tst_ImageWrapperTest.h
