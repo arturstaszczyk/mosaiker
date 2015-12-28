@@ -4,7 +4,7 @@
 #include "ResourceFinder.h"
 #include "Exceptions.h"
 
-#define TEST_RESOURCES_DIR "./TestResources"
+#define TEST_RESOURCES_DIR QString("./TestResources")
 
 class ResourceFinderTest : public QObject
 {
@@ -18,8 +18,10 @@ private Q_SLOTS:
     void testFindAllResources();
     void testDirectoryNotExists();
     void testResourcesCleared();
-    void testSingleFilter();
-    void testMultipleFilters();
+    void testAddSingleFilter();
+    void testMultipleAddFilters();
+    void testSetFilters();
+    void testFoundResources();
 };
 
 void ResourceFinderTest::testFindAllResources()
@@ -45,7 +47,7 @@ void ResourceFinderTest::testResourcesCleared()
     QCOMPARE(finder.resourcesCount(), 3u);
 }
 
-void ResourceFinderTest::testSingleFilter()
+void ResourceFinderTest::testAddSingleFilter()
 {
     ResourceFinder finder(TEST_RESOURCES_DIR);
 
@@ -63,13 +65,58 @@ void ResourceFinderTest::testSingleFilter()
     QCOMPARE(finder.resourcesCount(), 2u);
 }
 
-void ResourceFinderTest::testMultipleFilters()
+void ResourceFinderTest::testMultipleAddFilters()
 {
     ResourceFinder finder(TEST_RESOURCES_DIR);
+
+    finder.addFilter("*.png");
+    finder.find();
+    QCOMPARE(finder.resourcesCount(), 1u);
 
     finder.addFilter({"*.png", "*.jpg"});
     finder.find();
     QCOMPARE(finder.resourcesCount(), 3u);
+}
+
+void ResourceFinderTest::testSetFilters()
+{
+    ResourceFinder finder(TEST_RESOURCES_DIR);
+
+    finder.addFilter({"*.png", "*.jpg"});
+    finder.setFilter("*.jpg");
+    finder.find();
+    QCOMPARE(finder.resourcesCount(), 2u);
+
+    finder.setFilter({"*.jpg", "*.png"});
+    finder.find();
+    QCOMPARE(finder.resourcesCount(), 3u);
+}
+
+void ResourceFinderTest::testFoundResources()
+{
+    ResourceFinder finder(TEST_RESOURCES_DIR);
+    finder.setFilter("*.png");
+    finder.find();
+
+    QStringList expected {
+        TEST_RESOURCES_DIR + "/res1.png"
+    };
+    QCOMPARE(finder.resourcesList(), expected);
+
+    finder.setFilter("*.jpeg");
+    finder.find();
+
+    expected = QStringList {};
+    QCOMPARE(finder.resourcesList(), expected);
+
+    expected = QStringList{
+        TEST_RESOURCES_DIR + "/res1.jpg",
+        TEST_RESOURCES_DIR + "/res2.jpg"
+    };
+
+    finder.setFilter("*.jpg");
+    finder.find();
+    QCOMPARE(finder.resourcesList(), expected);
 }
 
 QTEST_APPLESS_MAIN(ResourceFinderTest)
