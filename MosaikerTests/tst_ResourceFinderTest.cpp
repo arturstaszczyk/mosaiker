@@ -1,4 +1,7 @@
-﻿#include <QString>
+﻿#ifndef __TST_RESOURCE_FINDER_H__
+#define __TST_RESOURCE_FINDER_H__
+
+#include <QString>
 #include <QtTest>
 
 #include "ResourceFinder.h"
@@ -119,6 +122,6 @@ void ResourceFinderTest::testFoundResources()
     QCOMPARE(finder.resourcesList(), expected);
 }
 
-QTEST_APPLESS_MAIN(ResourceFinderTest)
-
 #include "tst_ResourceFinderTest.moc"
+
+#endif // __TST_RESOURCE_FINDER_H__

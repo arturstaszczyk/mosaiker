@@ -17,6 +17,7 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 SOURCES += \
+    main.cpp \
     tst_ResourceFinderTest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -37,3 +38,5 @@ else:unix: {
 
 QMAKE_EXTRA_TARGETS += copyfiles
 POST_TARGETDEPS += copyfiles
+
+HEADERS +=
