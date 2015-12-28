@@ -20,7 +20,8 @@ SOURCES += \
     main.cpp \
     tst_ResourceFinderTest.cpp \
     tst_ResourceIndexBuilderTest.cpp \
-    tst_ImageWrapperTest.cpp
+    mocks/ImageLibraryAdapterMock.cpp \
+    tst_ImageManipulatorTest.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -44,4 +45,6 @@ POST_TARGETDEPS += copyfiles
 
 HEADERS += \
     tst_ResourceFinderTest.h \
-    tst_ImageWrapperTest.h
+    mocks/ImageLibraryAdapterMock.h \
+    tst_ImageManipulatorTest.h \
+    mocks/MockBase.h

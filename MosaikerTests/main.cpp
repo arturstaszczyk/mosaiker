@@ -1,7 +1,7 @@
 ﻿#include <QtTest>
 
 #include "tst_ResourceFinderTest.h"
-#include "tst_ImageWrapperTest.h"
+#include "tst_ImageManipulatorTest.h"
 
 int main(int argc, char *argv[])
 {

@@ -13,10 +13,13 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += ResourceFinder.cpp \
-    ResourceIndexBuilder.cpp
+    ResourceIndexBuilder.cpp \
+    ImageManipulator.cpp
 
 HEADERS += ResourceFinder.h \
-    ResourceIndexBuilder.h
+    ResourceIndexBuilder.h \
+    ImageLibraryAdapter.h \
+    ImageManipulator.h
     Exceptions.h
 
 unix {

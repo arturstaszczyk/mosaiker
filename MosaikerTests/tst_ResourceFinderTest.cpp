@@ -10,97 +10,97 @@
 
 void ResourceFinderTest::testFindAllResources()
 {
-    ResourceFinder finder(TEST_RESOURCES_DIR);
-    finder.find();
+    ResourceFinder* finderObj = new ResourceFinder(TEST_RESOURCES_DIR);
+    finderObj->find();
 
-    QCOMPARE(finder.resourcesCount(), 3u);
+    QCOMPARE(finderObj->resourcesCount(), 3u);
 }
 
 void ResourceFinderTest::testDirectoryNotExists()
 {
-    ResourceFinder finder("./no_exists");
-    QVERIFY_EXCEPTION_THROWN(finder.find(), ResourcesDirDoNotExists);
+    ResourceFinder* finderObj = new ResourceFinder("./no_exists");
+    QVERIFY_EXCEPTION_THROWN(finderObj->find(), ResourcesDirDoNotExists);
 }
 
 void ResourceFinderTest::testResourcesCleared()
 {
-    ResourceFinder finder(TEST_RESOURCES_DIR);
-    finder.find();
-    finder.find();
+    ResourceFinder* finderObj = new ResourceFinder(TEST_RESOURCES_DIR);
+    finderObj->find();
+    finderObj->find();
 
-    QCOMPARE(finder.resourcesCount(), 3u);
+    QCOMPARE(finderObj->resourcesCount(), 3u);
 }
 
 void ResourceFinderTest::testAddSingleFilter()
 {
-    ResourceFinder finder(TEST_RESOURCES_DIR);
+    ResourceFinder* finderObj = new ResourceFinder(TEST_RESOURCES_DIR);
 
-    finder.addFilter("*.png");
-    finder.find();
-    QCOMPARE(finder.resourcesCount(), 1u);
+    finderObj->addFilter("*.png");
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesCount(), 1u);
 
-    finder.addFilter("*.jpg");
-    finder.find();
-    QCOMPARE(finder.resourcesCount(), 3u);
+    finderObj->addFilter("*.jpg");
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesCount(), 3u);
 
-    finder.clearFilters();
-    finder.addFilter("*.jpg");
-    finder.find();
-    QCOMPARE(finder.resourcesCount(), 2u);
+    finderObj->clearFilters();
+    finderObj->addFilter("*.jpg");
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesCount(), 2u);
 }
 
 void ResourceFinderTest::testMultipleAddFilters()
 {
-    ResourceFinder finder(TEST_RESOURCES_DIR);
+    ResourceFinder* finderObj = new ResourceFinder(TEST_RESOURCES_DIR);
 
-    finder.addFilter("*.png");
-    finder.find();
-    QCOMPARE(finder.resourcesCount(), 1u);
+    finderObj->addFilter("*.png");
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesCount(), 1u);
 
-    finder.addFilter({"*.png", "*.jpg"});
-    finder.find();
-    QCOMPARE(finder.resourcesCount(), 3u);
+    finderObj->addFilter({"*.png", "*.jpg"});
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesCount(), 3u);
 }
 
 void ResourceFinderTest::testSetFilters()
 {
-    ResourceFinder finder(TEST_RESOURCES_DIR);
+    ResourceFinder* finderObj = new ResourceFinder(TEST_RESOURCES_DIR);
 
-    finder.addFilter({"*.png", "*.jpg"});
-    finder.setFilter("*.jpg");
-    finder.find();
-    QCOMPARE(finder.resourcesCount(), 2u);
+    finderObj->addFilter({"*.png", "*.jpg"});
+    finderObj->setFilter("*.jpg");
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesCount(), 2u);
 
-    finder.setFilter({"*.jpg", "*.png"});
-    finder.find();
-    QCOMPARE(finder.resourcesCount(), 3u);
+    finderObj->setFilter({"*.jpg", "*.png"});
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesCount(), 3u);
 }
 
 void ResourceFinderTest::testFoundResources()
 {
-    ResourceFinder finder(TEST_RESOURCES_DIR);
-    finder.setFilter("*.png");
-    finder.find();
+    ResourceFinder* finderObj = new ResourceFinder(TEST_RESOURCES_DIR);
+    finderObj->setFilter("*.png");
+    finderObj->find();
 
     QStringList expected {
         TEST_RESOURCES_DIR + "/res1.png"
     };
-    QCOMPARE(finder.resourcesList(), expected);
+    QCOMPARE(finderObj->resourcesList(), expected);
 
-    finder.setFilter("*.jpeg");
-    finder.find();
+    finderObj->setFilter("*.jpeg");
+    finderObj->find();
 
     expected = QStringList {};
-    QCOMPARE(finder.resourcesList(), expected);
+    QCOMPARE(finderObj->resourcesList(), expected);
 
     expected = QStringList{
         TEST_RESOURCES_DIR + "/res1.jpg",
         TEST_RESOURCES_DIR + "/res2.jpg"
     };
 
-    finder.setFilter("*.jpg");
-    finder.find();
-    QCOMPARE(finder.resourcesList(), expected);
+    finderObj->setFilter("*.jpg");
+    finderObj->find();
+    QCOMPARE(finderObj->resourcesList(), expected);
 }
 
 //#include "tst_ResourceFinderTest.moc"

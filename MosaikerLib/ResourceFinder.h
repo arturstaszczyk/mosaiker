@@ -1,13 +1,18 @@
 ﻿#pragma once
 
+#include <QDir>
+#include <QObject>
 #include <QVector>
 #include <QString>
 
-class ResourceFinder
+class ResourceFinder : QObject
 {
+    Q_OBJECT
+
 public:
-    ResourceFinder(QString dirName)
-        : mResourcesRoot(dirName)
+    explicit ResourceFinder(QString dirName, QObject* parent = nullptr)
+        : QObject(parent)
+        , mResourcesRoot(dirName)
     {}
 
     ~ResourceFinder()
