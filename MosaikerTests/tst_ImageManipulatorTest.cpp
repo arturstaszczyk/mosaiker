@@ -3,8 +3,11 @@
 #include <QObject>
 #include <QtTest>
 
+#include "Exceptions.h"
 #include "ImageManipulator.h"
 #include "mocks/ImageLibraryAdapterMock.h"
+
+#define TEST_RESOURCES_DIR QString("./TestResources")
 
 void ImageWrapperTest::init()
 {
@@ -16,7 +19,7 @@ void ImageWrapperTest::cleanup()
     delete mImageLibraryMockObj;
 }
 
-void ImageWrapperTest::testConstruction()
+void ImageWrapperTest::testEmptyConstruction()
 {
     ImageManipulator* manipulatorObj = new ImageManipulator(320, 240, mImageLibraryMockObj);
 
@@ -24,19 +27,48 @@ void ImageWrapperTest::testConstruction()
     QCOMPARE(manipulatorObj->height(), 240u);
     QCOMPARE(manipulatorObj->imageLibraryAdapter(), mImageLibraryMockObj);
 
-    QStringList expectedCalls { "genImage" };
-    QCOMPARE(mImageLibraryMockObj->calls, expectedCalls);
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("genImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("texImage"));
+
+    QCOMPARE(mImageLibraryMockObj->calls.count(), 3);
     QCOMPARE(manipulatorObj->imageName(), mImageLibraryMockObj->genImage());
+}
+
+void ImageWrapperTest::testFileConstruction()
+{
+    ImageManipulator* manipulatorObj = new ImageManipulator(TEST_RESOURCES_DIR + "/res1.png", mImageLibraryMockObj);
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("genImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("loadImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("getWidth"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("getHeight"));
+
+    QCOMPARE(manipulatorObj->width() ,mImageLibraryMockObj->getWidth());
+    QCOMPARE(manipulatorObj->height() ,mImageLibraryMockObj->getHeight());
+}
+
+void ImageWrapperTest::testInvalidFilePathConstruction()
+{
+    QVERIFY_EXCEPTION_THROWN(new ImageManipulator("filename.png", mImageLibraryMockObj), ImageDoNotExists);
+}
+
+void ImageWrapperTest::testImageLoadFailed()
+{
+    QVERIFY(false);
 }
 
 void ImageWrapperTest::testResize()
 {
     ImageManipulator* manipulatorObj = new ImageManipulator(320, 240, mImageLibraryMockObj);
+
+    mImageLibraryMockObj->reset();
     manipulatorObj->resize(640, 480);
 
     QCOMPARE(manipulatorObj->width(), 640u);
     QCOMPARE(manipulatorObj->height(), 480u);
 
-    QStringList calls {"genImage", "bindImage", "scale"};
-    QCOMPARE(mImageLibraryMockObj->calls, calls);
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("scale"));
+    QCOMPARE(mImageLibraryMockObj->callsArgs.count(), 3);
 }

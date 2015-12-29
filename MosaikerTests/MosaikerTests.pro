@@ -20,7 +20,6 @@ SOURCES += \
     main.cpp \
     tst_ResourceFinderTest.cpp \
     tst_ResourceIndexBuilderTest.cpp \
-    mocks/ImageLibraryAdapterMock.cpp \
     tst_ImageManipulatorTest.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"

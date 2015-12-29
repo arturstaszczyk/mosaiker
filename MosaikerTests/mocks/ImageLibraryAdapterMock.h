@@ -52,8 +52,8 @@ public:
         CALL; ARG(name);
     }
 
-    virtual quint32 getWidth() { CALL; return 0; }
-    virtual quint32 getHeight() { CALL; return 0; }
+    virtual quint32 getWidth() { CALL; return 1024; }
+    virtual quint32 getHeight() { CALL; return 1024; }
     virtual const char* getData() { CALL; return nullptr; }
 
     virtual void scale(quint32 width, quint32 height)

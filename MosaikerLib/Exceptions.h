@@ -6,5 +6,15 @@ class ResourcesDirDoNotExists : public std::exception
 
 };
 
+class ImageDoNotExists : public std::exception
+{
+
+};
+
+class CannotLoadImage : public std::exception
+{
+
+};
+
 #endif // EXCEPTIONS_H
 

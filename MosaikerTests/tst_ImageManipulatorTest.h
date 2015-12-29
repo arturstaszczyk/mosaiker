@@ -16,7 +16,10 @@ private Q_SLOTS:
     void init();
     void cleanup();
 
-    void testConstruction();
+    void testEmptyConstruction();
+    void testFileConstruction();
+    void testInvalidFilePathConstruction();
+    void testImageLoadFailed();
     void testResize();
 
 private:
