@@ -1,37 +1,44 @@
 ﻿#ifndef IMAGEMANIPULATOR_H
 #define IMAGEMANIPULATOR_H
 
+#include <QSize>
 #include <QObject>
+
 #include "ImageLibraryAdapter.h"
 
 class ImageManipulator : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit ImageManipulator(quint32 width, quint32 height,
-                              ImageLibraryAdapter* imageLibrary,
+    explicit ImageManipulator(const QSize& size, ImageLibraryAdapter& imageLibrary,
                               QObject *parent = nullptr);
 
-    explicit ImageManipulator(QString fileName,
-                              ImageLibraryAdapter* imageLibrary,
+    explicit ImageManipulator(QString filename, ImageLibraryAdapter& imageLibrary,
                               QObject* parent = nullptr);
 
-    void resize(quint32 width, quint32 height);
+    explicit ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapter& imageLibrary,
+                              QObject* parent = nullptr);
+
+    virtual ~ImageManipulator();
+
+    ImageManipulator* imageManipulatorForSubimage(QRect& imageRect){Q_UNUSED(imageRect); return nullptr;}
+
+    void resize(const QSize& newSize);
 
     quint32 imageName() const { return mImageName; }
-    quint32 width() const { return mWidth; }
-    quint32 height() const { return mHeight; }
-    ImageLibraryAdapter* imageLibraryAdapter() const { return mImageLibraryObj; }
+    qint32 width() const { return mImageSize.width(); }
+    qint32 height() const { return mImageSize.height(); }
+    const ImageLibraryAdapter& imageLibraryAdapter() const { return mImageLibraryObj; }
 
-protected:
+public:
     static const int IMAGE_CHANNELS_3;
 
 private:
-    ImageLibraryAdapter* mImageLibraryObj;
+    ImageLibraryAdapter& mImageLibraryObj;
 
     quint32 mImageName;
-    quint32 mWidth;
-    quint32 mHeight;
+    QSize mImageSize;
 };
 
 #endif // IMAGEMANIPULATOR_H

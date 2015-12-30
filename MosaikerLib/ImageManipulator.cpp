@@ -6,52 +6,65 @@
 
 const int ImageManipulator::IMAGE_CHANNELS_3 = 3;
 
-ImageManipulator::ImageManipulator(quint32 width, quint32 height,
-                                   ImageLibraryAdapter* imageLibrary,
+ImageManipulator::ImageManipulator(const QSize& size, ImageLibraryAdapter& imageLibrary,
                                    QObject *parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)
     , mImageName(0)
-    , mWidth(width)
-    , mHeight(height)
+    , mImageSize(size)
 {
-    mImageName = mImageLibraryObj->genImage();
-    mImageLibraryObj->bindImage(mImageName);
+    mImageName = mImageLibraryObj.genImage();
+    mImageLibraryObj.bindImage(mImageName);
 
-    QByteArray imageBytes(mWidth * mHeight * IMAGE_CHANNELS_3, '\0');
-    mImageLibraryObj->texImage24RGB(mWidth, mHeight, imageBytes.data());
+    QByteArray imageBytes(mImageSize.width() * mImageSize.height() * IMAGE_CHANNELS_3, '\0');
+    mImageLibraryObj.texImage24RGB(mImageSize.width(), mImageSize.height(), imageBytes.data()); // create black image
 }
 
-ImageManipulator::ImageManipulator(QString fileName,
-                                   ImageLibraryAdapter* imageLibrary,
+ImageManipulator::ImageManipulator(QString filename, ImageLibraryAdapter& imageLibrary,
                                    QObject* parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)
     , mImageName(0)
-    , mWidth(0)
-    , mHeight(0)
+    , mImageSize(0, 0)
 {
-    mImageName = mImageLibraryObj->genImage();
-    mImageLibraryObj->bindImage(mImageName);
+    mImageName = mImageLibraryObj.genImage();
+    mImageLibraryObj.bindImage(mImageName);
 
-    QFile imageFile(fileName);
+    QFile imageFile(filename);
     if(!imageFile.exists())
         throw ImageDoNotExists();
 
-    bool loaded = mImageLibraryObj->loadImage(fileName);
+    bool loaded = mImageLibraryObj.loadImage(filename);
     if(!loaded)
         throw CannotLoadImage();
 
-    mWidth = mImageLibraryObj->getWidth();
-    mHeight = mImageLibraryObj->getHeight();
+    mImageSize.setWidth(mImageLibraryObj.getWidth());
+    mImageSize.setHeight(mImageLibraryObj.getHeight());
 }
 
-void ImageManipulator::resize(quint32 width, quint32 height)
+ImageManipulator::ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapter& imageLibrary,
+                          QObject* parent)
+    : QObject(parent)
+    , mImageLibraryObj(imageLibrary)
+    , mImageName(0)
+    , mImageSize(size)
 {
-    mImageLibraryObj->bindImage(0);
-    mImageLibraryObj->scale(width, height);
+    mImageName = mImageLibraryObj.genImage();
+    mImageLibraryObj.bindImage(mImageName);
 
-    mWidth = width;
-    mHeight = height;
+    mImageLibraryObj.texImage24RGB(mImageSize.width(), mImageSize.height(), data.data()); // create image with provided data
+}
+
+ImageManipulator::~ImageManipulator()
+{
+    mImageLibraryObj.deleteImage(mImageName);
+}
+
+void ImageManipulator::resize(const QSize& newSize)
+{
+    mImageLibraryObj.bindImage(0);
+    mImageLibraryObj.scale(newSize.width(), newSize.height());
+
+    mImageSize = newSize;
 }
 

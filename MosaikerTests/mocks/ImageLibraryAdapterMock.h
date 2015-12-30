@@ -59,8 +59,8 @@ public:
         MOCK_CALL; MOCK_ARG(MOCK_FNAME, name);
     }
 
-    virtual quint32 getWidth() { MOCK_CALL; return RETURN_VALUES(quint32); }
-    virtual quint32 getHeight() { MOCK_CALL; return RETURN_VALUES(quint32); }
+    virtual qint32 getWidth() { MOCK_CALL; return RETURN_VALUES(quint32); }
+    virtual qint32 getHeight() { MOCK_CALL; return RETURN_VALUES(quint32); }
     virtual QByteArray getData() { MOCK_CALL; return RETURN_VALUES(QByteArray); }
 
     virtual void scale(quint32 width, quint32 height)

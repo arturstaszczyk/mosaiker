@@ -9,71 +9,105 @@
 
 #define TEST_RESOURCES_DIR QString("./TestResources")
 
-void ImageWrapperTest::init()
+void ImageManipulatorTest::init()
 {
     mImageLibraryMockObj = new ImageLibraryAdapterMock();
 }
 
-void ImageWrapperTest::cleanup()
+void ImageManipulatorTest::cleanup()
 {
     delete mImageLibraryMockObj;
 }
 
-void ImageWrapperTest::testEmptyConstruction()
+void ImageManipulatorTest::testEmptyConstruction()
 {
-    ImageManipulator* manipulatorObj = new ImageManipulator(320, 240, mImageLibraryMockObj);
+    quint32 expectedImageName = 42;
+    QSize expectedSize(320, 240);
+    mImageLibraryMockObj->returnValues("genImage", { expectedImageName });
 
-    QCOMPARE(manipulatorObj->width(), 320u);
-    QCOMPARE(manipulatorObj->height(), 240u);
-    QCOMPARE(manipulatorObj->imageLibraryAdapter(), mImageLibraryMockObj);
+    ImageManipulator manipulatorObj(expectedSize, *mImageLibraryMockObj);
+
+    QCOMPARE(manipulatorObj.width(), expectedSize.width());
+    QCOMPARE(manipulatorObj.height(), expectedSize.height());
+    QCOMPARE(&manipulatorObj.imageLibraryAdapter(), mImageLibraryMockObj);
 
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("genImage"));
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
-    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("texImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("texImage24RGB"));
 
     QCOMPARE(mImageLibraryMockObj->calls().count(), 3);
-    QCOMPARE(manipulatorObj->imageName(), mImageLibraryMockObj->genImage());
+    QCOMPARE(manipulatorObj.imageName(), expectedImageName);
 }
 
-void ImageWrapperTest::testFileConstruction()
+void ImageManipulatorTest::testFileConstruction()
 {
     mImageLibraryMockObj->returnValues("loadImage", { true });
-    ImageManipulator* manipulatorObj = new ImageManipulator(TEST_RESOURCES_DIR + "/res1.png", mImageLibraryMockObj);
+    mImageLibraryMockObj->returnValues("getWidth", { 320, 320 });
+    mImageLibraryMockObj->returnValues("getHeight", { 240, 240 });
+
+    ImageManipulator manipulatorObj(TEST_RESOURCES_DIR + "/res1.png", *mImageLibraryMockObj);
+
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("genImage"));
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("loadImage"));
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("getWidth"));
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("getHeight"));
 
-    QCOMPARE(manipulatorObj->width() ,mImageLibraryMockObj->getWidth());
-    QCOMPARE(manipulatorObj->height() ,mImageLibraryMockObj->getHeight());
+    QCOMPARE(manipulatorObj.width() ,mImageLibraryMockObj->getWidth());
+    QCOMPARE(manipulatorObj.height() ,mImageLibraryMockObj->getHeight());
 }
 
-void ImageWrapperTest::testInvalidFilePathConstruction()
+void ImageManipulatorTest::testInvalidFilePathConstruction()
 {
-    QVERIFY_EXCEPTION_THROWN(new ImageManipulator("filename.png", mImageLibraryMockObj), ImageDoNotExists);
+    QVERIFY_EXCEPTION_THROWN(new ImageManipulator("filename.png", *mImageLibraryMockObj), ImageDoNotExists);
 }
 
-void ImageWrapperTest::testImageLoadFailed()
+void ImageManipulatorTest::testDataConstruction()
+{
+    QSize expectedSize(320, 240);
+
+    QByteArray bytes(expectedSize.width() * expectedSize.height() * ImageManipulator::IMAGE_CHANNELS_3, '\0');
+    ImageManipulator manipulatorObj(expectedSize, bytes, *mImageLibraryMockObj);
+
+    QVERIFY(manipulatorObj.width() == expectedSize.width());
+    QVERIFY(manipulatorObj.height() == expectedSize.height());
+
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("genImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("texImage24RGB"));
+
+    auto args = mImageLibraryMockObj->callArgs("texImage24RGB");
+    QCOMPARE(args.count(), 3);
+    QVERIFY(args[0].toInt() == expectedSize.width());
+    QVERIFY(args[1].toInt() == expectedSize.height());
+}
+
+void ImageManipulatorTest::testImageLoadFailed()
 {
     mImageLibraryMockObj->returnValues("loadImage", { false });
-    QVERIFY_EXCEPTION_THROWN(ImageManipulator(TEST_RESOURCES_DIR + "/res1.png", mImageLibraryMockObj),
+    QVERIFY_EXCEPTION_THROWN(ImageManipulator(TEST_RESOURCES_DIR + "/res1.png", *mImageLibraryMockObj),
                              CannotLoadImage);
 }
 
-void ImageWrapperTest::testResize()
+void ImageManipulatorTest::testResize()
 {
-    ImageManipulator* manipulatorObj = new ImageManipulator(320, 240, mImageLibraryMockObj);
+    QSize initialSize(320, 240);
+    QSize expectedSize(640, 480);
+
+    ImageManipulator manipulatorObj(initialSize, *mImageLibraryMockObj);
 
     mImageLibraryMockObj->reset();
-    manipulatorObj->resize(640, 480);
+    manipulatorObj.resize(expectedSize);
 
-    QCOMPARE(manipulatorObj->width(), 640u);
-    QCOMPARE(manipulatorObj->height(), 480u);
+    QCOMPARE(manipulatorObj.width(), expectedSize.width());
+    QCOMPARE(manipulatorObj.height(), expectedSize.height());
 
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("scale"));
 
     QCOMPARE(mImageLibraryMockObj->callArgs("bindImage").count(), 1);
     QCOMPARE(mImageLibraryMockObj->callArgs("scale").count(), 2);
+
+    QCOMPARE(mImageLibraryMockObj->callArgs("scale")[0].toInt(), expectedSize.width());
+    QCOMPARE(mImageLibraryMockObj->callArgs("scale")[1].toInt(), expectedSize.height());
 }

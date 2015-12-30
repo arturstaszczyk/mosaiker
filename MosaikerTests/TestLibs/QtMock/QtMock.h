@@ -29,17 +29,37 @@ public:
 
     bool hasExactlyOneCall(QString call) const
     {
-        return mCalls.filter(call, Qt::CaseSensitive).count() == 1;
+        auto filtered = mCalls.filter(call, Qt::CaseSensitive);
+
+        int found = 0;
+        QString str;
+        foreach(str, filtered)
+        {
+            if(str == call)
+                found++;
+        }
+
+        return found == 1;
     }
 
     bool hasCall(QString call) const
     {
-        return mCalls.filter(call, Qt::CaseSensitive).count() > 1;
+        return mCalls.contains(call, Qt::CaseSensitive);
     }
 
     bool hasCalls(QString call, int times) const
     {
-        return mCalls.filter(call, Qt::CaseSensitive).count() == times;
+        auto filtered = mCalls.filter(call, Qt::CaseSensitive);
+
+        int found = 0;
+        QString str;
+        foreach(str, filtered)
+        {
+            if(str == call)
+                found++;
+        }
+
+        return found == times;
     }
 
     void returnValues(QString method, QVariantList values)

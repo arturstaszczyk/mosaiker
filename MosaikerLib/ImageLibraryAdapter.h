@@ -20,8 +20,8 @@ public:
                                  quint32 width, quint32 height, char* data) = 0;
     virtual void bindImage(quint32) = 0;
 
-    virtual quint32 getWidth() = 0;
-    virtual quint32 getHeight() = 0;
+    virtual qint32 getWidth() = 0;
+    virtual qint32 getHeight() = 0;
     virtual QByteArray getData() = 0;
 
     virtual void scale(quint32 width, quint32 heighr) = 0;

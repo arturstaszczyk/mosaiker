@@ -4,12 +4,12 @@
 #include <QObject>
 #include "mocks/ImageLibraryAdapterMock.h"
 
-class ImageWrapperTest : public QObject
+class ImageManipulatorTest : public QObject
 {
     Q_OBJECT
 
 public:
-    ImageWrapperTest()
+    ImageManipulatorTest()
     {}
 
 private Q_SLOTS:
@@ -19,6 +19,7 @@ private Q_SLOTS:
     void testEmptyConstruction();
     void testFileConstruction();
     void testInvalidFilePathConstruction();
+    void testDataConstruction();
     void testImageLoadFailed();
     void testResize();
 
