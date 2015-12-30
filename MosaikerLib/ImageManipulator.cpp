@@ -68,3 +68,14 @@ void ImageManipulator::resize(const QSize& newSize)
     mImageSize = newSize;
 }
 
+ImageManipulator* ImageManipulator::imageManipulatorForSubimage(const QRect &imageRect)
+{
+    QSize newSize(imageRect.width(), imageRect.height());
+
+    mImageLibraryObj.bindImage(mImageName);
+
+    QByteArray data(imageRect.width() * imageRect.height() * ImageManipulator::IMAGE_CHANNELS_3, '\0');
+    mImageLibraryObj.copyPixels24RGB(imageRect.x(), imageRect.y(), newSize.width(), newSize.height(), data.data());
+
+    return new ImageManipulator(newSize, data, mImageLibraryObj);
+}

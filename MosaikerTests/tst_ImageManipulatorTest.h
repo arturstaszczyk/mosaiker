@@ -22,6 +22,8 @@ private Q_SLOTS:
     void testDataConstruction();
     void testImageLoadFailed();
     void testResize();
+    void testDeleteObject();
+    void testCreateSubImage();
 
 private:
     ImageLibraryAdapterMock* mImageLibraryMockObj;

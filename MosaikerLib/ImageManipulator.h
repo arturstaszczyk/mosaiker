@@ -2,6 +2,7 @@
 #define IMAGEMANIPULATOR_H
 
 #include <QSize>
+#include <QRect>
 #include <QObject>
 
 #include "ImageLibraryAdapter.h"
@@ -22,7 +23,7 @@ public:
 
     virtual ~ImageManipulator();
 
-    ImageManipulator* imageManipulatorForSubimage(QRect& imageRect){Q_UNUSED(imageRect); return nullptr;}
+    ImageManipulator* imageManipulatorForSubimage(const QRect& imageRect);
 
     void resize(const QSize& newSize);
 

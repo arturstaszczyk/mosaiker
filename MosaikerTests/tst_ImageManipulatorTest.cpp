@@ -111,3 +111,28 @@ void ImageManipulatorTest::testResize()
     QCOMPARE(mImageLibraryMockObj->callArgs("scale")[0].toInt(), expectedSize.width());
     QCOMPARE(mImageLibraryMockObj->callArgs("scale")[1].toInt(), expectedSize.height());
 }
+
+void ImageManipulatorTest::testDeleteObject()
+{
+    auto manipulator = new ImageManipulator(QSize(10, 10), *mImageLibraryMockObj);
+    manipulator->resize(QSize(32, 32));
+    delete manipulator;
+
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("deleteImage"));
+}
+
+void ImageManipulatorTest::testCreateSubImage()
+{
+    mImageLibraryMockObj->returnValues("genImage", { 1, 2 });
+    ImageManipulator manipulator(QSize(32, 32), *mImageLibraryMockObj);
+    std::auto_ptr<ImageManipulator> subManipulator(manipulator.imageManipulatorForSubimage(QRect(0, 0, 16, 16)));
+
+    QVERIFY(mImageLibraryMockObj->hasCalls("bindImage", 3));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("copyPixels24RGB"));
+
+    QCOMPARE(subManipulator->width(), 16);
+    QCOMPARE(subManipulator->height(), 16);
+    QCOMPARE(&subManipulator->imageLibraryAdapter(), mImageLibraryMockObj);
+
+    QVERIFY(subManipulator->imageName() != manipulator.imageName());
+}
