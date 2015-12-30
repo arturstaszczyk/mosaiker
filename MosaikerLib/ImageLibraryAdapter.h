@@ -2,6 +2,7 @@
 #define IMAGELIBRARYADAPTER_H
 
 #include <QObject>
+#include <QByteArray>
 
 class ImageLibraryAdapter : public QObject
 {
@@ -21,7 +22,7 @@ public:
 
     virtual quint32 getWidth() = 0;
     virtual quint32 getHeight() = 0;
-    virtual const char* getData() = 0;
+    virtual QByteArray getData() = 0;
 
     virtual void scale(quint32 width, quint32 heighr) = 0;
     virtual void rotate(quint32 angle) = 0;

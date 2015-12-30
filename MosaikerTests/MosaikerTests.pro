@@ -26,7 +26,8 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 unix|win32: LIBS += -L$$OUT_PWD/../MosaikerLib/ -lMosaikerLib
 
-INCLUDEPATH += $$PWD/../MosaikerLib
+INCLUDEPATH += $$PWD/../MosaikerLib $$PWD/TestLibs/QtMock
+LIBS += -L$$PWD/TestLibs/QtMock -lQtMock
 DEPENDPATH += $$PWD/../MosaikerLib
 
 win32:!win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../MosaikerLib/MosaikerLib.lib
@@ -45,5 +46,4 @@ POST_TARGETDEPS += copyfiles
 HEADERS += \
     tst_ResourceFinderTest.h \
     mocks/ImageLibraryAdapterMock.h \
-    tst_ImageManipulatorTest.h \
-    mocks/MockBase.h
+    tst_ImageManipulatorTest.h
