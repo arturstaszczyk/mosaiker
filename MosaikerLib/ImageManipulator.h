@@ -24,8 +24,10 @@ public:
     virtual ~ImageManipulator();
 
     ImageManipulator* imageManipulatorForSubimage(const QRect& imageRect);
+    void saveAsPng(QString fileName);
 
     void resize(const QSize& newSize);
+    QByteArray rawData();
 
     quint32 imageName() const { return mImageName; }
     qint32 width() const { return mImageSize.width(); }

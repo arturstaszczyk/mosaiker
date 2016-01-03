@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+﻿#include "MainWindow.h"
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
+
+    ui->quickWidget->rootObject();
 }
 
 MainWindow::~MainWindow()

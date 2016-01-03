@@ -125,9 +125,10 @@ void ImageManipulatorTest::testCreateSubImage()
 {
     mImageLibraryMockObj->returnValues("genImage", { 1, 2 });
     ImageManipulator manipulator(QSize(32, 32), *mImageLibraryMockObj);
-    std::auto_ptr<ImageManipulator> subManipulator(manipulator.imageManipulatorForSubimage(QRect(0, 0, 16, 16)));
 
-    QVERIFY(mImageLibraryMockObj->hasCalls("bindImage", 3));
+    mImageLibraryMockObj->reset();
+    std::auto_ptr<ImageManipulator> subManipulator(manipulator.imageManipulatorForSubimage(QRect(0, 0, 16, 16)));
+    QVERIFY(mImageLibraryMockObj->hasCalls("bindImage", 2));
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("copyPixels24RGB"));
 
     QCOMPARE(subManipulator->width(), 16);
@@ -135,4 +136,29 @@ void ImageManipulatorTest::testCreateSubImage()
     QCOMPARE(&subManipulator->imageLibraryAdapter(), mImageLibraryMockObj);
 
     QVERIFY(subManipulator->imageName() != manipulator.imageName());
+}
+
+void ImageManipulatorTest::testGetData()
+{
+    QByteArray expected = QByteArray(32 * 32 * ImageManipulator::IMAGE_CHANNELS_3, '\0');
+
+    ImageManipulator manipulator(QSize(32, 32), *mImageLibraryMockObj);
+    mImageLibraryMockObj->reset();
+
+    mImageLibraryMockObj->returnValues("getData", { expected });
+    QCOMPARE(manipulator.rawData().size(), expected.size());
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("getData"));
+}
+
+void ImageManipulatorTest::testSaveImage()
+{
+    ImageManipulator manipulator(QSize(32, 32), *mImageLibraryMockObj);
+    mImageLibraryMockObj->reset();
+
+    manipulator.saveAsPng("test.png");
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("bindImage"));
+    QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("save"));
+
+    QCOMPARE(mImageLibraryMockObj->callArgs("save")[0].toString(), QString("test.png"));
 }

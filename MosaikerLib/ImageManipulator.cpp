@@ -79,3 +79,15 @@ ImageManipulator* ImageManipulator::imageManipulatorForSubimage(const QRect &ima
 
     return new ImageManipulator(newSize, data, mImageLibraryObj);
 }
+
+void ImageManipulator::saveAsPng(QString fileName)
+{
+    mImageLibraryObj.bindImage(mImageName);
+    mImageLibraryObj.save(fileName);
+}
+
+QByteArray ImageManipulator::rawData()
+{
+    mImageLibraryObj.bindImage(mImageName);
+    return mImageLibraryObj.getData();
+}
