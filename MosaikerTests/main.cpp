@@ -2,6 +2,7 @@
 
 #include "tst_ResourceFinderTest.h"
 #include "tst_ImageManipulatorTest.h"
+#include "tst_CommandOpenImageTest.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,9 @@ int main(int argc, char *argv[])
 
     ImageManipulatorTest imageWrapperTest;
     status |= QTest::qExec(&imageWrapperTest, argc, argv);
+
+    CommandOpenImageTest commandOpenImageTest;
+    status |= QTest::qExec(&commandOpenImageTest, argc, argv);
 
     return status;
 }

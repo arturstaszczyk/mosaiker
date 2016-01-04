@@ -6,9 +6,7 @@
 
 include(../include.pri)
 
-QT       += testlib
-
-QT       -= gui
+QT       += testlib widgets gui
 
 TARGET = tst_MosaikerTest
 CONFIG   += console

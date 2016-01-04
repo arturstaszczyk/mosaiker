@@ -5,7 +5,7 @@
 #-------------------------------------------------
 include(../include.pri)
 
-QT       -= gui
+QT       += gui widgets
 
 TARGET = MosaikerLib
 
@@ -14,12 +14,17 @@ CONFIG += staticlib
 
 SOURCES += ResourceFinder.cpp \
     ResourceIndexBuilder.cpp \
-    ImageManipulator.cpp
+    ImageManipulator.cpp \
+    Commands/Command.cpp \
+    Commands/CommandOpenImage.cpp
 
 HEADERS += ResourceFinder.h \
     ResourceIndexBuilder.h \
     ImageLibraryAdapter.h \
-    ImageManipulator.h
+    ImageManipulator.h \
+    Commands/Command.h \
+    Commands/CommandOpenImage.h \
+    Interfaces/ImageManipulatorInt.h
     Exceptions.h
 
 unix {
