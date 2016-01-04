@@ -2,13 +2,12 @@
 #define IMAGELIBRARYADAPTERMOCK_H
 
 #include <QtMock.h>
-#include "ImageLibraryAdapter.h"
+#include "Interfaces/ImageLibraryAdapterInt.h"
 
 #include <QObject>
 
-class ImageLibraryAdapterMock : public ImageLibraryAdapter, public QtMockExt::QtMock
+class ImageLibraryAdapterMock : public ImageLibraryAdapterInt, public QtMockExt::QtMock
 {
-    Q_OBJECT
 
 public:
     virtual quint32 genImage()

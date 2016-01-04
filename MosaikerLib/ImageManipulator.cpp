@@ -1,12 +1,18 @@
 ﻿#include "ImageManipulator.h"
 
 #include <QFile>
+#include <QImage>
 
 #include "Exceptions.h"
 
 const int ImageManipulator::IMAGE_CHANNELS_3 = 3;
 
-ImageManipulator::ImageManipulator(const QSize& size, ImageLibraryAdapter& imageLibrary,
+void qImageCleanupHandler(void* data)
+{
+    delete [] static_cast<const char*>(data);
+}
+
+ImageManipulator::ImageManipulator(const QSize& size, ImageLibraryAdapterInt& imageLibrary,
                                    QObject *parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)
@@ -20,7 +26,7 @@ ImageManipulator::ImageManipulator(const QSize& size, ImageLibraryAdapter& image
     mImageLibraryObj.texImage24RGB(mImageSize.width(), mImageSize.height(), imageBytes.data()); // create black image
 }
 
-ImageManipulator::ImageManipulator(QString filename, ImageLibraryAdapter& imageLibrary,
+ImageManipulator::ImageManipulator(QString filename, ImageLibraryAdapterInt& imageLibrary,
                                    QObject* parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)
@@ -42,7 +48,7 @@ ImageManipulator::ImageManipulator(QString filename, ImageLibraryAdapter& imageL
     mImageSize.setHeight(mImageLibraryObj.getHeight());
 }
 
-ImageManipulator::ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapter& imageLibrary,
+ImageManipulator::ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapterInt& imageLibrary,
                           QObject* parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)
@@ -84,6 +90,20 @@ void ImageManipulator::saveAsPng(QString fileName)
 {
     mImageLibraryObj.bindImage(mImageName);
     mImageLibraryObj.save(fileName);
+}
+
+QImage* ImageManipulator::toQImage() const
+{
+    quint32 dataLen = width() * height() * ImageManipulator::IMAGE_CHANNELS_3;
+    char* imageData = new char[dataLen];
+
+    mImageLibraryObj.bindImage(mImageName);
+    mImageLibraryObj.copyPixels24RGB(0, 0, width(), height(), imageData);
+
+    return new QImage(reinterpret_cast<uchar*>(imageData), width(), height(),
+                             QImage::Format_RGB888, qImageCleanupHandler,
+                             static_cast<void*>(imageData));
+
 }
 
 QByteArray ImageManipulator::rawData()

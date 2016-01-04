@@ -1,7 +1,12 @@
 ﻿#include "CommandOpenImage.h"
 
-CommandOpenImage::CommandOpenImage(ImageLibraryAdapter& imageLibrary, QFileDialog& fileDialog, QObject* parent)
+#include "Interfaces/ImageManipulatorInt.h"
+
+CommandOpenImage::CommandOpenImage(ImageManipulatorBuilder& imageManipulatorBuilder,
+                                   ImageLibraryAdapterInt& imageLibrary,
+                                   QFileDialog& fileDialog, QObject* parent)
     : Command(parent)
+    , mImageManipulatorBuilder(imageManipulatorBuilder)
     , mImageLibrary(imageLibrary)
     , mFileDialog(fileDialog)
 {
@@ -12,10 +17,15 @@ void CommandOpenImage::execute()
 {
     QStringList filenames;
     if(mFileDialog.exec())
+    {
         filenames = mFileDialog.selectedFiles();
 
-    mImageLibrary.loadImage(filenames[0]);
+        mImageManipulatorBuilder.setFilename(filenames[0]);
+        ImageManipulatorInt* imageManipulator = mImageManipulatorBuilder.build(mImageLibrary);
 
-//    QImage loadedImage = mImageLibrary.toQImage();
-//    emit imageOpened(loadedImage);
+        QImage* loadedImage = imageManipulator->toQImage();
+        emit imageOpened(loadedImage);
+    }
+
+
 }

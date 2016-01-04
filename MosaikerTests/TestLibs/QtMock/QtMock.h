@@ -17,6 +17,8 @@ class QtMock
 {
 public:
 
+    virtual ~QtMock() {}
+
     void reset()
     {
         mCalls.clear();

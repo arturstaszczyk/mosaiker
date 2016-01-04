@@ -5,40 +5,42 @@
 #include <QRect>
 #include <QObject>
 
-#include "ImageLibraryAdapter.h"
+#include "Interfaces/ImageManipulatorInt.h"
+#include "Interfaces/ImageLibraryAdapterInt.h"
 
-class ImageManipulator : public QObject
+class ImageManipulator : public QObject, public ImageManipulatorInt
 {
     Q_OBJECT
 
 public:
-    explicit ImageManipulator(const QSize& size, ImageLibraryAdapter& imageLibrary,
+    explicit ImageManipulator(const QSize& size, ImageLibraryAdapterInt& imageLibrary,
                               QObject *parent = nullptr);
 
-    explicit ImageManipulator(QString filename, ImageLibraryAdapter& imageLibrary,
+    explicit ImageManipulator(QString filename, ImageLibraryAdapterInt& imageLibrary,
                               QObject* parent = nullptr);
 
-    explicit ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapter& imageLibrary,
+    explicit ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapterInt& imageLibrary,
                               QObject* parent = nullptr);
 
     virtual ~ImageManipulator();
 
-    ImageManipulator* imageManipulatorForSubimage(const QRect& imageRect);
-    void saveAsPng(QString fileName);
+    ImageManipulator* imageManipulatorForSubimage(const QRect& imageRect) override;
+    void saveAsPng(QString fileName) override;
+    QImage* toQImage() const override;
 
-    void resize(const QSize& newSize);
-    QByteArray rawData();
+    void resize(const QSize& newSize) override;
+    QByteArray rawData() override;
 
-    quint32 imageName() const { return mImageName; }
-    qint32 width() const { return mImageSize.width(); }
-    qint32 height() const { return mImageSize.height(); }
-    const ImageLibraryAdapter& imageLibraryAdapter() const { return mImageLibraryObj; }
+    quint32 imageName() const override { return mImageName; }
+    qint32 width() const override { return mImageSize.width(); }
+    qint32 height() const override { return mImageSize.height(); }
+    const ImageLibraryAdapterInt& imageLibraryAdapter() const override { return mImageLibraryObj; }
 
 public:
     static const int IMAGE_CHANNELS_3;
 
 private:
-    ImageLibraryAdapter& mImageLibraryObj;
+    ImageLibraryAdapterInt& mImageLibraryObj;
 
     quint32 mImageName;
     QSize mImageSize;

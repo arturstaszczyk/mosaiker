@@ -3,11 +3,10 @@
 #include <QObject>
 #include <QtTest>
 
+#include "tst_Common.h"
 #include "Exceptions.h"
 #include "ImageManipulator.h"
 #include "mocks/ImageLibraryAdapterMock.h"
-
-#define TEST_RESOURCES_DIR QString("./TestResources")
 
 void ImageManipulatorTest::init()
 {
@@ -161,4 +160,14 @@ void ImageManipulatorTest::testSaveImage()
     QVERIFY(mImageLibraryMockObj->hasExactlyOneCall("save"));
 
     QCOMPARE(mImageLibraryMockObj->callArgs("save")[0].toString(), QString("test.png"));
+}
+
+void ImageManipulatorTest::testToQImage()
+{
+    ImageManipulator manipulator(QSize(32, 32), *mImageLibraryMockObj);
+    QImage* image = manipulator.toQImage();
+
+    QVERIFY(image);
+    QCOMPARE(image->width(), 32);
+    QCOMPARE(image->height(), 32);
 }

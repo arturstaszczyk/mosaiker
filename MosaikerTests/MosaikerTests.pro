@@ -19,7 +19,8 @@ SOURCES += \
     tst_ResourceFinderTest.cpp \
     tst_ResourceIndexBuilderTest.cpp \
     tst_ImageManipulatorTest.cpp \
-    tst_CommandOpenImageTest.cpp
+    tst_CommandOpenImageTest.cpp \
+    tst_ImageManipulatorBuilderTest.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -46,4 +47,14 @@ HEADERS += \
     tst_ResourceFinderTest.h \
     mocks/ImageLibraryAdapterMock.h \
     tst_ImageManipulatorTest.h \
-    tst_CommandOpenImageTest.h
+    tst_CommandOpenImageTest.h \
+    tst_ImageManipulatorBuilderTest.h \
+    tst_Common.h \
+    mocks/QFileDialogMock.h
+
+#https://www.cocoanetics.com/2013/10/xcode-coverage/
+#http://mgrebenets.github.io/mobile%20ci/2015/09/21/code-coverage-for-ios-xcode-7/
+#http://www.robertwloch.net/2013/06/generating-lcov-coverage-with-qtcreator/
+#QMAKE_CXXFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
+#QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage  -O0
+

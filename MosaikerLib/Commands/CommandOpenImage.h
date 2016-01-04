@@ -4,21 +4,25 @@
 #include <QFileDialog>
 
 #include "Command.h"
-#include "ImageLibraryAdapter.h"
+#include "ImageManipulatorBuilder.h"
+#include "Interfaces/ImageLibraryAdapterInt.h"
 
 class CommandOpenImage : public Command
 {
+    Q_OBJECT
 public:
-    CommandOpenImage(ImageLibraryAdapter& imageLibrary,
+    CommandOpenImage(ImageManipulatorBuilder& imageManipulatorBuilder,
+                     ImageLibraryAdapterInt& imageLibrary,
                      QFileDialog& fileDialog, QObject* parent = nullptr);
 
     virtual void execute() override;
 
 signals:
-    void imageOpened(QImage);
+    void imageOpened(QImage*);
 
 private:
-    ImageLibraryAdapter& mImageLibrary;
+    ImageManipulatorBuilder& mImageManipulatorBuilder;
+    ImageLibraryAdapterInt& mImageLibrary;
     QFileDialog& mFileDialog;
 };
 

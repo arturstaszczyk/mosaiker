@@ -16,16 +16,18 @@ SOURCES += ResourceFinder.cpp \
     ResourceIndexBuilder.cpp \
     ImageManipulator.cpp \
     Commands/Command.cpp \
-    Commands/CommandOpenImage.cpp
+    Commands/CommandOpenImage.cpp \
+    ImageManipulatorBuilder.cpp
 
 HEADERS += ResourceFinder.h \
     ResourceIndexBuilder.h \
-    ImageLibraryAdapter.h \
     ImageManipulator.h \
     Commands/Command.h \
     Commands/CommandOpenImage.h \
-    Interfaces/ImageManipulatorInt.h
-    Exceptions.h
+    Interfaces/ImageManipulatorInt.h \
+    Exceptions.h \
+    Interfaces/ImageLibraryAdapterInt.h \
+    ImageManipulatorBuilder.h
 
 unix {
     target.path = /usr/lib

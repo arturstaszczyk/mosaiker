@@ -3,10 +3,9 @@
 #include <QString>
 #include <QtTest>
 
-#include "ResourceFinder.h"
+#include "tst_Common.h"
 #include "Exceptions.h"
-
-#define TEST_RESOURCES_DIR QString("./TestResources")
+#include "ResourceFinder.h"
 
 void ResourceFinderTest::testFindAllResources()
 {
