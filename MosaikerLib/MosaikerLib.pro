@@ -27,9 +27,13 @@ HEADERS += ResourceFinder.h \
     Interfaces/ImageManipulatorInt.h \
     Exceptions.h \
     Interfaces/ImageLibraryAdapterInt.h \
-    ImageManipulatorBuilder.h
+    ImageManipulatorBuilder.h \
+    Interfaces/IFileChooser.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+#QMAKE_CXXFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
+#QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage  -O0

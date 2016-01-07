@@ -165,9 +165,8 @@ void ImageManipulatorTest::testSaveImage()
 void ImageManipulatorTest::testToQImage()
 {
     ImageManipulator manipulator(QSize(32, 32), *mImageLibraryMockObj);
-    QImage* image = manipulator.toQImage();
+    QImage image = manipulator.toQImage();
 
-    QVERIFY(image);
-    QCOMPARE(image->width(), 32);
-    QCOMPARE(image->height(), 32);
+    QCOMPARE(image.width(), 32);
+    QCOMPARE(image.height(), 32);
 }

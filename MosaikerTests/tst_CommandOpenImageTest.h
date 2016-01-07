@@ -5,7 +5,7 @@
 
 class CommandOpenImageTest : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     CommandOpenImageTest()

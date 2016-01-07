@@ -16,5 +16,10 @@ class CannotLoadImage : public std::exception
 
 };
 
+class CannotCreateImage : public std::exception
+{
+
+};
+
 #endif // EXCEPTIONS_H
 

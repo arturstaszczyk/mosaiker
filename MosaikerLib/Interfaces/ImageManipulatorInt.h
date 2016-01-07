@@ -10,7 +10,7 @@ public:
 
     virtual ImageManipulatorInt* imageManipulatorForSubimage(const QRect& imageRect) = 0;
     virtual void saveAsPng(QString fileName) = 0;
-    virtual QImage* toQImage() const = 0;
+    virtual QImage toQImage() const = 0;
 
     virtual void resize(const QSize& newSize) = 0;
     virtual QByteArray rawData() = 0;

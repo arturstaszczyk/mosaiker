@@ -26,7 +26,7 @@ public:
 
     ImageManipulator* imageManipulatorForSubimage(const QRect& imageRect) override;
     void saveAsPng(QString fileName) override;
-    QImage* toQImage() const override;
+    QImage toQImage() const override;
 
     void resize(const QSize& newSize) override;
     QByteArray rawData() override;

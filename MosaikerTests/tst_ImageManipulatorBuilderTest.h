@@ -14,9 +14,14 @@ private slots:
     void init();
     void cleanup();
 
-    void testBuilder();
+    void testBuilderFromFile();
     void testThrowsOnBadImage();
     void testThrowsOnBadPath();
+
+    void testBuilderEmpty();
+    void testBuildFromBytes();
+
+    void testThrowsOnNotEnoughData();
 
 private:
     ImageLibraryAdapterMock* mLibraryAdapter;

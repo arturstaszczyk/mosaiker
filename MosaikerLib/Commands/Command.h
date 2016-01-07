@@ -2,6 +2,7 @@
 #define COMMAND_H
 
 #include <QObject>
+#include <QImage>
 
 class Command : public QObject
 {
@@ -11,10 +12,6 @@ public:
     virtual~Command(){}
 
     virtual void execute() = 0;
-
-signals:
-
-public slots:
 };
 
 #endif // COMMAND_H

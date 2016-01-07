@@ -92,7 +92,7 @@ void ImageManipulator::saveAsPng(QString fileName)
     mImageLibraryObj.save(fileName);
 }
 
-QImage* ImageManipulator::toQImage() const
+QImage ImageManipulator::toQImage() const
 {
     quint32 dataLen = width() * height() * ImageManipulator::IMAGE_CHANNELS_3;
     char* imageData = new char[dataLen];
@@ -100,7 +100,7 @@ QImage* ImageManipulator::toQImage() const
     mImageLibraryObj.bindImage(mImageName);
     mImageLibraryObj.copyPixels24RGB(0, 0, width(), height(), imageData);
 
-    return new QImage(reinterpret_cast<uchar*>(imageData), width(), height(),
+    return QImage(reinterpret_cast<uchar*>(imageData), width(), height(),
                              QImage::Format_RGB888, qImageCleanupHandler,
                              static_cast<void*>(imageData));
 

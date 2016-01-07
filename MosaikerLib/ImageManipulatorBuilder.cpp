@@ -1,16 +1,30 @@
 ﻿#include "ImageManipulatorBuilder.h"
 
+#include "Exceptions.h"
 #include "ImageManipulator.h"
 
-ImageManipulatorBuilder::ImageManipulatorBuilder(QObject *parent) : QObject(parent)
+bool has2Dimentions(const QSize& size)
+{
+    return size.width() > 0 && size.height() > 0;
+}
+
+ImageManipulatorBuilder::ImageManipulatorBuilder(ImageLibraryAdapterInt& imageLibrary,
+                                                 QObject *parent)
+    : QObject(parent)
+    , mImageLibrary(imageLibrary)
 {
 
 }
 
-ImageManipulatorInt* ImageManipulatorBuilder::build(ImageLibraryAdapterInt& imageLibrary)
+ImageManipulatorInt* ImageManipulatorBuilder::build()
 {
     if(mFilename.size() > 0)
-        return new ImageManipulator(mFilename, imageLibrary);
+        return new ImageManipulator(mFilename, mImageLibrary);
 
-    return nullptr;
+    if(has2Dimentions(mSize) && mBytes.size() > 0)
+        return new ImageManipulator(mSize, mBytes, mImageLibrary);
+    else if(has2Dimentions(mSize))
+        return new ImageManipulator(mSize, mImageLibrary);
+
+    throw CannotCreateImage();
 }

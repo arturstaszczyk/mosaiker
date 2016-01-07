@@ -3,27 +3,26 @@
 #include <QImage>
 #include <QSignalSpy>
 #include <QFileDialog>
+#include <QObject>
 
 #include "Commands/CommandOpenImage.h"
+#include "ImageManipulator.h"
 
-#include "mocks/ImageLibraryAdapterMock.h"
+#include "mocks/FileChooserMock.h"
 #include "mocks/QFileDialogMock.h"
+#include "mocks/ImageLibraryAdapterMock.h"
+#include "mocks/ImageManipulatorBuilderMock.h"
 
 void CommandOpenImageTest::testOpenImageSignal()
 {
-    ImageLibraryAdapterMock mock;
-    mock.returnValues("loadImage", { true });
-    mock.returnValues("toQImage", { QImage() });
+    ImageLibraryAdapterMock imageLibraryMock;
+    ImageManipulatorBuilderMock builder(imageLibraryMock);
 
-    QFileDialogMock fileDialog;
-    fileDialog.returnValues("exec", { true });
-    fileDialog.returnValues("selectedFiles", { "test" });
+    FileChooserMock fileChooserMock;
 
-    ImageManipulatorBuilder builder;
-//    Command* command = new CommandOpenImage(builder, mock, fileDialog);
-//    command->execute();
+    CommandOpenImage* command = new CommandOpenImage(builder, fileChooserMock);
+    QSignalSpy spy(command, SIGNAL(imageOpened(QImage)));
+    command->execute();
 
-//    QSignalSpy spy(command, SIGNAL(imageOpened(QImage)));
-
-//    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.count(), 1);
 }
