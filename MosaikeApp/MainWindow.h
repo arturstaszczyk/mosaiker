@@ -17,7 +17,7 @@ public:
 
 public slots:
     void openFileRequest();
-    void requestedImageOpened(QImage);
+    void requestedImageOpened(QImage image);
 
 private:
     Ui::MainWindow *ui;

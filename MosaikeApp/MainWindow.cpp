@@ -48,7 +48,7 @@ void MainWindow::openFileRequest()
     openImageCommand.execute();
 }
 
-void MainWindow::requestedImageOpened(QImage)
+void MainWindow::requestedImageOpened(QImage image)
 {
-    qDebug() << "Opened";
+    qDebug() << "Opened" << image.width() << " " << image.height();
 }
