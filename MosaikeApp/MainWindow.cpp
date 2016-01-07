@@ -4,14 +4,9 @@
 #include <QDebug>
 #include <QQuickItem>
 
-#include <IL/il.h>
-#include <IL/ilu.h>
-#include <IL/ilut.h>
-
 #include <FileChooser.h>
 #include <ImageManipulatorBuilder.h>
 #include <Commands/CommandOpenImage.h>
-#include <ImageLibs/ImageLibraryDevIL.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,10 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject* root = ui->quickWidget->rootObject();
     QObject::connect(root, SIGNAL(openImage()),
             this, SLOT(openFileRequest()));
-
-    ilInit();
-    iluInit();
-    ilEnable(IL_FILE_OVERWRITE);
 }
 
 MainWindow::~MainWindow()
@@ -38,8 +29,7 @@ void MainWindow::openFileRequest()
 {
     FileChooser fileChooser;
 
-    ImageLibraryDevIL imageLibrary;
-    ImageManipulatorBuilder builder(imageLibrary);
+    ImageManipulatorBuilder builder(mImageLibrary);
 
     CommandOpenImage openImageCommand(builder, fileChooser);
     QObject::connect(&openImageCommand, SIGNAL(imageOpened(QImage)),

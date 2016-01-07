@@ -3,6 +3,12 @@
 
 #include <QMainWindow>
 
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
+
+#include <ImageLibs/ImageLibraryDevIL.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -21,6 +27,8 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
+
+    ImageLibraryDevIL mImageLibrary;
 };
 
 #endif // MAINWINDOW_H

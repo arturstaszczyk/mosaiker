@@ -6,7 +6,9 @@
 
 ImageLibraryDevIL::ImageLibraryDevIL()
 {
-
+    ilInit();
+    iluInit();
+    ilEnable(IL_FILE_OVERWRITE);
 }
 
 quint32 ImageLibraryDevIL::genImage()
