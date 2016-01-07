@@ -17,7 +17,9 @@ SOURCES += ResourceFinder.cpp \
     ImageManipulator.cpp \
     Commands/Command.cpp \
     Commands/CommandOpenImage.cpp \
-    ImageManipulatorBuilder.cpp
+    ImageManipulatorBuilder.cpp \
+    ImageLibs/ImageLibraryDevIL.cpp \
+    FileChooser.cpp
 
 HEADERS += ResourceFinder.h \
     ResourceIndexBuilder.h \
@@ -28,12 +30,17 @@ HEADERS += ResourceFinder.h \
     Exceptions.h \
     Interfaces/ImageLibraryAdapterInt.h \
     ImageManipulatorBuilder.h \
-    Interfaces/IFileChooser.h
+    Interfaces/IFileChooser.h \
+    ImageLibs/ImageLibraryDevIL.h \
+    FileChooser.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+unix:INCLUDEPATH += /usr/local/Cellar/devil/1.7.8_1/include
+else:error(Not implemented)
 
 #QMAKE_CXXFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
 #QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage  -O0
