@@ -1,5 +1,8 @@
 ﻿#include "CommandOpenImage.h"
 
+#include <QDebug>
+
+#include "Exceptions.h"
 #include "Interfaces/IImageManipulator.h"
 
 CommandOpenImage::CommandOpenImage(ImageManipulatorBuilder& imageManipulatorBuilder,
@@ -15,8 +18,16 @@ void CommandOpenImage::execute()
 {
     QString fileName = mFileChooser.chooseFile();
     mImageManipulatorBuilder.setFilename(fileName);
-    IImageManipulator* imageManipulator = mImageManipulatorBuilder.build();
 
-    QImage loadedImage = imageManipulator->toQImage();
-    emit imageOpened(loadedImage);
+    try
+    {
+        IImageManipulator* imageManipulator = mImageManipulatorBuilder.build();
+
+        QImage loadedImage = imageManipulator->toQImage();
+        emit imageOpened(loadedImage);
+    }
+    catch (CannotCreateImage ex)
+    {
+        qDebug() << "ImageManipulatorBuilder cannot create image.";
+    }
 }
