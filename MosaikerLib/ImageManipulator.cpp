@@ -12,7 +12,7 @@ void qImageCleanupHandler(void* data)
     delete [] static_cast<const char*>(data);
 }
 
-ImageManipulator::ImageManipulator(const QSize& size, ImageLibraryAdapterInt& imageLibrary,
+ImageManipulator::ImageManipulator(const QSize& size, IImageLibraryAdapter& imageLibrary,
                                    QObject *parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)
@@ -26,7 +26,7 @@ ImageManipulator::ImageManipulator(const QSize& size, ImageLibraryAdapterInt& im
     mImageLibraryObj.texImage24RGB(mImageSize.width(), mImageSize.height(), imageBytes.data()); // create black image
 }
 
-ImageManipulator::ImageManipulator(QString filename, ImageLibraryAdapterInt& imageLibrary,
+ImageManipulator::ImageManipulator(QString filename, IImageLibraryAdapter& imageLibrary,
                                    QObject* parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)
@@ -48,7 +48,7 @@ ImageManipulator::ImageManipulator(QString filename, ImageLibraryAdapterInt& ima
     mImageSize.setHeight(mImageLibraryObj.getHeight());
 }
 
-ImageManipulator::ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapterInt& imageLibrary,
+ImageManipulator::ImageManipulator(const QSize& size, QByteArray data, IImageLibraryAdapter& imageLibrary,
                           QObject* parent)
     : QObject(parent)
     , mImageLibraryObj(imageLibrary)

@@ -6,7 +6,7 @@
 #include "Command.h"
 #include "ImageManipulatorBuilder.h"
 #include "Interfaces/IFileChooser.h"
-#include "Interfaces/ImageLibraryAdapterInt.h"
+#include "Interfaces/IImageLibraryAdapter.h"
 
 class CommandOpenImage : public Command
 {

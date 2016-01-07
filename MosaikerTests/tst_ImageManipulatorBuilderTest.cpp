@@ -3,7 +3,7 @@
 #include <QtTest>
 
 #include "Exceptions.h"
-#include "Interfaces/ImageManipulatorInt.h"
+#include "Interfaces/IImageManipulator.h"
 #include "ImageManipulatorBuilder.h"
 
 void ImageManipulatorBuilderTest::init()
@@ -22,7 +22,7 @@ void ImageManipulatorBuilderTest::testBuilderFromFile()
     builder.setFilename(TEST_RESOURCES_DIR + "/res1.png");
 
     mLibraryAdapter->returnValues("loadImage", { true });
-    ImageManipulatorInt* manipulator = builder.build();
+    IImageManipulator* manipulator = builder.build();
 
     QVERIFY(manipulator);
     QCOMPARE(&manipulator->imageLibraryAdapter(), mLibraryAdapter);
@@ -49,7 +49,7 @@ void ImageManipulatorBuilderTest::testBuilderEmpty()
     ImageManipulatorBuilder builder(*mLibraryAdapter);
     builder.setSize(QSize(32, 32));
 
-    ImageManipulatorInt* manipulator = builder.build();
+    IImageManipulator* manipulator = builder.build();
 
     QVERIFY(manipulator);
     QCOMPARE(&manipulator->imageLibraryAdapter(), mLibraryAdapter);
@@ -64,7 +64,7 @@ void ImageManipulatorBuilderTest::testBuildFromBytes()
     builder.setBytes(bytes);
     builder.setSize(QSize(32, 32));
 
-    ImageManipulatorInt* manipulator = builder.build();
+    IImageManipulator* manipulator = builder.build();
 
     QVERIFY(manipulator);
     QCOMPARE(&manipulator->imageLibraryAdapter(), mLibraryAdapter);

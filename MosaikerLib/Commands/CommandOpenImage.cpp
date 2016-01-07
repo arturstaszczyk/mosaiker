@@ -1,6 +1,6 @@
 ﻿#include "CommandOpenImage.h"
 
-#include "Interfaces/ImageManipulatorInt.h"
+#include "Interfaces/IImageManipulator.h"
 
 CommandOpenImage::CommandOpenImage(ImageManipulatorBuilder& imageManipulatorBuilder,
                                    IFileChooser& fileDialog, QObject* parent)
@@ -15,7 +15,7 @@ void CommandOpenImage::execute()
 {
     QString fileName = mFileChooser.chooseFile();
     mImageManipulatorBuilder.setFilename(fileName);
-    ImageManipulatorInt* imageManipulator = mImageManipulatorBuilder.build();
+    IImageManipulator* imageManipulator = mImageManipulatorBuilder.build();
 
     QImage loadedImage = imageManipulator->toQImage();
     emit imageOpened(loadedImage);

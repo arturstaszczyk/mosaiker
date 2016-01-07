@@ -15,24 +15,24 @@ CONFIG += staticlib
 SOURCES += ResourceFinder.cpp \
     ResourceIndexBuilder.cpp \
     ImageManipulator.cpp \
-    Commands/Command.cpp \
-    Commands/CommandOpenImage.cpp \
     ImageManipulatorBuilder.cpp \
+    FileChooser.cpp \
     ImageLibs/ImageLibraryDevIL.cpp \
-    FileChooser.cpp
+    Commands/CommandOpenImage.cpp \
+    Commands/Command.cpp
 
 HEADERS += ResourceFinder.h \
-    ResourceIndexBuilder.h \
-    ImageManipulator.h \
-    Commands/Command.h \
-    Commands/CommandOpenImage.h \
-    Interfaces/ImageManipulatorInt.h \
     Exceptions.h \
-    Interfaces/ImageLibraryAdapterInt.h \
+    FileChooser.h \
+    ImageManipulator.h \
+    ResourceIndexBuilder.h \
     ImageManipulatorBuilder.h \
-    Interfaces/IFileChooser.h \
     ImageLibs/ImageLibraryDevIL.h \
-    FileChooser.h
+    Interfaces/IFileChooser.h \
+    Interfaces/IImageManipulator.h \
+    Interfaces/IImageLibraryAdapter.h \
+    Commands/CommandOpenImage.h \
+    Commands/Command.h
 
 unix {
     target.path = /usr/lib

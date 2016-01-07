@@ -1,10 +1,10 @@
 ﻿#ifndef IMAGELIBRARYDEVIL_H
 #define IMAGELIBRARYDEVIL_H
 
-#include "Interfaces/ImageLibraryAdapterInt.h"
+#include "Interfaces/IImageLibraryAdapter.h"
 #include <QSize>
 
-class ImageLibraryDevIL : public ImageLibraryAdapterInt
+class ImageLibraryDevIL : public IImageLibraryAdapter
 {
 public:
     ImageLibraryDevIL();

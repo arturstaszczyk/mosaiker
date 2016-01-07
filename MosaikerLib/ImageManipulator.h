@@ -5,21 +5,21 @@
 #include <QRect>
 #include <QObject>
 
-#include "Interfaces/ImageManipulatorInt.h"
-#include "Interfaces/ImageLibraryAdapterInt.h"
+#include "Interfaces/IImageManipulator.h"
+#include "Interfaces/IImageLibraryAdapter.h"
 
-class ImageManipulator : public QObject, public ImageManipulatorInt
+class ImageManipulator : public QObject, public IImageManipulator
 {
     Q_OBJECT
 
 public:
-    explicit ImageManipulator(const QSize& size, ImageLibraryAdapterInt& imageLibrary,
+    explicit ImageManipulator(const QSize& size, IImageLibraryAdapter& imageLibrary,
                               QObject *parent = nullptr);
 
-    explicit ImageManipulator(QString filename, ImageLibraryAdapterInt& imageLibrary,
+    explicit ImageManipulator(QString filename, IImageLibraryAdapter& imageLibrary,
                               QObject* parent = nullptr);
 
-    explicit ImageManipulator(const QSize& size, QByteArray data, ImageLibraryAdapterInt& imageLibrary,
+    explicit ImageManipulator(const QSize& size, QByteArray data, IImageLibraryAdapter& imageLibrary,
                               QObject* parent = nullptr);
 
     virtual ~ImageManipulator();
@@ -34,13 +34,13 @@ public:
     quint32 imageName() const override { return mImageName; }
     qint32 width() const override { return mImageSize.width(); }
     qint32 height() const override { return mImageSize.height(); }
-    const ImageLibraryAdapterInt& imageLibraryAdapter() const override { return mImageLibraryObj; }
+    const IImageLibraryAdapter& imageLibraryAdapter() const override { return mImageLibraryObj; }
 
 public:
     static const int IMAGE_CHANNELS_3;
 
 private:
-    ImageLibraryAdapterInt& mImageLibraryObj;
+    IImageLibraryAdapter& mImageLibraryObj;
 
     quint32 mImageName;
     QSize mImageSize;

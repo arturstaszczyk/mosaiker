@@ -8,7 +8,7 @@ bool has2Dimentions(const QSize& size)
     return size.width() > 0 && size.height() > 0;
 }
 
-ImageManipulatorBuilder::ImageManipulatorBuilder(ImageLibraryAdapterInt& imageLibrary,
+ImageManipulatorBuilder::ImageManipulatorBuilder(IImageLibraryAdapter& imageLibrary,
                                                  QObject *parent)
     : QObject(parent)
     , mImageLibrary(imageLibrary)
@@ -16,7 +16,7 @@ ImageManipulatorBuilder::ImageManipulatorBuilder(ImageLibraryAdapterInt& imageLi
 
 }
 
-ImageManipulatorInt* ImageManipulatorBuilder::build()
+IImageManipulator* ImageManipulatorBuilder::build()
 {
     if(mFilename.size() > 0)
         return new ImageManipulator(mFilename, mImageLibrary);

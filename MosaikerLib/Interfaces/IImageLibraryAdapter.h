@@ -4,11 +4,11 @@
 #include <QObject>
 #include <QByteArray>
 
-class ImageLibraryAdapterInt
+class IImageLibraryAdapter
 {
 
 public:
-    virtual ~ImageLibraryAdapterInt() {}
+    virtual ~IImageLibraryAdapter() {}
 
     virtual quint32 genImage() = 0;
     virtual bool loadImage(QString) = 0;

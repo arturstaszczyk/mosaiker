@@ -1,14 +1,14 @@
 ﻿#ifndef IMAGEMANIPULATORINT_H
 #define IMAGEMANIPULATORINT_H
 
-#include "ImageLibraryAdapterInt.h"
+#include "IImageLibraryAdapter.h"
 
-class ImageManipulatorInt
+class IImageManipulator
 {
 public:
-    virtual ~ImageManipulatorInt() {}
+    virtual ~IImageManipulator() {}
 
-    virtual ImageManipulatorInt* imageManipulatorForSubimage(const QRect& imageRect) = 0;
+    virtual IImageManipulator* imageManipulatorForSubimage(const QRect& imageRect) = 0;
     virtual void saveAsPng(QString fileName) = 0;
     virtual QImage toQImage() const = 0;
 
@@ -18,7 +18,7 @@ public:
     virtual quint32 imageName() const = 0;
     virtual qint32 width() const = 0;
     virtual qint32 height() const = 0;
-    virtual const ImageLibraryAdapterInt& imageLibraryAdapter() const = 0;
+    virtual const IImageLibraryAdapter& imageLibraryAdapter() const = 0;
 };
 
 #endif // IMAGEMANIPULATORINT_H

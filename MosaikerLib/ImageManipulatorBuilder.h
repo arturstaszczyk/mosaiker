@@ -5,24 +5,24 @@
 #include <QSize>
 #include <QByteArray>
 
-#include "Interfaces/ImageManipulatorInt.h"
-#include "Interfaces/ImageLibraryAdapterInt.h"
+#include "Interfaces/IImageManipulator.h"
+#include "Interfaces/IImageLibraryAdapter.h"
 
 class ImageManipulatorBuilder : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageManipulatorBuilder(ImageLibraryAdapterInt& imageLibrary,
+    explicit ImageManipulatorBuilder(IImageLibraryAdapter& imageLibrary,
                                      QObject *parent = 0);
 
     virtual void setFilename(QString filename) { mFilename = filename; }
     virtual void setSize(const QSize& size) { mSize = size; }
     virtual void setBytes(const QByteArray& bytes) { mBytes = bytes; }
 
-    virtual ImageManipulatorInt* build();
+    virtual IImageManipulator* build();
 
 protected:
-    ImageLibraryAdapterInt& mImageLibrary;
+    IImageLibraryAdapter& mImageLibrary;
     QString mFilename;
     QSize mSize;
     QByteArray mBytes;

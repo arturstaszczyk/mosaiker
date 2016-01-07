@@ -2,11 +2,11 @@
 #define IMAGELIBRARYADAPTERMOCK_H
 
 #include <QtMock.h>
-#include "Interfaces/ImageLibraryAdapterInt.h"
+#include "Interfaces/IImageLibraryAdapter.h"
 
 #include <QObject>
 
-class ImageLibraryAdapterMock : public ImageLibraryAdapterInt, public QtMockExt::QtMock
+class ImageLibraryAdapterMock : public IImageLibraryAdapter, public QtMockExt::QtMock
 {
 
 public:

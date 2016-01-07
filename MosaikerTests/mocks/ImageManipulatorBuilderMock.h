@@ -9,13 +9,13 @@ class ImageManipulatorBuilderMock : public ImageManipulatorBuilder,
         public QtMockExt::QtMock
 {
 public:
-    ImageManipulatorBuilderMock(ImageLibraryAdapterInt& imageLibrary)
+    ImageManipulatorBuilderMock(IImageLibraryAdapter& imageLibrary)
         : ImageManipulatorBuilder(imageLibrary)
     {
 
     }
 
-    ImageManipulatorInt* build() override
+    IImageManipulator* build() override
     {
         MOCK_CALL;
         return new ImageManipulator(QSize(32, 32), mImageLibrary);
