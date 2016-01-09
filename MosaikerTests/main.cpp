@@ -1,9 +1,16 @@
 ﻿#include <QtTest>
 
+#include "tst_ImageModel.h"
 #include "tst_ResourceFinderTest.h"
 #include "tst_ImageManipulatorTest.h"
 #include "tst_CommandOpenImageTest.h"
 #include "tst_ImageManipulatorBuilderTest.h"
+
+#define ADD_TEST(CLASS_NAME, STATUS, ARGC, ARGV) \
+    { \
+        CLASS_NAME classUnderTest; \
+        STATUS |= QTest::qExec(&classUnderTest, ARGC, ARGV); \
+    }
 
 int main(int argc, char *argv[])
 {
@@ -11,19 +18,13 @@ int main(int argc, char *argv[])
 
     QApplication test(argc, argv);
 
-    QTEST_SET_MAIN_SOURCE_PATH
+    QTEST_SET_MAIN_SOURCE_PATH;
 
-    ResourceFinderTest resourceFinderTest;
-    status |= QTest::qExec(&resourceFinderTest, argc, argv);
-
-    ImageManipulatorTest imageWrapperTest;
-    status |= QTest::qExec(&imageWrapperTest, argc, argv);
-
-    ImageManipulatorBuilderTest imageManipulatorBuilderTest;
-    status |= QTest::qExec(&imageManipulatorBuilderTest, argc, argv);
-
-    CommandOpenImageTest commandOpenImageTest;
-    status |= QTest::qExec(&commandOpenImageTest, argc, argv);
+    ADD_TEST(ResourceFinderTest, status, argc, argv);
+    ADD_TEST(ImageManipulatorTest, status, argc, argv);
+    ADD_TEST(ImageManipulatorBuilderTest, status, argc, argv);
+    ADD_TEST(CommandOpenImageTest, status, argc, argv);
+    ADD_TEST(ImageModelTest, status, argc, argv);
 
     return status;
 }

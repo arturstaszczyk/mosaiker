@@ -5,7 +5,7 @@
 #-------------------------------------------------
 include(../include.pri)
 
-QT       += gui widgets
+QT       += gui widgets quick
 
 TARGET = MosaikerLib
 
@@ -19,7 +19,8 @@ SOURCES += ResourceFinder.cpp \
     FileChooser.cpp \
     ImageLibs/ImageLibraryDevIL.cpp \
     Commands/CommandOpenImage.cpp \
-    Commands/Command.cpp
+    Commands/Command.cpp \
+    Models/ImageModel.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -32,7 +33,8 @@ HEADERS += ResourceFinder.h \
     Interfaces/IImageManipulator.h \
     Interfaces/IImageLibraryAdapter.h \
     Commands/CommandOpenImage.h \
-    Commands/Command.h
+    Commands/Command.h \
+    Models/ImageModel.h
 
 unix {
     target.path = /usr/lib

@@ -6,7 +6,7 @@
 
 include(../include.pri)
 
-QT       += testlib widgets gui
+QT       += testlib widgets gui quick
 
 TARGET = tst_MosaikerTest
 CONFIG   += console
@@ -20,7 +20,8 @@ SOURCES += \
     tst_ResourceIndexBuilderTest.cpp \
     tst_ImageManipulatorTest.cpp \
     tst_CommandOpenImageTest.cpp \
-    tst_ImageManipulatorBuilderTest.cpp
+    tst_ImageManipulatorBuilderTest.cpp \
+    tst_ImageModel.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -52,7 +53,8 @@ HEADERS += \
     tst_Common.h \
     mocks/QFileDialogMock.h \
     mocks/ImageManipulatorBuilderMock.h \
-    mocks/FileChooserMock.h
+    mocks/FileChooserMock.h \
+    tst_ImageModel.h
 
 #https://www.cocoanetics.com/2013/10/xcode-coverage/
 #http://mgrebenets.github.io/mobile%20ci/2015/09/21/code-coverage-for-ios-xcode-7/
