@@ -37,7 +37,7 @@ void ResourceFinder::find()
 
     QDir rootResources(mResourcesRoot);
     if(!rootResources.exists())
-        throw ResourcesDirDoNotExists();
+        throw ResourceDoNotExists();
 
     findFilesInDirectory(rootResources);
 }

@@ -29,9 +29,9 @@ bool ImageLibraryDevIL::loadImage(QString fileName)
     return loaded;
 }
 
-void ImageLibraryDevIL::deleteImage(quint32)
+void ImageLibraryDevIL::deleteImage(quint32 imageName)
 {
-
+    ilDeleteImage(imageName);
 }
 
 bool ImageLibraryDevIL::texImage24RGB(quint32 width, quint32 height, const char* data)
@@ -48,7 +48,7 @@ void ImageLibraryDevIL::setPixels24RGB(quint32 offsetX, quint32 offsetY,
 void ImageLibraryDevIL::copyPixels24RGB(quint32 offsetX, quint32 offsetY,
                      quint32 width, quint32 height, char* data)
 {
-
+    ilCopyPixels(offsetX, offsetY, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, data);
 }
 
 void ImageLibraryDevIL::bindImage(quint32 imageName)

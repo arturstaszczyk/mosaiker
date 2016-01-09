@@ -38,7 +38,7 @@ ImageManipulator::ImageManipulator(QString filename, IImageLibraryAdapter& image
 
     QFile imageFile(filename);
     if(!imageFile.exists())
-        throw ImageDoNotExists();
+        throw ResourceDoNotExists();
 
     bool loaded = mImageLibraryObj.loadImage(filename);
     if(!loaded)

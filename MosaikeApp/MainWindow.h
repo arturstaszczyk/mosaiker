@@ -7,6 +7,7 @@
 #include <IL/ilu.h>
 #include <IL/ilut.h>
 
+#include <Models/ImageModel.h>
 #include <ImageLibs/ImageLibraryDevIL.h>
 
 namespace Ui {
@@ -23,11 +24,11 @@ public:
 
 public slots:
     void openFileRequest();
-    void requestedImageOpened(QImage image);
 
 private:
     Ui::MainWindow *ui;
 
+    ImageModel* mImageModelPtr;
     ImageLibraryDevIL mImageLibrary;
 };
 

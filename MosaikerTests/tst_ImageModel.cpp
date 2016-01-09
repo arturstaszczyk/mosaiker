@@ -11,7 +11,7 @@ void ImageModelTest::testImageModel()
     QImage mockImage(32, 32, QImage::Format_ARGB32);
 
     ImageModel imageModel;
-    QSignalSpy spy(&imageModel, SIGNAL(imageUpdated));
+    QSignalSpy spy(&imageModel, SIGNAL(imageUpdated()));
 
     imageModel.setOriginalImage(mockImage);
 

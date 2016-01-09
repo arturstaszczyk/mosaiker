@@ -14,10 +14,14 @@ public:
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
 
 signals:
+    void imageUpdated();
 
 public slots:
 
     void setOriginalImage(const QImage& image);
+
+private:
+    QImage mOriginalImage;
 };
 
 #endif // IMAGEMODEL_H

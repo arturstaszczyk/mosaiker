@@ -1,7 +1,7 @@
 ﻿#ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-class ResourcesDirDoNotExists : public std::exception
+class ResourceDoNotExists : public std::exception
 {
 
 };

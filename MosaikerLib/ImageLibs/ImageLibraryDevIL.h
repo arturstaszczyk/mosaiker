@@ -11,7 +11,7 @@ public:
 
     virtual quint32 genImage();
     virtual bool loadImage(QString fileName);
-    virtual void deleteImage(quint32);
+    virtual void deleteImage(quint32 imageName);
 
     virtual bool texImage24RGB(quint32 width, quint32 height, const char* data);
     virtual void setPixels24RGB(quint32 offsetX, quint32 offsetY,

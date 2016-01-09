@@ -36,5 +36,26 @@ Rectangle {
         target: button1
         onClicked: rootItem.openImage()
     }
+
+    Image {
+        id: image1
+        x: 14
+        y: 15
+        width: 100
+        height: 100
+        source: "image://imageModel/original"
+        function reload()
+        {
+            source = "";
+            source = "image://imageModel/original";
+            console.log("Source reloaded")
+        }
+    }
+
+    Connections
+    {
+        target: imageModel
+        onImageUpdated: image1.reload()
+    }
 }
 

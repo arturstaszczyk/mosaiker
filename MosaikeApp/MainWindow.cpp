@@ -3,21 +3,31 @@
 
 #include <QDebug>
 #include <QQuickItem>
+#include <QQmlEngine>
+#include <QQmlContext>
 
 #include <FileChooser.h>
 #include <ImageManipulatorBuilder.h>
 #include <Commands/CommandOpenImage.h>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    mImageModelPtr = new ImageModel();
+    ui->quickWidget->engine()->addImageProvider("imageModel", mImageModelPtr);
+    ui->quickWidget->rootContext()->setContextProperty("imageModel", mImageModelPtr);
+
     ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 
     QObject* root = ui->quickWidget->rootObject();
     QObject::connect(root, SIGNAL(openImage()),
             this, SLOT(openFileRequest()));
+
+
 }
 
 MainWindow::~MainWindow()
@@ -33,12 +43,8 @@ void MainWindow::openFileRequest()
 
     CommandOpenImage openImageCommand(builder, fileChooser);
     QObject::connect(&openImageCommand, SIGNAL(imageOpened(QImage)),
-                     this, SLOT(requestedImageOpened(QImage)));
+                     mImageModelPtr, SLOT(setOriginalImage(QImage)));
 
     openImageCommand.execute();
 }
 
-void MainWindow::requestedImageOpened(QImage image)
-{
-    qDebug() << "Opened" << image.width() << " " << image.height();
-}
