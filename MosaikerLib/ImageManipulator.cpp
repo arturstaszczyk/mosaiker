@@ -46,6 +46,8 @@ ImageManipulator::ImageManipulator(QString filename, IImageLibraryAdapter& image
 
     mImageSize.setWidth(mImageLibraryObj.getWidth());
     mImageSize.setHeight(mImageLibraryObj.getHeight());
+
+    name = filename;
 }
 
 ImageManipulator::ImageManipulator(const QSize& size, QByteArray data, IImageLibraryAdapter& imageLibrary,
@@ -81,7 +83,9 @@ ImageManipulator* ImageManipulator::imageManipulatorForSubimage(const QRect &ima
     mImageLibraryObj.bindImage(mImageName);
 
     QByteArray data(imageRect.width() * imageRect.height() * ImageManipulator::IMAGE_CHANNELS_3, '\0');
-    mImageLibraryObj.copyPixels24RGB(imageRect.x(), imageRect.y(), newSize.width(), newSize.height(), data.data());
+    mImageLibraryObj.copyPixels24RGB(imageRect.x(), imageRect.y(),
+                                     newSize.width(), newSize.height(),
+                                     reinterpret_cast<quint8*>(data.data()));
 
     return new ImageManipulator(newSize, data, mImageLibraryObj);
 }
@@ -94,16 +98,18 @@ void ImageManipulator::saveAsPng(QString fileName)
 
 QImage ImageManipulator::toQImage() const
 {
-    quint32 dataLen = width() * height() * ImageManipulator::IMAGE_CHANNELS_3;
-    char* imageData = new char[dataLen];
+    int imageSize = width() * height() * ImageManipulator::IMAGE_CHANNELS_3;
+    unsigned char* imageData = new unsigned char[imageSize];
+    memset(imageData, 10, imageSize);
 
     mImageLibraryObj.bindImage(mImageName);
     mImageLibraryObj.copyPixels24RGB(0, 0, width(), height(), imageData);
-
-    return QImage(reinterpret_cast<uchar*>(imageData), width(), height(),
-                             QImage::Format_RGB888, qImageCleanupHandler,
+    return QImage(imageData, width(), height(),
+                             QImage::Format_RGB888
+                  , qImageCleanupHandler,
                              static_cast<void*>(imageData));
 
+    //return QImage(name, 0);
 }
 
 QByteArray ImageManipulator::rawData()

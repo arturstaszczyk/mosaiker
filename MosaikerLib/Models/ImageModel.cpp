@@ -20,9 +20,12 @@ void ImageModel::setOriginalImage(const QImage &image)
 QImage ImageModel::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     if(mOriginalImage.isNull())
+    {
+        qDebug() << "Image is null";
         return mOriginalImage;
+    }
 
-    qDebug() << "Image size:" << mOriginalImage.size();
+    qDebug() << "Image size:" << requestedSize;
 
     if(size)
         *size = requestedSize;

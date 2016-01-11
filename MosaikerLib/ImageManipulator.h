@@ -44,6 +44,8 @@ private:
 
     quint32 mImageName;
     QSize mImageSize;
+
+    QString name;
 };
 
 #endif // IMAGEMANIPULATOR_H

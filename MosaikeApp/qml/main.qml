@@ -1,5 +1,6 @@
 ﻿import QtQuick 2.0
 import QtQuick.Controls 1.3
+import QtQuick.Layouts 1.2
 
 Rectangle {
     id: rootItem
@@ -9,20 +10,51 @@ Rectangle {
 
     signal openImage()
 
+    Connections {
+        target: button1
+        onClicked: rootItem.openImage()
+    }
+
     Column {
         id: column1
-        x: 55
-        width: 200
-        anchors.right: parent.right
-        anchors.rightMargin: 0
         anchors.top: parent.top
         anchors.topMargin: 0
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 0
+        anchors.right: column2.left
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        Layout.alignment: Qt.AlignRight | Qt.AlignTop
+
+        Image {
+            id: image1
+            anchors.fill: parent
+            source: ""
+            cache: false
+            function reload()
+            {
+                source = "";
+                source = "image://imageModel/original";
+            }
+        }
+
+    }
+
+    Column {
+        id: column2
+        x: 0
+        width: 200
+        anchors.top: parent.top
+        anchors.topMargin: 0
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        anchors.right: parent.right
+        anchors.rightMargin: 0
 
         Button {
             id: button1
-            height: 32
+            height: 64
             text: qsTr("Open Image")
             anchors.right: parent.right
             anchors.rightMargin: 0
@@ -32,30 +64,13 @@ Rectangle {
         }
     }
 
-    Connections {
-        target: button1
-        onClicked: rootItem.openImage()
-    }
-
-    Image {
-        id: image1
-        x: 14
-        y: 15
-        width: 100
-        height: 100
-        source: "image://imageModel/original"
-        function reload()
-        {
-            source = "";
-            source = "image://imageModel/original";
-            console.log("Source reloaded")
-        }
-    }
-
     Connections
     {
-        target: imageModel
+        target: imageModel2
         onImageUpdated: image1.reload()
     }
+
+
+
 }
 

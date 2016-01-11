@@ -1,5 +1,7 @@
 ﻿#include "ImageManipulatorBuilder.h"
 
+#include <QDebug>
+
 #include "Exceptions.h"
 #include "ImageManipulator.h"
 
@@ -18,13 +20,27 @@ ImageManipulatorBuilder::ImageManipulatorBuilder(IImageLibraryAdapter& imageLibr
 
 IImageManipulator* ImageManipulatorBuilder::build()
 {
-    if(mFilename.size() > 0)
-        return new ImageManipulator(mFilename, mImageLibrary);
+    ImageManipulator* constructedImage = nullptr;
+    try
+    {
+        if(mFilename.size() > 0)
+            constructedImage = new ImageManipulator(mFilename, mImageLibrary);
+        else if(has2Dimentions(mSize) && mBytes.size() > 0)
+            constructedImage = new ImageManipulator(mSize, mBytes, mImageLibrary);
+        else if(has2Dimentions(mSize))
+            constructedImage = new ImageManipulator(mSize, mImageLibrary);
+    }
+    catch(CannotLoadImage ex)
+    {
+        qDebug() << "Cannot load file [" << mFilename << "] - unsupported format";
+    }
+    catch(ResourceDoNotExists ex)
+    {
+        qDebug() << "File [" << mFilename << "] do not exists";
+    }
 
-    if(has2Dimentions(mSize) && mBytes.size() > 0)
-        return new ImageManipulator(mSize, mBytes, mImageLibrary);
-    else if(has2Dimentions(mSize))
-        return new ImageManipulator(mSize, mImageLibrary);
+    if(constructedImage == nullptr)
+        throw CannotCreateImage();
 
-    throw CannotCreateImage();
+    return constructedImage;
 }

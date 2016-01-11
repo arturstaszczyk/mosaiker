@@ -45,12 +45,12 @@ public:
     }
 
     virtual void copyPixels24RGB(quint32 offsetX, quint32 offsetY,
-                                 quint32 width, quint32 height, char* data)
+                                 quint32 width, quint32 height, void* data)
     {
         MOCK_CALL;
         MOCK_ARG(MOCK_FNAME, offsetX); MOCK_ARG(MOCK_FNAME, offsetY);
         MOCK_ARG(MOCK_FNAME, width); MOCK_ARG(MOCK_FNAME, height);
-        MOCK_ARG(MOCK_FNAME, data);
+        MOCK_ARG(MOCK_FNAME, QVariant::fromValue(data));
     }
 
     virtual void bindImage(quint32 name)

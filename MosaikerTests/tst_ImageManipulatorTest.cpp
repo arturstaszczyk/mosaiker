@@ -58,7 +58,7 @@ void ImageManipulatorTest::testFileConstruction()
 
 void ImageManipulatorTest::testInvalidFilePathConstruction()
 {
-    QVERIFY_EXCEPTION_THROWN(new ImageManipulator("filename.png", *mImageLibraryMockObj), ImageDoNotExists);
+    QVERIFY_EXCEPTION_THROWN(new ImageManipulator("filename.png", *mImageLibraryMockObj), ResourceDoNotExists);
 }
 
 void ImageManipulatorTest::testDataConstruction()

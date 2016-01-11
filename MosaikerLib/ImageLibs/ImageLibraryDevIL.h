@@ -17,7 +17,7 @@ public:
     virtual void setPixels24RGB(quint32 offsetX, quint32 offsetY,
                                 quint32 width, quint32 height, const char* data);
     virtual void copyPixels24RGB(quint32 offsetX, quint32 offsetY,
-                                 quint32 width, quint32 height, char* data);
+                                 quint32 width, quint32 height, void* data);
     virtual void bindImage(quint32 imageName);
 
     virtual qint32 getWidth();
@@ -28,9 +28,6 @@ public:
     virtual void rotate(quint32 angle);
 
     virtual void save(QString);
-
-private:
-    QSize mSize;
 };
 
 #endif // IMAGELIBRARYDEVIL_H

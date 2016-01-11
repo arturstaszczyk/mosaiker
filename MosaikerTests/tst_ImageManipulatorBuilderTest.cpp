@@ -33,7 +33,7 @@ void ImageManipulatorBuilderTest::testThrowsOnBadImage()
     ImageManipulatorBuilder builder(*mLibraryAdapter);
     builder.setFilename(TEST_RESOURCES_DIR + "/res1.png");
 
-    QVERIFY_EXCEPTION_THROWN(builder.build(), CannotLoadImage);
+    QVERIFY_EXCEPTION_THROWN(builder.build(), CannotCreateImage);
 }
 
 void ImageManipulatorBuilderTest::testThrowsOnBadPath()
@@ -41,7 +41,7 @@ void ImageManipulatorBuilderTest::testThrowsOnBadPath()
     ImageManipulatorBuilder builder(*mLibraryAdapter);
     builder.setFilename(TEST_RESOURCES_DIR + "/invalid_path.png");
 
-    QVERIFY_EXCEPTION_THROWN(builder.build(), ImageDoNotExists);
+    QVERIFY_EXCEPTION_THROWN(builder.build(), CannotCreateImage);
 }
 
 void ImageManipulatorBuilderTest::testBuilderEmpty()

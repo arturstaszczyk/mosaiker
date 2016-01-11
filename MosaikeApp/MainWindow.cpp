@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mImageModelPtr = new ImageModel();
     ui->quickWidget->engine()->addImageProvider("imageModel", mImageModelPtr);
-    ui->quickWidget->rootContext()->setContextProperty("imageModel", mImageModelPtr);
+    ui->quickWidget->rootContext()->setContextProperty("imageModel2", mImageModelPtr);
 
     ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 

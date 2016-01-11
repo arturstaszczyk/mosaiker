@@ -1,5 +1,7 @@
 ﻿#include "ImageLibraryDevIL.h"
 
+#include <QDebug>
+
 #include <IL/il.h>
 #include <IL/ilu.h>
 #include <IL/ilut.h>
@@ -20,11 +22,10 @@ bool ImageLibraryDevIL::loadImage(QString fileName)
 {
     const char* fileNameStr = fileName.toStdString().c_str();
     bool loaded = ilLoadImage(fileNameStr);
-    if(loaded)
-    {
-        mSize.setWidth(ilGetInteger(IL_IMAGE_WIDTH));
-        mSize.setHeight(ilGetInteger(IL_IMAGE_HEIGHT));
-    }
+    ILenum error;
+    error = ilGetError();
+    qDebug() << "error " << error;
+    qDebug() << "Image [" << fileName << "] loaded with status " << loaded;
 
     return loaded;
 }
@@ -46,7 +47,7 @@ void ImageLibraryDevIL::setPixels24RGB(quint32 offsetX, quint32 offsetY,
 }
 
 void ImageLibraryDevIL::copyPixels24RGB(quint32 offsetX, quint32 offsetY,
-                     quint32 width, quint32 height, char* data)
+                     quint32 width, quint32 height, void* data)
 {
     ilCopyPixels(offsetX, offsetY, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, data);
 }
@@ -58,17 +59,18 @@ void ImageLibraryDevIL::bindImage(quint32 imageName)
 
 qint32 ImageLibraryDevIL::getWidth()
 {
-    return mSize.width();
+    return ilGetInteger(IL_IMAGE_WIDTH);
 }
 
 qint32 ImageLibraryDevIL::getHeight()
 {
-    return mSize.height();
+    return ilGetInteger(IL_IMAGE_HEIGHT);
 }
 
 QByteArray ImageLibraryDevIL::getData()
 {
-    return QByteArray();
+    ILubyte* data = ilGetData();
+    return QByteArray(reinterpret_cast<const char*>(data), sizeof(data) / sizeof(ILubyte));
 }
 
 void ImageLibraryDevIL::scale(quint32 width, quint32 heighr)

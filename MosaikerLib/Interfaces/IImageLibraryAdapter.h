@@ -18,7 +18,7 @@ public:
     virtual void setPixels24RGB(quint32 offsetX, quint32 offsetY,
                                 quint32 width, quint32 height, const char* data) = 0;
     virtual void copyPixels24RGB(quint32 offsetX, quint32 offsetY,
-                                 quint32 width, quint32 height, char* data) = 0;
+                                 quint32 width, quint32 height, void* data) = 0;
     virtual void bindImage(quint32) = 0;
 
     virtual qint32 getWidth() = 0;
