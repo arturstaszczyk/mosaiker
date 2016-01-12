@@ -17,8 +17,10 @@ signals:
     void imageUpdated();
 
 public slots:
-
     void setOriginalImage(const QImage& image);
+
+private:
+    void resize(QSize& size, const QSize& requestedSize);
 
 private:
     QImage mOriginalImage;

@@ -8,7 +8,8 @@ class ImageModelTest : public QObject
     Q_OBJECT
 
 private slots:
-    void testImageModel();
+    void testImageModelResized();
+    void testImageModelOriginal();
 };
 
 #endif // TST_IMAGEMODEL_H

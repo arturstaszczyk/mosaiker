@@ -29,7 +29,8 @@ Rectangle {
 
         Image {
             id: image1
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height
             source: ""
             cache: false
             function reload()
@@ -54,12 +55,9 @@ Rectangle {
 
         Button {
             id: button1
+            width: parent.width
             height: 64
             text: qsTr("Open Image")
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.left: parent.left
-            anchors.leftMargin: 0
             isDefault: false
         }
     }
