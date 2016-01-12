@@ -18,9 +18,7 @@ SOURCES += \
     main.cpp \
     tst_ResourceFinderTest.cpp \
     tst_ResourceIndexBuilderTest.cpp \
-    tst_ImageManipulatorTest.cpp \
     tst_CommandOpenImageTest.cpp \
-    tst_ImageManipulatorBuilderTest.cpp \
     tst_ImageModel.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
@@ -46,13 +44,9 @@ POST_TARGETDEPS += copyfiles
 
 HEADERS += \
     tst_ResourceFinderTest.h \
-    mocks/ImageLibraryAdapterMock.h \
-    tst_ImageManipulatorTest.h \
     tst_CommandOpenImageTest.h \
-    tst_ImageManipulatorBuilderTest.h \
     tst_Common.h \
     mocks/QFileDialogMock.h \
-    mocks/ImageManipulatorBuilderMock.h \
     mocks/FileChooserMock.h \
     tst_ImageModel.h
 

@@ -8,7 +8,6 @@
 #include <IL/ilut.h>
 
 #include <Models/ImageModel.h>
-#include <ImageLibs/ImageLibraryDevIL.h>
 
 namespace Ui {
 class MainWindow;
@@ -29,7 +28,6 @@ private:
     Ui::MainWindow *ui;
 
     ImageModel* mImageModelPtr;
-    ImageLibraryDevIL mImageLibrary;
 };
 
 #endif // MAINWINDOW_H

@@ -5,24 +5,34 @@
 #include <QFileDialog>
 #include <QObject>
 
+
+#include "tst_Common.h"
+#include "Exceptions.h"
 #include "Commands/CommandOpenImage.h"
-#include "ImageManipulator.h"
-
 #include "mocks/FileChooserMock.h"
-#include "mocks/QFileDialogMock.h"
-#include "mocks/ImageLibraryAdapterMock.h"
-#include "mocks/ImageManipulatorBuilderMock.h"
 
-void CommandOpenImageTest::testOpenImageSignal()
+void CommandOpenImageTest::testBadImage()
 {
-    ImageLibraryAdapterMock imageLibraryMock;
-    ImageManipulatorBuilderMock builder(imageLibraryMock);
-
     FileChooserMock fileChooserMock;
 
-    CommandOpenImage* command = new CommandOpenImage(builder, fileChooserMock);
+    CommandOpenImage* command = new CommandOpenImage(fileChooserMock);
+    QVERIFY_EXCEPTION_THROWN(command->execute(), CannotLoadImage);
+}
+
+void CommandOpenImageTest::testImageOpened()
+{
+    FileChooserMock fileChooserMock;
+    fileChooserMock.returnValues("chooseFile", { TEST_RESOURCES_DIR + "/res1.png" });
+    CommandOpenImage* command = new CommandOpenImage(fileChooserMock);
+
     QSignalSpy spy(command, SIGNAL(imageOpened(QImage)));
     command->execute();
 
     QCOMPARE(spy.count(), 1);
+    QVariantList args = spy.first();
+
+    QImage image = args.at(0).value<QImage>();
+
+    QCOMPARE(image.width(), 256);
+    QCOMPARE(image.height(), 256);
 }

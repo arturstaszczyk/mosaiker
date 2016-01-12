@@ -12,7 +12,8 @@ public:
     {}
 
 private slots:
-    void testOpenImageSignal();
+    void testBadImage();
+    void testImageOpened();
 };
 
 #endif // TST_COMMANDOPENIMAGETEST_H

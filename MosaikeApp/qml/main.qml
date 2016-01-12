@@ -66,7 +66,7 @@ Rectangle {
 
     Connections
     {
-        target: imageModel2
+        target: imageModel
         onImageUpdated: image1.reload()
     }
 

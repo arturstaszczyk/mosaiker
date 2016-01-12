@@ -14,10 +14,7 @@ CONFIG += staticlib
 
 SOURCES += ResourceFinder.cpp \
     ResourceIndexBuilder.cpp \
-    ImageManipulator.cpp \
-    ImageManipulatorBuilder.cpp \
     FileChooser.cpp \
-    ImageLibs/ImageLibraryDevIL.cpp \
     Commands/CommandOpenImage.cpp \
     Commands/Command.cpp \
     Models/ImageModel.cpp
@@ -25,13 +22,8 @@ SOURCES += ResourceFinder.cpp \
 HEADERS += ResourceFinder.h \
     Exceptions.h \
     FileChooser.h \
-    ImageManipulator.h \
     ResourceIndexBuilder.h \
-    ImageManipulatorBuilder.h \
-    ImageLibs/ImageLibraryDevIL.h \
     Interfaces/IFileChooser.h \
-    Interfaces/IImageManipulator.h \
-    Interfaces/IImageLibraryAdapter.h \
     Commands/CommandOpenImage.h \
     Commands/Command.h \
     Models/ImageModel.h

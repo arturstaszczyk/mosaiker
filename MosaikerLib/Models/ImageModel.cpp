@@ -28,7 +28,14 @@ QImage ImageModel::requestImage(const QString &id, QSize *size, const QSize &req
     qDebug() << "Image size:" << requestedSize;
 
     if(size)
-        *size = requestedSize;
+    {
+        *size = QSize(mOriginalImage.width(), mOriginalImage.height());
+        if(requestedSize.width() > 0 && requestedSize.height() > 0)
+        {
+            *size = requestedSize;
+            mOriginalImage = mOriginalImage.scaled(requestedSize);
+        }
+    }
 
     return mOriginalImage;
 }

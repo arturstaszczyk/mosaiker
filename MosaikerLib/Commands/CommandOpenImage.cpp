@@ -3,12 +3,9 @@
 #include <QDebug>
 
 #include "Exceptions.h"
-#include "Interfaces/IImageManipulator.h"
 
-CommandOpenImage::CommandOpenImage(ImageManipulatorBuilder& imageManipulatorBuilder,
-                                   IFileChooser& fileDialog, QObject* parent)
+CommandOpenImage::CommandOpenImage(IFileChooser& fileDialog, QObject* parent)
     : Command(parent)
-    , mImageManipulatorBuilder(imageManipulatorBuilder)
     , mFileChooser(fileDialog)
 {
 
@@ -17,17 +14,9 @@ CommandOpenImage::CommandOpenImage(ImageManipulatorBuilder& imageManipulatorBuil
 void CommandOpenImage::execute()
 {
     QString fileName = mFileChooser.chooseFile();
-    mImageManipulatorBuilder.setFilename(fileName);
+    QImage loadedImage(fileName);
+    if(loadedImage.isNull())
+        throw CannotLoadImage();
 
-    try
-    {
-        IImageManipulator* imageManipulator = mImageManipulatorBuilder.build();
-
-        QImage loadedImage = imageManipulator->toQImage();
-        emit imageOpened(loadedImage);
-    }
-    catch (CannotCreateImage ex)
-    {
-        qDebug() << "ImageManipulatorBuilder cannot create image.";
-    }
+    emit imageOpened(loadedImage);
 }
