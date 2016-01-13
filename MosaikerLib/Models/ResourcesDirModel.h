@@ -9,11 +9,10 @@ class ResourcesDirModel : public QObject
 public:
     explicit ResourcesDirModel(QObject *parent = 0);
 
-    Q_PROPERTY(QString resourcesDir READ resourcesDir WRITE setResourcesDir NOTIFY resourcesDirChanged)
+    Q_PROPERTY(QString resourcesDir MEMBER mResourcesDir NOTIFY resourcesDirChanged)
 
 
 public slots:
-    QString resourcesDir() const { return mResourcesDir; }
     void setResourcesDir(QString dirName);
 
 signals:
