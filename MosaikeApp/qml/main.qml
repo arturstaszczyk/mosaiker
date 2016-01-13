@@ -71,20 +71,20 @@ Rectangle {
             height: 400
 
 
-            Label {
+            Text {
                 id: label1
                 x: 40
                 y: 0
                 width: parent.width - btnSetResourcePath.width
                 height: 43
 
-
+                elide: Text.ElideLeft
                 color: "#090e6d"
                 text: resourcesDirModel.resourcesDir
                 clip: true
-                wrapMode: Text.WrapAnywhere
+                wrapMode: Text.NoWrap
                 verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
+                horizontalAlignment: Text.AlignRight
                 font.family: "Courier"
             }
 
