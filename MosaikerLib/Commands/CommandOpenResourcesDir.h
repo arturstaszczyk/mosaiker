@@ -12,6 +12,11 @@ public:
     explicit CommandOpenResourcesDir(IPathChooser& fileChooser, QObject* parent = nullptr);
 
     virtual void execute() override;
+
+signals:
+
+    void dirOpened(QString dirAbsolutePath);
+
 private:
     IPathChooser& mFileChooser;
 };

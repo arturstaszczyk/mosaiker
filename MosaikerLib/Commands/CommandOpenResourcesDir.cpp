@@ -18,4 +18,6 @@ void CommandOpenResourcesDir::execute()
 
     if(!dir.exists())
         throw PathDoNotExists();
+
+    emit dirOpened(dir.absolutePath());
 }

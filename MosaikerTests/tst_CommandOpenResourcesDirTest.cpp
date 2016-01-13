@@ -1,5 +1,6 @@
 ﻿#include "tst_CommandOpenResourcesDirTest.h"
 
+#include <QDir>
 #include <QtTest>
 #include <QSignalSpy>
 
@@ -36,5 +37,7 @@ void CommandOpenResourcesDirTest::testOpenDir()
     QCOMPARE(spy.count(), 1);
 
     QString dirName = spy.first().at(0).value<QString>();
-    QCOMPARE(dirName, QString("./"));
+
+    QDir pwd("./");
+    QCOMPARE(dirName, pwd.absolutePath());
 }
