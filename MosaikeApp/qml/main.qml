@@ -7,12 +7,14 @@ Rectangle {
     width: 320
     height: 240
     color: "gray"
+    property alias label1: label1
 
     signal openImage()
+    signal setResourcesPath()
 
     Connections {
-        target: button1
-        onClicked: rootItem.openImage()
+        target: imageModel
+        onImageUpdated: imgOriginal.reload()
     }
 
     Column {
@@ -28,7 +30,7 @@ Rectangle {
         Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
         Image {
-            id: image1
+            id: imgOriginal
             width: parent.width
             height: parent.height
             source: ""
@@ -44,7 +46,7 @@ Rectangle {
 
     Column {
         id: column2
-        x: 0
+        x: 120
         width: 200
         anchors.top: parent.top
         anchors.topMargin: 0
@@ -54,21 +56,50 @@ Rectangle {
         anchors.rightMargin: 0
 
         Button {
-            id: button1
+            id: btnOpenImage
             width: parent.width
-            height: 64
+            height: 43
             text: qsTr("Open Image")
-            isDefault: false
+
+            onClicked: rootItem.openImage()
+        }
+
+        Row {
+            id: row1
+            y: 0
+            width: parent.width
+            height: 400
+
+
+            Label {
+                id: label1
+                x: 40
+                y: 0
+                width: parent.width - btnSetResourcePath.width
+                height: 43
+
+
+                color: "#090e6d"
+                text: qsTr("Not set...")
+                clip: true
+                wrapMode: Text.WrapAnywhere
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                font.family: "Courier"
+            }
+
+            Button {
+                id: btnSetResourcePath
+                x: 5
+                width: 43
+                height: 43
+                text: qsTr("...")
+
+                onClicked: rootItem.setResourcesPath()
+            }
+
         }
     }
-
-    Connections
-    {
-        target: imageModel
-        onImageUpdated: image1.reload()
-    }
-
-
 
 }
 
