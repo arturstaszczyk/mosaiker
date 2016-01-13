@@ -14,11 +14,24 @@
 void CommandOpenImageTest::testInvalidImage()
 {
     FileChooserMock fileChooserMock;
+    fileChooserMock.returnValues("chooseFile", { "./invalid_image" });
 
     CommandOpenImage command(fileChooserMock);
     QSignalSpy spy(&command, SIGNAL(imageOpened(QImage)));
 
     QVERIFY_EXCEPTION_THROWN(command.execute(), CannotLoadImage);
+    QCOMPARE(spy.count(), 0);
+}
+
+void CommandOpenImageTest::testOpenAborted()
+{
+    FileChooserMock fileChooserMock;
+    fileChooserMock.returnValues("chooseFile", { "" });
+
+    CommandOpenImage command(fileChooserMock);
+    QSignalSpy spy(&command, SIGNAL(imageOpened(QImage)));
+
+    command.execute();
     QCOMPARE(spy.count(), 0);
 }
 

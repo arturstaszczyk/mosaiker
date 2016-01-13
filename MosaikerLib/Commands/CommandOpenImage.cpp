@@ -14,6 +14,9 @@ CommandOpenImage::CommandOpenImage(IPathChooser& fileDialog, QObject* parent)
 void CommandOpenImage::execute()
 {
     QString fileName = mFileChooser.chooseFile();
+    if(fileName.isEmpty())
+        return;
+
     QImage loadedImage(fileName);
     if(loadedImage.isNull())
         throw CannotLoadImage();

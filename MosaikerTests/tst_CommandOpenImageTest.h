@@ -13,6 +13,7 @@ public:
 
 private slots:
     void testInvalidImage();
+    void testOpenAborted();
     void testImageOpened();
 };
 
