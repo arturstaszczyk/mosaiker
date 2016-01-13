@@ -11,6 +11,7 @@ public:
 
 private slots:
     void testInvalidDir();
+    void testOpenAborted();
     void testOpenDir();
 };
 

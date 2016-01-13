@@ -1,6 +1,7 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QDebug>
 #include <QMainWindow>
 
 #include <IL/il.h>
@@ -24,6 +25,10 @@ public:
 public slots:
     void openOriginalFileRequest();
     void openResourcesDirRequested();
+
+    void fileOpened(QString name){
+        qDebug() << name;
+    }
 
 private:
     Ui::MainWindow *ui;

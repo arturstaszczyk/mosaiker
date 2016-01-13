@@ -8,6 +8,7 @@
 
 #include <FileChooser.h>
 #include <Commands/CommandOpenImage.h>
+#include <Commands/CommandOpenResourcesDir.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -35,9 +36,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::openOriginalFileRequest()
 {
-    PathChooser fileChooser;
+    PathChooser pathChooser;
 
-    CommandOpenImage openImageCommand(fileChooser);
+    CommandOpenImage openImageCommand(pathChooser);
     QObject::connect(&openImageCommand, SIGNAL(imageOpened(QImage)),
                      mImageModelPtr, SLOT(setOriginalImage(QImage)));
 
@@ -46,5 +47,10 @@ void MainWindow::openOriginalFileRequest()
 
 void MainWindow::openResourcesDirRequested()
 {
-    qDebug() << "choose resources";
+    PathChooser pathChooser;
+
+    CommandOpenResourcesDir openResourcesCommand(pathChooser);
+    QObject::connect(&openResourcesCommand, SIGNAL(dirOpened(QString)), this, SLOT(fileOpened(QString)));
+
+    openResourcesCommand.execute();
 }

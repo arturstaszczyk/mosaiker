@@ -14,6 +14,9 @@ CommandOpenResourcesDir::CommandOpenResourcesDir(IPathChooser& fileChooser, QObj
 void CommandOpenResourcesDir::execute()
 {
     QString dirName = mFileChooser.chooseDir();
+    if(dirName.isEmpty())
+        return;
+
     QDir dir(dirName);
 
     if(!dir.exists())

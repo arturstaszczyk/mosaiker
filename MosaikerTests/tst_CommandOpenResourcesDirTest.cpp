@@ -25,6 +25,18 @@ void CommandOpenResourcesDirTest::testInvalidDir()
     QCOMPARE(spy.count(), 0);
 }
 
+void CommandOpenResourcesDirTest::testOpenAborted()
+{
+    FileChooserMock fileChooser;
+    fileChooser.returnValues("chooseDir", { "" });
+
+    CommandOpenResourcesDir command(fileChooser);
+    QSignalSpy spy(&command, SIGNAL(dirOpened(QString)));
+
+    command.execute();
+    QCOMPARE(spy.count(), 0);
+}
+
 void CommandOpenResourcesDirTest::testOpenDir()
 {
     FileChooserMock fileChooser;
