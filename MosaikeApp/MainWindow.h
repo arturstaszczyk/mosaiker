@@ -22,7 +22,8 @@ public:
     ~MainWindow();
 
 public slots:
-    void openFileRequest();
+    void openOriginalFileRequest();
+    void openResourcesDirRequested();
 
 private:
     Ui::MainWindow *ui;

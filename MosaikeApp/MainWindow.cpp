@@ -24,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 
     QObject* root = ui->quickWidget->rootObject();
-    QObject::connect(root, SIGNAL(openImage()), this, SLOT(openFileRequest()));
+    QObject::connect(root, SIGNAL(openImage()), this, SLOT(openOriginalFileRequest()));
+    QObject::connect(root, SIGNAL(setResourcesPath()), this, SLOT(openResourcesDirRequested()));
 }
 
 MainWindow::~MainWindow()
@@ -32,7 +33,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::openFileRequest()
+void MainWindow::openOriginalFileRequest()
 {
     FileChooser fileChooser;
 
@@ -43,3 +44,7 @@ void MainWindow::openFileRequest()
     openImageCommand.execute();
 }
 
+void MainWindow::openResourcesDirRequested()
+{
+    qDebug() << "choose resources";
+}

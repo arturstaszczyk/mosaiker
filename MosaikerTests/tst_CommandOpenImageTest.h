@@ -12,7 +12,7 @@ public:
     {}
 
 private slots:
-    void testBadImage();
+    void testInvalidImage();
     void testImageOpened();
 };
 

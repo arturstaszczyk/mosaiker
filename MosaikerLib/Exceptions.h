@@ -1,12 +1,7 @@
 ﻿#ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-class ResourceDoNotExists : public std::exception
-{
-
-};
-
-class ImageDoNotExists : public std::exception
+class PathDoNotExists : public std::exception
 {
 
 };
@@ -16,10 +11,6 @@ class CannotLoadImage : public std::exception
 
 };
 
-class CannotCreateImage : public std::exception
-{
-
-};
 
 #endif // EXCEPTIONS_H
 

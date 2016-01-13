@@ -11,7 +11,7 @@
 #include "Commands/CommandOpenImage.h"
 #include "mocks/FileChooserMock.h"
 
-void CommandOpenImageTest::testBadImage()
+void CommandOpenImageTest::testInvalidImage()
 {
     FileChooserMock fileChooserMock;
 
