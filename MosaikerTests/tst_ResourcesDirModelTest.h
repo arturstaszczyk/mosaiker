@@ -3,13 +3,14 @@
 
 #include <QObject>
 
-class ResourcesModelDirTest : public QObject
+class ResourcesDirModelTest : public QObject
 {
     Q_OBJECT
 public:
-    explicit ResourcesModelDirTest(QObject *parent = 0);
+    explicit ResourcesDirModelTest(QObject *parent = 0);
 
 private slots:
+    void testIntegrationEmitOnValidDirectory();
     void testEmitOnDirChange();
     void testEmitOnIndexBuiltChange();
 

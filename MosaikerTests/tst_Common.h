@@ -4,3 +4,4 @@
 #define TEST_RESOURCES_DIR QString("./TestResources")
 
 #endif // TST_COMMON_H
+

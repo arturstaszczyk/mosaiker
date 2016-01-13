@@ -22,8 +22,13 @@ signals:
     void indexBuiltChanged(bool indexBuilt);
 
 private:
+    void checkForFileIndex();
+
+private:
     QString mResourcesDir;
     bool mIsIndexBuilt;
+
+    static const QString INDEX_FILE;
 };
 
 #endif // RESOURCESDIRMODEL_H
