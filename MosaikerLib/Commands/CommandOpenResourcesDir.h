@@ -11,7 +11,7 @@ class CommandOpenResourcesDir : public Command
 public:
     explicit CommandOpenResourcesDir(IFileChooser& fileChooser, QObject* parent = nullptr);
 
-    virtual void execute() override {}
+    virtual void execute() override;
 private:
     IFileChooser& mFileChooser;
 };
