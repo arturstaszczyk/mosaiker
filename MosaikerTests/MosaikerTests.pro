@@ -20,7 +20,8 @@ SOURCES += \
     tst_ResourceIndexBuilderTest.cpp \
     tst_CommandOpenImageTest.cpp \
     tst_ImageModel.cpp \
-    tst_CommandOpenResourcesDirTest.cpp
+    tst_CommandOpenResourcesDirTest.cpp \
+    tst_ResourcesModelDirTest.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -50,7 +51,8 @@ HEADERS += \
     mocks/QFileDialogMock.h \
     mocks/FileChooserMock.h \
     tst_ImageModel.h \
-    tst_CommandOpenResourcesDirTest.h
+    tst_CommandOpenResourcesDirTest.h \
+    tst_ResourcesModelDirTest.h
 
 #https://www.cocoanetics.com/2013/10/xcode-coverage/
 #http://mgrebenets.github.io/mobile%20ci/2015/09/21/code-coverage-for-ios-xcode-7/

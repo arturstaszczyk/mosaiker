@@ -12,3 +12,12 @@ void ResourcesDirModel::setResourcesDir(QString dirName)
     mResourcesDir = dirName;
     emit resourcesDirChanged(mResourcesDir);
 }
+
+void ResourcesDirModel::setIndexBuilt(bool indexBuilt)
+{
+    if(mIsIndexBuilt == indexBuilt)
+        return;
+
+    mIsIndexBuilt = indexBuilt;
+    emit indexBuiltChanged(mIsIndexBuilt);
+}
