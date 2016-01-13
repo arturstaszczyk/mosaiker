@@ -11,6 +11,7 @@ Rectangle {
 
     signal openImage()
     signal setResourcesPath()
+    signal buildIndex();
 
     Connections {
         target: imageModel
@@ -68,7 +69,7 @@ Rectangle {
             id: row1
             y: 0
             width: parent.width
-            height: 400
+            height: 43
 
 
             Text {
@@ -98,6 +99,17 @@ Rectangle {
                 onClicked: rootItem.setResourcesPath()
             }
 
+        }
+
+        Button {
+            id: btnBuildIndex
+            width: parent.width
+            height: 43
+
+            text: resourcesDirModel.isIndexBuilt ? "Rebuild index" : "Index not found (build)"
+            enabled: resourcesDirModel.resourcesDir != ""
+
+            onClicked: rootItem.buildIndex();
         }
     }
 
