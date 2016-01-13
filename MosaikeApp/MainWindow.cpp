@@ -17,10 +17,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mImageModelPtr = new ImageModel();
+    mImageModelPtr = new ImageModel(this);
+    mResourcesDirModelPtr = new ResourcesDirModel(this);
 
     ui->quickWidget->engine()->addImageProvider("imageModel", mImageModelPtr);
+
     ui->quickWidget->rootContext()->setContextProperty("imageModel", mImageModelPtr);
+    ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
 
     ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 
@@ -50,7 +53,8 @@ void MainWindow::openResourcesDirRequested()
     PathChooser pathChooser;
 
     CommandOpenResourcesDir openResourcesCommand(pathChooser);
-    QObject::connect(&openResourcesCommand, SIGNAL(dirOpened(QString)), this, SLOT(fileOpened(QString)));
+    QObject::connect(&openResourcesCommand, SIGNAL(dirOpened(QString)),
+                     mResourcesDirModelPtr, SLOT(setResourcesDir(QString)));
 
     openResourcesCommand.execute();
 }

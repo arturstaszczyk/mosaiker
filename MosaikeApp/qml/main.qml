@@ -80,7 +80,7 @@ Rectangle {
 
 
                 color: "#090e6d"
-                text: qsTr("Not set...")
+                text: resourcesDirModel.resourcesDir
                 clip: true
                 wrapMode: Text.WrapAnywhere
                 verticalAlignment: Text.AlignVCenter

@@ -9,6 +9,7 @@
 #include <IL/ilut.h>
 
 #include <Models/ImageModel.h>
+#include <Models/ResourcesDirModel.h>
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,7 @@ private:
     Ui::MainWindow *ui;
 
     ImageModel* mImageModelPtr;
+    ResourcesDirModel* mResourcesDirModelPtr;
 };
 
 #endif // MAINWINDOW_H
