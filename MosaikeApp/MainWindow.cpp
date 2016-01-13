@@ -1,6 +1,7 @@
 ﻿#include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <QFile>
 #include <QDebug>
 #include <QQuickItem>
 #include <QQmlEngine>
@@ -30,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject* root = ui->quickWidget->rootObject();
     QObject::connect(root, SIGNAL(openImage()), this, SLOT(openOriginalFileRequest()));
     QObject::connect(root, SIGNAL(setResourcesPath()), this, SLOT(openResourcesDirRequested()));
+    QObject::connect(root, SIGNAL(buildIndex()), this, SLOT(buildIndexRequested()));
 }
 
 MainWindow::~MainWindow()
@@ -57,4 +59,16 @@ void MainWindow::openResourcesDirRequested()
                      mResourcesDirModelPtr, SLOT(setResourcesDir(QString)));
 
     openResourcesCommand.execute();
+}
+
+void MainWindow::buildIndexRequested()
+{
+    QString filePath = QDir::cleanPath(mResourcesDirModelPtr->resourcesDir() + "/" + ResourcesDirModel::INDEX_FILE);
+    QFile file(filePath);
+    file.open(QIODevice::WriteOnly);
+    file.close();
+
+    qDebug() << "Written file " << filePath;
+
+    mResourcesDirModelPtr->setIndexBuilt(file.exists());
 }

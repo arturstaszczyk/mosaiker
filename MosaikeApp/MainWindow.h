@@ -26,6 +26,7 @@ public:
 public slots:
     void openOriginalFileRequest();
     void openResourcesDirRequested();
+    void buildIndexRequested();
 
     void fileOpened(QString name){
         qDebug() << name;
