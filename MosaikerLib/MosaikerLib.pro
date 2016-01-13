@@ -17,7 +17,8 @@ SOURCES += ResourceFinder.cpp \
     FileChooser.cpp \
     Commands/CommandOpenImage.cpp \
     Commands/Command.cpp \
-    Models/ImageModel.cpp
+    Models/ImageModel.cpp \
+    Commands/CommandOpenResourcesDir.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -26,7 +27,8 @@ HEADERS += ResourceFinder.h \
     Interfaces/IFileChooser.h \
     Commands/CommandOpenImage.h \
     Commands/Command.h \
-    Models/ImageModel.h
+    Models/ImageModel.h \
+    Commands/CommandOpenResourcesDir.h
 
 unix {
     target.path = /usr/lib

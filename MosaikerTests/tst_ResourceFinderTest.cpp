@@ -18,7 +18,7 @@ void ResourceFinderTest::testFindAllResources()
 void ResourceFinderTest::testDirectoryNotExists()
 {
     ResourceFinder* finderObj = new ResourceFinder("./no_exists");
-    QVERIFY_EXCEPTION_THROWN(finderObj->find(), ResourceDoNotExists);
+    QVERIFY_EXCEPTION_THROWN(finderObj->find(), PathDoNotExists);
 }
 
 void ResourceFinderTest::testResourcesCleared()

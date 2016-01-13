@@ -5,12 +5,14 @@
 #include "Exceptions.h"
 #include "mocks/FileChooserMock.h"
 
+#include "Commands/CommandOpenResourcesDir.h"
+
 CommandOpenResourcesDirTest::CommandOpenResourcesDirTest(QObject *parent) : QObject(parent)
 {
 
 }
 
-CommandOpenResourcesDirTest::testInvalidDir()
+void CommandOpenResourcesDirTest::testInvalidDir()
 {
     FileChooserMock fileChooser;
 
