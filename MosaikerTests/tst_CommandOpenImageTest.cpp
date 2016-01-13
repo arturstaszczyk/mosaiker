@@ -15,18 +15,21 @@ void CommandOpenImageTest::testInvalidImage()
 {
     FileChooserMock fileChooserMock;
 
-    CommandOpenImage* command = new CommandOpenImage(fileChooserMock);
-    QVERIFY_EXCEPTION_THROWN(command->execute(), CannotLoadImage);
+    CommandOpenImage command(fileChooserMock);
+    QSignalSpy spy(&command, SIGNAL(imageOpened(QImage)));
+
+    QVERIFY_EXCEPTION_THROWN(command.execute(), CannotLoadImage);
+    QCOMPARE(spy.count(), 0);
 }
 
 void CommandOpenImageTest::testImageOpened()
 {
     FileChooserMock fileChooserMock;
     fileChooserMock.returnValues("chooseFile", { TEST_RESOURCES_DIR + "/res1.png" });
-    CommandOpenImage* command = new CommandOpenImage(fileChooserMock);
+    CommandOpenImage command(fileChooserMock);
 
-    QSignalSpy spy(command, SIGNAL(imageOpened(QImage)));
-    command->execute();
+    QSignalSpy spy(&command, SIGNAL(imageOpened(QImage)));
+    command.execute();
 
     QCOMPARE(spy.count(), 1);
     QVariantList args = spy.first();

@@ -11,6 +11,7 @@ public:
 
 private slots:
     void testInvalidDir();
+    void testOpenDir();
 };
 
 #endif // TST_COMMANDOPENRESOURCESDIRTEST_H
