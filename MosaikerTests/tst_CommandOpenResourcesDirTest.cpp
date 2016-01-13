@@ -15,7 +15,7 @@ CommandOpenResourcesDirTest::CommandOpenResourcesDirTest(QObject *parent) : QObj
 void CommandOpenResourcesDirTest::testInvalidDir()
 {
     FileChooserMock fileChooser;
-    fileChooser.returnValues("chooseFile", { "./invalid_path" });
+    fileChooser.returnValues("chooseDir", { "./invalid_path" });
     CommandOpenResourcesDir command(fileChooser);
 
     QVERIFY_EXCEPTION_THROWN(command.execute(), PathDoNotExists);

@@ -3,12 +3,13 @@
 
 #include "Interfaces/IFileChooser.h"
 
-class FileChooser : public IFileChooser
+class PathChooser : public IPathChooser
 {
 public:
-    FileChooser();
+    PathChooser();
 
-    QString chooseFile();
+    QString chooseFile() override;
+    QString chooseDir() override;
 };
 
 #endif // FILECHOOSER_H

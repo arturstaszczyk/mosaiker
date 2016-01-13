@@ -3,10 +3,11 @@
 
 #include <QString>
 
-class IFileChooser
+class IPathChooser
 {
 public:
     virtual QString chooseFile() = 0;
+    virtual QString chooseDir() = 0;
 };
 
 #endif // IFILECHOOSER_H

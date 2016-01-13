@@ -2,12 +2,17 @@
 
 #include <QFileDialog>
 
-FileChooser::FileChooser()
+PathChooser::PathChooser()
 {
 
 }
 
-QString FileChooser::chooseFile()
+QString PathChooser::chooseFile()
 {
     return QFileDialog::getOpenFileName();
+}
+
+QString PathChooser::chooseDir()
+{
+    return QFileDialog::getExistingDirectory();
 }

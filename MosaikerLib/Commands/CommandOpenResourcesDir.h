@@ -9,11 +9,11 @@ class CommandOpenResourcesDir : public Command
     Q_OBJECT
 
 public:
-    explicit CommandOpenResourcesDir(IFileChooser& fileChooser, QObject* parent = nullptr);
+    explicit CommandOpenResourcesDir(IPathChooser& fileChooser, QObject* parent = nullptr);
 
     virtual void execute() override;
 private:
-    IFileChooser& mFileChooser;
+    IPathChooser& mFileChooser;
 };
 
 #endif // COMMANDOPENRESOURCESDIR_H

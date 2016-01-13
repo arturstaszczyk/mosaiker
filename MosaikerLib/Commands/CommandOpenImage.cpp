@@ -4,7 +4,7 @@
 
 #include "Exceptions.h"
 
-CommandOpenImage::CommandOpenImage(IFileChooser& fileDialog, QObject* parent)
+CommandOpenImage::CommandOpenImage(IPathChooser& fileDialog, QObject* parent)
     : Command(parent)
     , mFileChooser(fileDialog)
 {

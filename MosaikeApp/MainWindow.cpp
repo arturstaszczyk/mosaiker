@@ -35,7 +35,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openOriginalFileRequest()
 {
-    FileChooser fileChooser;
+    PathChooser fileChooser;
 
     CommandOpenImage openImageCommand(fileChooser);
     QObject::connect(&openImageCommand, SIGNAL(imageOpened(QImage)),

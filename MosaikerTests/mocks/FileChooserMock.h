@@ -5,10 +5,16 @@
 
 #include "Interfaces/IFileChooser.h"
 
-class FileChooserMock : public IFileChooser, public QtMockExt::QtMock
+class FileChooserMock : public IPathChooser, public QtMockExt::QtMock
 {
 public:
     QString chooseFile() override
+    {
+        MOCK_CALL;
+        return RETURN_VALUES(QString);
+    }
+
+    QString chooseDir() override
     {
         MOCK_CALL;
         return RETURN_VALUES(QString);

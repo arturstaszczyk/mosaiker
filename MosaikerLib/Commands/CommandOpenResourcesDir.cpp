@@ -4,7 +4,7 @@
 
 #include "Exceptions.h"
 
-CommandOpenResourcesDir::CommandOpenResourcesDir(IFileChooser& fileChooser, QObject* parent)
+CommandOpenResourcesDir::CommandOpenResourcesDir(IPathChooser& fileChooser, QObject* parent)
     : Command(parent)
     , mFileChooser(fileChooser)
 {
@@ -13,7 +13,7 @@ CommandOpenResourcesDir::CommandOpenResourcesDir(IFileChooser& fileChooser, QObj
 
 void CommandOpenResourcesDir::execute()
 {
-    QString dirName = mFileChooser.chooseFile();
+    QString dirName = mFileChooser.chooseDir();
     QDir dir(dirName);
 
     if(!dir.exists())
