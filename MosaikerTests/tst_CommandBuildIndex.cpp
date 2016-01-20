@@ -1,6 +1,20 @@
-#include "tst_CommandBuildIndex.h"
+﻿#include "tst_CommandBuildIndex.h"
 
-CommandBuildIndex::CommandBuildIndex(QObject *parent) : QObject(parent)
+#include <QtTest>
+#include <QSignalSpy>
+
+CommandBuildIndexTest::CommandBuildIndexTest(QObject *parent) : QObject(parent)
 {
 
+}
+
+
+void CommandBuildIndexTest::testBuildIndex()
+{
+    ResourceFinderMock finderMock;
+
+    CommandBuildIndex buildIndex(finder);
+    buildIndex.execute();
+
+    QVERIFY(finderMock.hasExactlyOneCal());
 }
