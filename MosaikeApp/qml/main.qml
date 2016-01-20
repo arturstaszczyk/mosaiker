@@ -1,6 +1,7 @@
 ﻿import QtQuick 2.0
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.2
+import QtQuick.Extras 1.4
 
 Rectangle {
     id: rootItem
@@ -65,23 +66,41 @@ Rectangle {
             onClicked: rootItem.openImage()
         }
 
-        Row {
-            id: row1
-            y: 0
+        GroupBox {
+            id: groupBox1
             width: parent.width
-            height: 43
+            height:200
+            title: qsTr("Resources index")
 
+            Button {
+                id: btnBuildIndex
+                height: 43
+
+                text: resourcesDirModel.isIndexBuilt ? "Rebuild index" : "Index not found (build)"
+                anchors.top: btnSetResourcePath.bottom
+                anchors.topMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                enabled: resourcesDirModel.resourcesDir != ""
+
+                onClicked: rootItem.buildIndex();
+            }
 
             Text {
                 id: label1
-                x: 40
-                y: 0
-                width: parent.width - btnSetResourcePath.width
-                height: 43
+                height: 24
 
                 elide: Text.ElideLeft
                 color: "#090e6d"
                 text: resourcesDirModel.resourcesDir
+                anchors.top: parent.top
+                anchors.topMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                anchors.right: parent.right
+                anchors.rightMargin: 0
                 clip: true
                 wrapMode: Text.NoWrap
                 verticalAlignment: Text.AlignVCenter
@@ -91,25 +110,17 @@ Rectangle {
 
             Button {
                 id: btnSetResourcePath
-                x: 5
-                width: 43
                 height: 43
-                text: qsTr("...")
+                text: qsTr("Change path")
+                anchors.top: label1.bottom
+                anchors.topMargin: 0
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
 
                 onClicked: rootItem.setResourcesPath()
             }
-
-        }
-
-        Button {
-            id: btnBuildIndex
-            width: parent.width
-            height: 43
-
-            text: resourcesDirModel.isIndexBuilt ? "Rebuild index" : "Index not found (build)"
-            enabled: resourcesDirModel.resourcesDir != ""
-
-            onClicked: rootItem.buildIndex();
         }
     }
 
