@@ -1,6 +1,7 @@
 ﻿#include <QtTest>
 
 #include "tst_ImageModel.h"
+#include "tst_CommandBuildIndex.h"
 #include "tst_ResourceFinderTest.h"
 #include "tst_CommandOpenImageTest.h"
 #include "tst_ResourcesDirModelTest.h"
@@ -21,10 +22,12 @@ int main(int argc, char *argv[])
     QTEST_SET_MAIN_SOURCE_PATH;
 
     ADD_TEST(ResourceFinderTest, status, argc, argv);
-    ADD_TEST(CommandOpenImageTest, status, argc, argv);
     ADD_TEST(ImageModelTest, status, argc, argv);
-    ADD_TEST(CommandOpenResourcesDirTest, status, argc, argv);
     ADD_TEST(ResourcesDirModelTest, status, argc, argv);
+
+    ADD_TEST(CommandOpenImageTest, status, argc, argv);
+    ADD_TEST(CommandOpenResourcesDirTest, status, argc, argv);
+    ADD_TEST(CommandBuildIndexTest, status, argc, argv);
 
     return status;
 }

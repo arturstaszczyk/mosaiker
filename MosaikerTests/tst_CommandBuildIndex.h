@@ -1,5 +1,5 @@
-﻿#ifndef COMMANDBUILDINDEX_H
-#define COMMANDBUILDINDEX_H
+﻿#ifndef COMMANDBUILDINDEXTEST_H
+#define COMMANDBUILDINDEXTEST_H
 
 #include <QObject>
 
@@ -9,9 +9,8 @@ class CommandBuildIndexTest : public QObject
 public:
     explicit CommandBuildIndexTest(QObject *parent = 0);
 
-signals:
-
-public slots:
+private slots:
+    void testBuildIndex();
 };
 
-#endif // COMMANDBUILDINDEX_H
+#endif // COMMANDBUILDINDEXTEST_H

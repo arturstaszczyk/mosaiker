@@ -2,7 +2,6 @@
 #define COMMAND_H
 
 #include <QObject>
-#include <QImage>
 
 class Command : public QObject
 {

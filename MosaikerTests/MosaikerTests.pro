@@ -54,7 +54,8 @@ HEADERS += \
     tst_ImageModel.h \
     tst_CommandOpenResourcesDirTest.h \
     tst_ResourcesDirModelTest.h \
-    tst_CommandBuildIndex.h
+    tst_CommandBuildIndex.h \
+    mocks/ResourceFinderMock.h
 
 #https://www.cocoanetics.com/2013/10/xcode-coverage/
 #http://mgrebenets.github.io/mobile%20ci/2015/09/21/code-coverage-for-ios-xcode-7/

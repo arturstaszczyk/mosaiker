@@ -5,7 +5,9 @@
 #include <QVector>
 #include <QString>
 
-class ResourceFinder : QObject
+#include "Interfaces/IResourceFinder.h"
+
+class ResourceFinder : public QObject, public IResourceFinder
 {
     Q_OBJECT
 
@@ -15,20 +17,20 @@ public:
         , mResourcesRoot(dirName)
     {}
 
-    ~ResourceFinder()
+    virtual ~ResourceFinder()
     {}
 
-    void addFilter(const QString &filter);
-    void addFilter(const QStringList& list);
-    void setFilter(const QString& filter);
-    void setFilter(const QStringList& list);
-    void clearFilters();
+    void addFilter(const QString &filter) override;
+    void addFilter(const QStringList& list) override;
+    void setFilter(const QString& filter) override;
+    void setFilter(const QStringList& list) override;
+    void clearFilters() override;
 
-    void find();
+    void find() override;
 
 public:
-    quint32 resourcesCount() const { return mFoundResources.count(); }
-    QStringList resourcesList() const { return mFoundResources; }
+    quint32 resourcesCount() const override { return mFoundResources.count(); }
+    QStringList resourcesList() const override { return mFoundResources; }
 
 private:
     void findFilesInDirectory(const QDir& directory);
