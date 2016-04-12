@@ -39,9 +39,7 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
-
-unix:INCLUDEPATH += /usr/local/Cellar/devil/1.7.8_1/include
-else:error(Not implemented)
-
-#QMAKE_CXXFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
-#QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage  -O0
+else:win32: {
+    target.path = $$PWD/lib
+    INSTALLS += target
+}

@@ -7,9 +7,11 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
+#include <ResourceFinder.h>
 #include <FileChooser.h>
 #include <Commands/CommandOpenImage.h>
 #include <Commands/CommandOpenResourcesDir.h>
+#include <Commands/CommandBuildIndex.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -63,12 +65,14 @@ void MainWindow::openResourcesDirRequested()
 
 void MainWindow::buildIndexRequested()
 {
-    QString filePath = QDir::cleanPath(mResourcesDirModelPtr->resourcesDir() + "/" + ResourcesDirModel::INDEX_FILE);
-    QFile file(filePath);
-    file.open(QIODevice::WriteOnly);
-    file.close();
+    auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
+    QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
+    QFile indexFile(indexFilePath);
 
-    qDebug() << "Written file " << filePath;
+    ResourceFinder finder(resourcesDir);
+    CommandBuildIndex buildIndex(finder, indexFile);
+    buildIndex.execute();
 
-    mResourcesDirModelPtr->setIndexBuilt(file.exists());
+    qDebug() << "Written file " << indexFilePath;
+    mResourcesDirModelPtr->setIndexBuilt(indexFile.exists());
 }

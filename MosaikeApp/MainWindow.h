@@ -4,9 +4,7 @@
 #include <QDebug>
 #include <QMainWindow>
 
-#include <IL/il.h>
-#include <IL/ilu.h>
-#include <IL/ilut.h>
+#include <Interfaces/IResourceFinder.h>
 
 #include <Models/ImageModel.h>
 #include <Models/ResourcesDirModel.h>

@@ -31,6 +31,7 @@ public:
 public:
     quint32 resourcesCount() const override { return mFoundResources.count(); }
     QStringList resourcesList() const override { return mFoundResources; }
+    QString resourcesDir() const override { return mResourcesRoot; }
 
 private:
     void findFilesInDirectory(const QDir& directory);

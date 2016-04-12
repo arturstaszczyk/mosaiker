@@ -2,5 +2,4 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     MosaikerLib \
-    MosaikeApp \
-    MosaikerTests
+    MosaikeApp

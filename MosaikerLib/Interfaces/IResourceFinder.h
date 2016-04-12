@@ -18,6 +18,7 @@ public:
 public:
     virtual quint32 resourcesCount() const = 0;
     virtual QStringList resourcesList() const = 0;
+    virtual QString resourcesDir() const = 0;
 };
 
 #endif // IRESOURCEFINDER_H
