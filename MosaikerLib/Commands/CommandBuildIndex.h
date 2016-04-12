@@ -2,6 +2,7 @@
 #define COMMANDBUILDINDEX_H
 
 #include <QFile>
+#include <QColor>
 
 #include "Command.h"
 #include "Interfaces/IResourceFinder.h"
@@ -14,6 +15,9 @@ public:
     CommandBuildIndex(IResourceFinder& finder, QFile& indexFile, QObject* parent = nullptr);
 
     void execute() override;
+
+public slots:
+    void onImageIndexed(QString imageName, const QColor& color);
 
 private:
     IResourceFinder& mResourceFinder;
