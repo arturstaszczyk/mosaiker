@@ -14,7 +14,7 @@ public:
     void execute();
 
 signals:
-    void imageIndexed(QString fileName, const QColor& colorValue);
+    void imageIndexed(QString fileName, QRgb colorValue);
 
 private:
     const QStringList& mImageList;

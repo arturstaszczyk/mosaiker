@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QFile>
 #include <QDebug>
+#include <QDataStream>
 
 #include "ImageIndexer.h"
 
@@ -20,14 +21,19 @@ void CommandBuildIndex::execute()
     auto list = mResourceFinder.resourcesList();
 
     mIndexFile.open(QIODevice::WriteOnly);
+    mFileData.clear();
+
     ImageIndexer indexer(list);
-    QObject::connect(&indexer, SIGNAL(imageIndexed(QString, const QColor&)), this, SLOT(onImageIndexed(QString, const QColor&)));
+    QObject::connect(&indexer, SIGNAL(imageIndexed(QString, QRgb)), this, SLOT(onImageIndexed(QString, QRgb)));
     indexer.execute();
 
+    mIndexFile.write(mFileData);
     mIndexFile.close();
 }
 
-void CommandBuildIndex::onImageIndexed(QString imageName, const QColor &color)
+void CommandBuildIndex::onImageIndexed(QString imageName, QRgb color)
 {
-    qDebug() << "Image " << imageName << " indexed";
+    qDebug() << "Image " << imageName << " indexed with value " << color;
+    QDataStream stream(&mFileData, QIODevice::Append);
+    stream << imageName << color;
 }

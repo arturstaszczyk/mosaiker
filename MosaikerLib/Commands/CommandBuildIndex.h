@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QColor>
+#include <QByteArray>
 
 #include "Command.h"
 #include "Interfaces/IResourceFinder.h"
@@ -17,11 +18,12 @@ public:
     void execute() override;
 
 public slots:
-    void onImageIndexed(QString imageName, const QColor& color);
+    void onImageIndexed(QString imageName, QRgb color);
 
 private:
     IResourceFinder& mResourceFinder;
     QFile& mIndexFile;
+    QByteArray mFileData;
 
 };
 
