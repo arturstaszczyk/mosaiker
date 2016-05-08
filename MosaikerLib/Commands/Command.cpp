@@ -1,8 +1,9 @@
 ﻿#include "Command.h"
 
-Command::Command(QObject *parent)
+Command::Command(QString name, QObject *parent)
     : QObject(parent)
     , mFinished(false)
+    , mName(name)
 {
 
 }

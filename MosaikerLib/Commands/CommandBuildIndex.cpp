@@ -10,49 +10,47 @@
 
 static int imageConuter = 0;
 
-CommandBuildIndex::CommandBuildIndex(IResourceFinder *finder, QFile& indexFile, QObject* parent)
-        : Command(parent)
+CommandBuildIndex::CommandBuildIndex(IResourceFinder* finder, QString& indexFileName,
+                                     ResourcesDirModel* resourcesDirModel, QObject* parent)
+        : Command(COMMAND_NAME(CommandBuildIndex), parent)
         , mResourceFinder(finder)
-        , mIndexFile(indexFile)
+        , mIndexFileName(indexFileName)
+        , mResourcesDirModel(resourcesDirModel)
 {
     dynamic_cast<QObject*>(mResourceFinder)->setParent(this);
     mResourceFinder->addFilter({"*.jpg", "*.png", "*.jpeg"});
-
-
 }
 
 void CommandBuildIndex::execute()
 {
-    Q_ASSERT(mResourceFinder);
-
+    mResourcesDirModel->setIndexBuilding(true);
     mResourceFinder->find();
     auto list = mResourceFinder->resourcesList();
     emit resourcesCount(list.count());
 
-    mIndexFile.open(QIODevice::WriteOnly);
     mFileData.clear();
 
     imageConuter = 0;
 
-    QThread* indexer = new ImageIndexer(list);
+    QThread* indexer = new ImageIndexer(list, this);
     connect(indexer, SIGNAL(imageIndexed(QString, quint32)),
-                     this, SLOT(onImageIndexed(QString, quint32)), Qt::AutoConnection);
-    connect(indexer, SIGNAL(started()), this, SLOT(started()));
+                     this, SLOT(onImageIndexed(QString, quint32)));
     connect(indexer, SIGNAL(finished()), this, SLOT(finished()));
     indexer->start();
-
-//    mIndexFile.write(mFileData);
-//    mIndexFile.close();
-}
-
-void CommandBuildIndex::started()
-{
-    qDebug() << "started";
 }
 
 void CommandBuildIndex::finished()
 {
-    qDebug() << "finished";
+    QFile indexFile(mIndexFileName);
+    indexFile.open(QIODevice::WriteOnly);
+    indexFile.write(mFileData);
+    indexFile.close();
+    qDebug() << "Written file " << mIndexFileName;
+
+    emit updateProgress(0);
+    finish();
+
+    mResourcesDirModel->setIndexBuilding(false);
 }
 
 void CommandBuildIndex::onImageIndexed(QString imageName, quint32 color)

@@ -18,8 +18,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , mCommandRecyclerTimer(new QTimer(this))
 {
+    mCommandRecycler = new CommandRecycler(100, this);
+
     ui->setupUi(this);
 
     mImageModelPtr = new ImageModel(this);
@@ -41,16 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(root, SIGNAL(buildIndex()), this, SLOT(buildIndexRequested()));
 }
 
-
-void MainWindow::setupCommandsRecycler(quint32 msecDelay)
-{
-    mCommandRecyclerTimer->setInterval(msecDelay);
-    mCommandRecyclerTimer->setSingleShot(false);
-    connect(mCommandRecyclerTimer, SIGNAL(timeout()), this, SLOT(recycleCommands()));
-    mCommandRecyclerTimer->start();
-}
-
-
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -60,43 +51,39 @@ void MainWindow::openOriginalFileRequest()
 {
     PathChooser* pathChooser = new PathChooser;
 
-    CommandOpenImage* openImageCommand = new CommandOpenImage(pathChooser);
-    QObject::connect(openImageCommand, SIGNAL(imageOpened(QImage)),
+    CommandOpenImage* openImageCmd = new CommandOpenImage(pathChooser);
+    QObject::connect(openImageCmd, SIGNAL(imageOpened(QImage)),
                      mImageModelPtr, SLOT(setOriginalImage(QImage)));
 
-    openImageCommand->execute();
-    mCommandRecycler.append(openImageCommand);
+    mCommandRecycler->executeAndDispose(openImageCmd);
 }
 
 void MainWindow::openResourcesDirRequested()
 {
     PathChooser* pathChooser = new PathChooser;
-    CommandOpenResourcesDir* openResourcesCommand = new CommandOpenResourcesDir(pathChooser);
+    CommandOpenResourcesDir* openResourcesCmd = new CommandOpenResourcesDir(pathChooser);
 
-    QObject::connect(openResourcesCommand, SIGNAL(dirOpened(QString)),
+    QObject::connect(openResourcesCmd, SIGNAL(dirOpened(QString)),
                      mResourcesDirModelPtr, SLOT(setResourcesDir(QString)));
 
-    openResourcesCommand->execute();
-    mCommandRecycler.append(openResourcesCommand);
+    mCommandRecycler->executeAndDispose(openResourcesCmd);
 }
 
 void MainWindow::buildIndexRequested()
 {
     auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
     QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
-    QFile indexFile(indexFilePath);
 
     ResourceFinder* finder = new ResourceFinder(resourcesDir);
-    CommandBuildIndex* buildIndex = new CommandBuildIndex(finder, indexFile, this);
+    CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(finder, indexFilePath,
+                                                             mResourcesDirModelPtr, this);
 
-    QObject::connect(buildIndex, SIGNAL(resourcesCount(quint32)), this, SLOT(onResourcesCount(quint32)));
-    QObject::connect(buildIndex, SIGNAL(updateProgress(quint32)), this, SLOT(onUpdateIndexBuildProgress(quint32)));
+    connect(buildIndexCmd, SIGNAL(resourcesCount(quint32)), this, SLOT(onResourcesCount(quint32)));
+    connect(buildIndexCmd, SIGNAL(updateProgress(quint32)), this, SLOT(onUpdateIndexBuildProgress(quint32)));
+    //connect(buildIndexCmd, SIGNAL(onFinish()), mResourcesDirModelPtr, SLOT(setIndexBuilt(true)));
 
-    buildIndex->execute();
-    mCommandRecycler.append(buildIndex);
-
-    qDebug() << "Written file " << indexFilePath;
-    mResourcesDirModelPtr->setIndexBuilt(indexFile.exists());
+    mCommandRecycler->executeAndDispose(buildIndexCmd);
+    //mResourcesDirModelPtr->setIndexBuilt(indexFile.exists());
 }
 
 void MainWindow::onResourcesCount(quint32 resourcesCount)
@@ -108,27 +95,5 @@ void MainWindow::onResourcesCount(quint32 resourcesCount)
 void MainWindow::onUpdateIndexBuildProgress(quint32 progress)
 {
     mProgressBarModelPtr->setValue(progress);
-    qDebug() << "Progress (files count): " << progress;
 }
 
-void MainWindow::recycleCommands()
-{
-    static Command* cmd;
-    static QList<Command*> garbage;
-
-    cmd = nullptr;
-    garbage.clear();
-
-    foreach(cmd, mCommandRecycler)
-    {
-        if(cmd->finished())
-            garbage.append(cmd);
-    }
-
-    foreach(cmd, garbage)
-    {
-        mCommandRecycler.removeOne(cmd);
-    }
-
-    garbage.clear();
-}

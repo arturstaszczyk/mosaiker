@@ -19,6 +19,8 @@ void ImageModel::setOriginalImage(const QImage &image)
 
 QImage ImageModel::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    Q_UNUSED(id);
+
     if(mOriginalImage.isNull())
         return mOriginalImage;
 

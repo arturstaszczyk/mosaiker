@@ -5,7 +5,9 @@
 
 const QString ResourcesDirModel::INDEX_FILE = ".files.index";
 
-ResourcesDirModel::ResourcesDirModel(QObject *parent) : QObject(parent)
+ResourcesDirModel::ResourcesDirModel(QObject *parent)
+    : QObject(parent)
+    , mIsIndexBuilding(false)
 {
 }
 
@@ -34,4 +36,13 @@ void ResourcesDirModel::setIndexBuilt(bool indexBuilt)
 
     mIsIndexBuilt = indexBuilt;
     emit indexBuiltChanged(mIsIndexBuilt);
+}
+
+void ResourcesDirModel::setIndexBuilding(bool building)
+{
+    if(mIsIndexBuilding == building)
+        return;
+
+    mIsIndexBuilding = building;
+    emit indexBuildingChanged(mIsIndexBuilding);
 }

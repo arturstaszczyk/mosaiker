@@ -2,15 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QDebug>
-#include <QTimer>
 #include <QMainWindow>
 
-#include<Commands/Command.h>
 #include <Interfaces/IResourceFinder.h>
 
 #include <Models/ImageModel.h>
 #include <Models/ProgressBarModel.h>
 #include <Models/ResourcesDirModel.h>
+
+#include "CommandRecycler.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,12 +23,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-private:
-    void setupCommandsRecycler(quint32 msecDelay);
-
-private slots:
-    void recycleCommands();
 
 public slots:
     void openOriginalFileRequest();
@@ -49,8 +43,8 @@ private:
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
 
-    QTimer* mCommandRecyclerTimer;
-    QList<Command*> mCommandRecycler;
+    CommandRecycler* mCommandRecycler;
+
 };
 
 #endif // MAINWINDOW_H

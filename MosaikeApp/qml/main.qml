@@ -84,7 +84,7 @@ Rectangle {
                 anchors.leftMargin: 0
                 anchors.right: parent.right
                 anchors.rightMargin: 0
-                enabled: resourcesDirModel.resourcesDir != ""
+                enabled: resourcesDirModel.resourcesDir != "" && !resourcesDirModel.isIndexBuilding
 
                 onClicked: rootItem.buildIndex();
             }
@@ -119,6 +119,7 @@ Rectangle {
                 anchors.rightMargin: 0
                 anchors.left: parent.left
                 anchors.leftMargin: 0
+                enabled: !resourcesDirModel.isIndexBuilding
 
                 onClicked: rootItem.setResourcesPath()
             }
@@ -132,8 +133,12 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 0
 
+        minimumValue: 0
         maximumValue: progressBarModel.maxValue
         value: progressBarModel.value
+
+        onMaximumValueChanged: { console.log(maximumValue); }
+        onValueChanged: { console.log(value); }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿#include "FileChooser.h"
 
+#include <QDebug>
 #include <QFileDialog>
 
 PathChooser::PathChooser(QObject* parent)
@@ -15,5 +16,15 @@ QString PathChooser::chooseFile()
 
 QString PathChooser::chooseDir()
 {
-    return QFileDialog::getExistingDirectory();
+    QString dirName = "";
+    try
+    {
+        dirName = QFileDialog::getExistingDirectory();
+    }
+    catch(std::exception& ex)
+    {
+        qDebug() << ex.what();
+    }
+
+    return dirName;
 }

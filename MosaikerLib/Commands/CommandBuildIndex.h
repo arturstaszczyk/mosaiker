@@ -8,13 +8,15 @@
 
 #include "Command.h"
 #include "Interfaces/IResourceFinder.h"
+#include "Models/ResourcesDirModel.h"
 
 class CommandBuildIndex : public Command
 {
     Q_OBJECT
 
 public:
-    CommandBuildIndex(IResourceFinder* finder, QFile& indexFile, QObject* parent = nullptr);
+    CommandBuildIndex(IResourceFinder* finder,
+                      QString& indexFileName, ResourcesDirModel* resourcesDirModel, QObject* parent = nullptr);
 
     void execute() override;
 
@@ -25,12 +27,12 @@ signals:
 public slots:
     void onImageIndexed(QString imageName, quint32 color);
 
-    void started();
     void finished();
 
 private:
     IResourceFinder* mResourceFinder;
-    QFile& mIndexFile;
+    ResourcesDirModel* mResourcesDirModel;
+    QString mIndexFileName;
     QByteArray mFileData;
 };
 
