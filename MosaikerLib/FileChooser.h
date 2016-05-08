@@ -1,12 +1,16 @@
 ﻿#ifndef FILECHOOSER_H
 #define FILECHOOSER_H
 
+#include <QObject>
+
 #include "Interfaces/IFileChooser.h"
 
-class PathChooser : public IPathChooser
+class PathChooser : public QObject, public IPathChooser
 {
+    Q_OBJECT
+
 public:
-    PathChooser();
+    explicit PathChooser(QObject* parent = nullptr);
 
     QString chooseFile() override;
     QString chooseDir() override;

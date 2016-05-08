@@ -5,8 +5,8 @@ import QtQuick.Extras 1.4
 
 Rectangle {
     id: rootItem
-    width: 320
-    height: 240
+    width: 640
+    height: 480
     color: "gray"
     property alias label1: label1
 
@@ -77,6 +77,7 @@ Rectangle {
                 height: 43
 
                 text: resourcesDirModel.isIndexBuilt ? "Rebuild index" : "Index not found (build)"
+                isDefault: false
                 anchors.top: btnSetResourcePath.bottom
                 anchors.topMargin: 0
                 anchors.left: parent.left
@@ -122,6 +123,17 @@ Rectangle {
                 onClicked: rootItem.setResourcesPath()
             }
         }
+    }
+
+    ProgressBar {
+        id: progressBar
+        x: 440
+        y: 457
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+
+        maximumValue: progressBarModel.maxValue
+        value: progressBarModel.value
     }
 
 }

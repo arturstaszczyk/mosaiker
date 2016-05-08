@@ -3,21 +3,20 @@
 
 #include <QFile>
 #include <QColor>
-#include <QObject>
+#include <QThread>
 
-class ImageIndexer : public QObject
+class ImageIndexer : public QThread
 {
     Q_OBJECT
 public:
     explicit ImageIndexer(QStringList imageList, QObject *parent = 0);
 
-    void execute();
-
+    void run() Q_DECL_OVERRIDE;
 signals:
-    void imageIndexed(QString fileName, QRgb colorValue);
+    void imageIndexed(QString fileName, quint32 colorValue);
 
 private:
-    const QStringList& mImageList;
+    QStringList mImageList;
 };
 
 #endif // INDEXER_H

@@ -15,16 +15,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp
+        MainWindow.cpp \
+    CommandRecycler.cpp
 
-HEADERS  += MainWindow.h
+HEADERS  += MainWindow.h \
+    CommandRecycler.h
 
 FORMS    += MainWindow.ui
 
 RESOURCES += \
     qmlResources.qrc
 
-unix|win32: LIBS += -L$$PWD/../MosaikerLib/lib -lMosaikerLib
+unix|win32:CONFIG(debug, debug|release) {
+    LIBS += -L$$OUT_PWD/../MosaikerLib/debug
+}
+else {
+    LIBS += -L$$OUT_PWD/../../MosaikerLib/release
+}
+unix|win32: LIBS += -lMosaikerLib
 
 INCLUDEPATH += $$PWD/../MosaikerLib
 DEPENDPATH += $$PWD/../MosaikerLib

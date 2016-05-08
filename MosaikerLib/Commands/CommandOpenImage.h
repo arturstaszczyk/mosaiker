@@ -10,7 +10,7 @@ class CommandOpenImage : public Command
 {
     Q_OBJECT
 public:
-    CommandOpenImage(IPathChooser& fileDialog, QObject* parent = nullptr);
+    CommandOpenImage(IPathChooser* fileDialog, QObject* parent = nullptr);
 
     virtual void execute() override;
 
@@ -18,7 +18,7 @@ signals:
     void imageOpened(QImage);
 
 private:
-    IPathChooser& mFileChooser;
+    IPathChooser* mFileChooser;
 };
 
 #endif // COMMANDOPENIMAGE_H

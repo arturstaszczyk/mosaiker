@@ -11,6 +11,11 @@ public:
     virtual~Command(){}
 
     virtual void execute() = 0;
+
+    bool finished() const { return mFinished; }
+
+protected:
+    bool mFinished;
 };
 
 #endif // COMMAND_H

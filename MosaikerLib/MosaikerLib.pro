@@ -13,7 +13,6 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += ResourceFinder.cpp \
-    ResourceIndexBuilder.cpp \
     FileChooser.cpp \
     Commands/CommandOpenImage.cpp \
     Commands/Command.cpp \
@@ -21,12 +20,12 @@ SOURCES += ResourceFinder.cpp \
     Commands/CommandOpenResourcesDir.cpp \
     Models/ResourcesDirModel.cpp \
     Commands/CommandBuildIndex.cpp \
-    ImageIndexer.cpp
+    ImageIndexer.cpp \
+    Models/ProgressBarModel.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
     FileChooser.h \
-    ResourceIndexBuilder.h \
     Interfaces/IFileChooser.h \
     Commands/CommandOpenImage.h \
     Commands/Command.h \
@@ -35,7 +34,8 @@ HEADERS += ResourceFinder.h \
     Models/ResourcesDirModel.h \
     Commands/CommandBuildIndex.h \
     Interfaces/IResourceFinder.h \
-    ImageIndexer.h
+    ImageIndexer.h \
+    Models/ProgressBarModel.h
 
 unix {
     target.path = /usr/lib

@@ -2,7 +2,8 @@
 
 #include <QFileDialog>
 
-PathChooser::PathChooser()
+PathChooser::PathChooser(QObject* parent)
+    : QObject(parent)
 {
 
 }

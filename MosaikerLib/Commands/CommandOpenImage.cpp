@@ -4,16 +4,16 @@
 
 #include "Exceptions.h"
 
-CommandOpenImage::CommandOpenImage(IPathChooser& fileDialog, QObject* parent)
+CommandOpenImage::CommandOpenImage(IPathChooser* fileDialog, QObject* parent)
     : Command(parent)
     , mFileChooser(fileDialog)
 {
-
+    dynamic_cast<QObject*>(mFileChooser)->setParent(this);
 }
 
 void CommandOpenImage::execute()
 {
-    QString fileName = mFileChooser.chooseFile();
+    QString fileName = mFileChooser->chooseFile();
     if(fileName.isEmpty())
         return;
 

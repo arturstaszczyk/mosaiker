@@ -4,16 +4,16 @@
 
 #include "Exceptions.h"
 
-CommandOpenResourcesDir::CommandOpenResourcesDir(IPathChooser& fileChooser, QObject* parent)
+CommandOpenResourcesDir::CommandOpenResourcesDir(IPathChooser* fileChooser, QObject* parent)
     : Command(parent)
     , mFileChooser(fileChooser)
 {
-
+    dynamic_cast<QObject*>(mFileChooser)->setParent(this);
 }
 
 void CommandOpenResourcesDir::execute()
 {
-    QString dirName = mFileChooser.chooseDir();
+    QString dirName = mFileChooser->chooseDir();
     if(dirName.isEmpty())
         return;
 
