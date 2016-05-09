@@ -1,23 +1,23 @@
-﻿#include "ImageModel.h"
+﻿#include "MainImageModel.h"
 
 #include <QDebug>
 
 #include "Exceptions.h"
 
-ImageModel::ImageModel(QObject *parent)
+MainImageModel::MainImageModel(QObject *parent)
     : QObject(parent)
     , QQuickImageProvider(QQmlImageProviderBase::Image, 0)
 {
 
 }
 
-void ImageModel::setOriginalImage(const QImage &image)
+void MainImageModel::setMainImage(const QImage &image)
 {
     mOriginalImage = image;
     emit imageUpdated();
 }
 
-QImage ImageModel::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
+QImage MainImageModel::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     Q_UNUSED(id);
 

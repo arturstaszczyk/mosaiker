@@ -6,7 +6,7 @@
 
 #include <Interfaces/IResourceFinder.h>
 
-#include <Models/ImageModel.h>
+#include <Models/MainImageModel.h>
 #include <Models/ProgressBarModel.h>
 #include <Models/ResourcesDirModel.h>
 
@@ -39,7 +39,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
 
-    ImageModel* mImageModelPtr;
+    MainImageModel* mImageModelPtr;
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
 

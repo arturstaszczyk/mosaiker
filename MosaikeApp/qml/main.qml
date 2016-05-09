@@ -15,7 +15,7 @@ Rectangle {
     signal buildIndex();
 
     Connections {
-        target: imageModel
+        target: mainImageModel
         onImageUpdated: imgOriginal.reload()
     }
 
@@ -38,8 +38,8 @@ Rectangle {
             Image {
                 id: imgOriginal
                 anchors.centerIn: parent
-                width: imageModel.size.width
-                height: imageModel.size.height
+                width: mainImageModel.size.width
+                height: mainImageModel.size.height
                 sourceSize.width: parent.width
                 sourceSize.height: parent.height
                 source: ""
@@ -47,7 +47,7 @@ Rectangle {
                 function reload()
                 {
                     source = "";
-                    source = "image://imageModel/original";
+                    source = "image://mainImageModel/original";
                 }
             }
         }

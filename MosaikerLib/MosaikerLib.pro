@@ -16,13 +16,13 @@ SOURCES += ResourceFinder.cpp \
     FileChooser.cpp \
     Commands/CommandOpenImage.cpp \
     Commands/Command.cpp \
-    Models/ImageModel.cpp \
     Commands/CommandOpenResourcesDir.cpp \
     Models/ResourcesDirModel.cpp \
     Commands/CommandBuildIndex.cpp \
     ImageIndexer.cpp \
     Models/ProgressBarModel.cpp \
-    Commands/CommandRecycler.cpp
+    Commands/CommandRecycler.cpp \
+    Models/MainImageModel.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -30,14 +30,14 @@ HEADERS += ResourceFinder.h \
     Interfaces/IFileChooser.h \
     Commands/CommandOpenImage.h \
     Commands/Command.h \
-    Models/ImageModel.h \
     Commands/CommandOpenResourcesDir.h \
     Models/ResourcesDirModel.h \
     Commands/CommandBuildIndex.h \
     Interfaces/IResourceFinder.h \
     ImageIndexer.h \
     Models/ProgressBarModel.h \
-    Commands/CommandRecycler.h
+    Commands/CommandRecycler.h \
+    Models/MainImageModel.h
 
 unix {
     target.path = /usr/lib

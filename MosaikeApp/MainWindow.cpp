@@ -23,13 +23,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    mImageModelPtr = new ImageModel(this);
+    mImageModelPtr = new MainImageModel(this);
     mResourcesDirModelPtr = new ResourcesDirModel(this);
     mProgressBarModelPtr = new ProgressBarModel(this);
 
-    ui->quickWidget->engine()->addImageProvider("imageModel", mImageModelPtr);
+    ui->quickWidget->engine()->addImageProvider("mainImageModel", mImageModelPtr);
 
-    ui->quickWidget->rootContext()->setContextProperty("imageModel", mImageModelPtr);
+    ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mImageModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);
 
@@ -53,7 +53,7 @@ void MainWindow::openOriginalFileRequest()
 
     CommandOpenImage* openImageCmd = new CommandOpenImage(pathChooser);
     QObject::connect(openImageCmd, SIGNAL(imageOpened(QImage)),
-                     mImageModelPtr, SLOT(setOriginalImage(QImage)));
+                     mImageModelPtr, SLOT(setMainImage(QImage)));
 
     mCommandRecycler->executeAndDispose(openImageCmd);
 }
