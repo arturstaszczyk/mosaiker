@@ -136,9 +136,6 @@ Rectangle {
         minimumValue: 0
         maximumValue: progressBarModel.maxValue
         value: progressBarModel.value
-
-        onMaximumValueChanged: { console.log(maximumValue); }
-        onValueChanged: { console.log(value); }
     }
 
 }
