@@ -16,7 +16,7 @@ class CommandBuildIndex : public Command
 
 public:
     CommandBuildIndex(IResourceFinder* finder,
-                      QString& indexFileName, ResourcesDirModel* resourcesDirModel, QObject* parent = nullptr);
+                      QString& indexFileName, QObject* parent = nullptr);
 
     void execute() override;
 

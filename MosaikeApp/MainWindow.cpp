@@ -37,9 +37,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject* root = ui->quickWidget->rootObject();
 
-    QObject::connect(root, SIGNAL(openImage()), this, SLOT(openOriginalFileRequest()));
-    QObject::connect(root, SIGNAL(setResourcesPath()), this, SLOT(openResourcesDirRequested()));
-    QObject::connect(root, SIGNAL(buildIndex()), this, SLOT(buildIndexRequested()));
+    connect(root, SIGNAL(openImage()), this, SLOT(openOriginalFileRequest()));
+    connect(root, SIGNAL(setResourcesPath()), this, SLOT(openResourcesDirRequested()));
+    connect(root, SIGNAL(buildIndex()), this, SLOT(buildIndexRequested()));
+    connect(root, SIGNAL(makeMosaic()), this, SLOT(makeMosaicRequested()));
 }
 
 MainWindow::~MainWindow()
@@ -75,15 +76,14 @@ void MainWindow::buildIndexRequested()
     QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
 
     ResourceFinder* finder = new ResourceFinder(resourcesDir);
-    CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(finder, indexFilePath,
-                                                             mResourcesDirModelPtr, this);
+    CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(finder, indexFilePath, this);
 
     connect(buildIndexCmd, SIGNAL(resourcesCount(quint32)), this, SLOT(onResourcesCount(quint32)));
     connect(buildIndexCmd, SIGNAL(updateProgress(quint32)), this, SLOT(onUpdateIndexBuildProgress(quint32)));
-    //connect(buildIndexCmd, SIGNAL(onFinish()), mResourcesDirModelPtr, SLOT(setIndexBuilt(true)));
+    connect(buildIndexCmd, SIGNAL(commandFinished()), this, SLOT(onIndexBuilt()));
 
+    mResourcesDirModelPtr->setIndexBuilding(true);
     mCommandRecycler->executeAndDispose(buildIndexCmd);
-    //mResourcesDirModelPtr->setIndexBuilt(indexFile.exists());
 }
 
 void MainWindow::onResourcesCount(quint32 resourcesCount)
@@ -95,5 +95,16 @@ void MainWindow::onResourcesCount(quint32 resourcesCount)
 void MainWindow::onUpdateIndexBuildProgress(quint32 progress)
 {
     mProgressBarModelPtr->setValue(progress);
+}
+
+void MainWindow::onIndexBuilt()
+{
+    mResourcesDirModelPtr->setIndexBuilt(true);
+    mResourcesDirModelPtr->setIndexBuilding(false);
+}
+
+void MainWindow::makeMosaicRequested()
+{
+
 }
 

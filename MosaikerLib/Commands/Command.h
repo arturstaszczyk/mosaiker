@@ -18,10 +18,10 @@ public:
     QString name() const { return mName; }
 
 signals:
-    void onFinish();
+    void commandFinished();
 
 protected:
-    void finish() { mFinished = true; emit onFinish(); }
+    void finish() { mFinished = true; emit commandFinished(); }
 
 protected:
     bool mFinished;

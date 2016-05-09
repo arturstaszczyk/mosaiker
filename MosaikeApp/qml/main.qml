@@ -13,6 +13,7 @@ Rectangle {
     signal openImage()
     signal setResourcesPath()
     signal buildIndex();
+    signal makeMosaic();
 
     Connections {
         target: mainImageModel
@@ -80,6 +81,7 @@ Rectangle {
             text: qsTr("Make mosaic")
 
             enabled: mainImageModel.loaded && btnBuildIndex.enabled
+            onClicked: rootItem.makeMosaic()
         }
 
         GroupBox {

@@ -10,12 +10,10 @@
 
 static int imageConuter = 0;
 
-CommandBuildIndex::CommandBuildIndex(IResourceFinder* finder, QString& indexFileName,
-                                     ResourcesDirModel* resourcesDirModel, QObject* parent)
+CommandBuildIndex::CommandBuildIndex(IResourceFinder* finder, QString& indexFileName, QObject* parent)
         : Command(COMMAND_NAME(CommandBuildIndex), parent)
         , mResourceFinder(finder)
         , mIndexFileName(indexFileName)
-        , mResourcesDirModel(resourcesDirModel)
 {
     dynamic_cast<QObject*>(mResourceFinder)->setParent(this);
     mResourceFinder->addFilter({"*.jpg", "*.png", "*.jpeg"});
@@ -23,7 +21,6 @@ CommandBuildIndex::CommandBuildIndex(IResourceFinder* finder, QString& indexFile
 
 void CommandBuildIndex::execute()
 {
-    mResourcesDirModel->setIndexBuilding(true);
     mResourceFinder->find();
     auto list = mResourceFinder->resourcesList();
     emit resourcesCount(list.count());
@@ -49,8 +46,6 @@ void CommandBuildIndex::finished()
 
     emit updateProgress(0);
     finish();
-
-    mResourcesDirModel->setIndexBuilding(false);
 }
 
 void CommandBuildIndex::onImageIndexed(QString imageName, quint32 color)

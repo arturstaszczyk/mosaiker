@@ -8,6 +8,7 @@ const QString ResourcesDirModel::INDEX_FILE = ".files.index";
 ResourcesDirModel::ResourcesDirModel(QObject *parent)
     : QObject(parent)
     , mIsIndexBuilding(false)
+    , mIsIndexBuilt(false)
 {
 }
 
