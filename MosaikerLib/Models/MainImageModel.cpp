@@ -1,7 +1,5 @@
 ﻿#include "MainImageModel.h"
 
-#include <QDebug>
-
 #include "Exceptions.h"
 
 MainImageModel::MainImageModel(QObject *parent)

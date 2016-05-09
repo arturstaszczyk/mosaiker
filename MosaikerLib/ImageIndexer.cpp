@@ -2,7 +2,6 @@
 
 #include <QImage>
 #include <QColor>
-#include <QDebug>
 
 ImageIndexer::ImageIndexer(QStringList imageList, QObject *parent)
     : QThread(parent)

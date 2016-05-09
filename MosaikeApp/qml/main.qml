@@ -90,6 +90,7 @@ Rectangle {
             height:200
             title: qsTr("Resources index")
 
+
             Button {
                 id: btnBuildIndex
                 height: 43
@@ -141,20 +142,21 @@ Rectangle {
 
                 onClicked: rootItem.setResourcesPath()
             }
+
+            ProgressBar {
+                id: progressBar
+                x: 0
+                y: 44
+                width: parent.width
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+
+                minimumValue: 0
+                maximumValue: progressBarModel.maxValue
+                value: progressBarModel.value
+            }
         }
 
-    }
-
-    ProgressBar {
-        id: progressBar
-        x: 440
-        y: 457
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
-
-        minimumValue: 0
-        maximumValue: progressBarModel.maxValue
-        value: progressBarModel.value
     }
 
 }

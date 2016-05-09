@@ -1,7 +1,6 @@
 ﻿#include "ResourcesDirModel.h"
 
 #include <QDir>
-#include <QDebug>
 
 const QString ResourcesDirModel::INDEX_FILE = ".files.index";
 

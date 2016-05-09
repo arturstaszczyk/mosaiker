@@ -3,7 +3,6 @@
 #include <QDir>
 #include <QObject>
 #include <QVector>
-#include <QDebug>
 #include <QString>
 
 #include "Interfaces/IResourceFinder.h"
@@ -17,9 +16,6 @@ public:
         : QObject(parent)
         , mResourcesRoot(dirName)
     {}
-
-    virtual ~ResourceFinder()
-    { qDebug() << "finder delete"; }
 
     void addFilter(const QString &filter) override;
     void addFilter(const QStringList& list) override;

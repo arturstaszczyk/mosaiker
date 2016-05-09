@@ -1,7 +1,6 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QDebug>
 #include <QMainWindow>
 
 #include <Interfaces/IResourceFinder.h>
@@ -33,10 +32,6 @@ public slots:
     void onResourcesCount(quint32 resourcesCount);
     void onUpdateIndexBuildProgress(quint32 progress);
     void onIndexBuilt();
-
-    void fileOpened(QString name){
-        qDebug() << name;
-    }
 
 private:
     Ui::MainWindow *ui;

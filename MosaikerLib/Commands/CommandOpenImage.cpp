@@ -1,7 +1,5 @@
 ﻿#include "CommandOpenImage.h"
 
-#include <QDebug>
-
 #include "Exceptions.h"
 
 CommandOpenImage::CommandOpenImage(IPathChooser* fileDialog, QObject* parent)
