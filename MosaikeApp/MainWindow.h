@@ -10,7 +10,7 @@
 #include <Models/ProgressBarModel.h>
 #include <Models/ResourcesDirModel.h>
 
-#include "CommandRecycler.h"
+#include <Commands/CommandRecycler.h>
 
 namespace Ui {
 class MainWindow;

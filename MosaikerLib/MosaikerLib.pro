@@ -21,7 +21,8 @@ SOURCES += ResourceFinder.cpp \
     Models/ResourcesDirModel.cpp \
     Commands/CommandBuildIndex.cpp \
     ImageIndexer.cpp \
-    Models/ProgressBarModel.cpp
+    Models/ProgressBarModel.cpp \
+    Commands/CommandRecycler.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -35,7 +36,8 @@ HEADERS += ResourceFinder.h \
     Commands/CommandBuildIndex.h \
     Interfaces/IResourceFinder.h \
     ImageIndexer.h \
-    Models/ProgressBarModel.h
+    Models/ProgressBarModel.h \
+    Commands/CommandRecycler.h
 
 unix {
     target.path = /usr/lib

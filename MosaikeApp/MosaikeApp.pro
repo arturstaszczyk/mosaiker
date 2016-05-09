@@ -15,11 +15,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp \
-    CommandRecycler.cpp
+        MainWindow.cpp
 
-HEADERS  += MainWindow.h \
-    CommandRecycler.h
+HEADERS  += MainWindow.h
 
 FORMS    += MainWindow.ui
 
