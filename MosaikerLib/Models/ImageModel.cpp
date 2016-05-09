@@ -28,14 +28,12 @@ QImage ImageModel::requestImage(const QString &id, QSize *size, const QSize &req
     {
         *size = QSize(mOriginalImage.width(), mOriginalImage.height());
         if(!requestedSize.isEmpty())
-            resize(*size, requestedSize);
+        {
+            mDesiredSize = mOriginalImage.size().scaled(requestedSize.width(), requestedSize.height(),
+                                                             Qt::KeepAspectRatio);
+        }
     }
 
+    emit sizeChanged();
     return mOriginalImage;
-}
-
-void ImageModel::resize(QSize& size, const QSize& requestedSize)
-{
-    size = requestedSize;
-    mOriginalImage = mOriginalImage.scaled(requestedSize);
 }

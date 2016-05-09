@@ -31,19 +31,26 @@ Rectangle {
         anchors.leftMargin: 0
         Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
-        Image {
-            id: imgOriginal
+        Item {
             width: parent.width
             height: parent.height
-            source: ""
-            cache: false
-            function reload()
-            {
-                source = "";
-                source = "image://imageModel/original";
+
+            Image {
+                id: imgOriginal
+                anchors.centerIn: parent
+                width: imageModel.size.width
+                height: imageModel.size.height
+                sourceSize.width: parent.width
+                sourceSize.height: parent.height
+                source: ""
+                cache: false
+                function reload()
+                {
+                    source = "";
+                    source = "image://imageModel/original";
+                }
             }
         }
-
     }
 
     Column {
