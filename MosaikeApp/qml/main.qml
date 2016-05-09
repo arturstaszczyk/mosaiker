@@ -73,6 +73,15 @@ Rectangle {
             onClicked: rootItem.openImage()
         }
 
+        Button {
+            id: btnMakeMosaic
+            width: parent.width
+            height: 43
+            text: qsTr("Make mosaic")
+
+            enabled: mainImageModel.loaded && btnBuildIndex.enabled
+        }
+
         GroupBox {
             id: groupBox1
             width: parent.width
@@ -131,6 +140,7 @@ Rectangle {
                 onClicked: rootItem.setResourcesPath()
             }
         }
+
     }
 
     ProgressBar {

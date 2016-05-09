@@ -11,12 +11,14 @@ class MainImageModel : public QObject, public QQuickImageProvider
 
 public:
     Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
+    Q_PROPERTY(bool loaded READ isLoaded NOTIFY imageUpdated)
 
 public:
     explicit MainImageModel(QObject *parent = 0);
 
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
     QSize size() const { return mDesiredSize; }
+    bool isLoaded() const { return mOriginalImage.size().isValid(); }
 
 signals:
     void imageUpdated();
