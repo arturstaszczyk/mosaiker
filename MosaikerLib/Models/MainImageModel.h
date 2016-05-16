@@ -18,7 +18,7 @@ public:
 
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
     QSize size() const { return mDesiredSize; }
-    bool isLoaded() const { return mOriginalImage.size().isValid(); }
+    bool isLoaded() const { return !mOriginalImage.isNull(); }
 
 signals:
     void imageUpdated();
