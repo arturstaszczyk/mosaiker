@@ -22,7 +22,8 @@ SOURCES += ResourceFinder.cpp \
     ImageIndexer.cpp \
     Models/ProgressBarModel.cpp \
     Commands/CommandRecycler.cpp \
-    Models/MainImageModel.cpp
+    Models/MainImageModel.cpp \
+    Commands/CommandCreateMosaic.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -37,7 +38,8 @@ HEADERS += ResourceFinder.h \
     ImageIndexer.h \
     Models/ProgressBarModel.h \
     Commands/CommandRecycler.h \
-    Models/MainImageModel.h
+    Models/MainImageModel.h \
+    Commands/CommandCreateMosaic.h
 
 unix {
     target.path = /usr/lib

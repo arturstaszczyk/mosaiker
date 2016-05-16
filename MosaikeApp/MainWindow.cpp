@@ -10,9 +10,11 @@
 
 #include <ResourceFinder.h>
 #include <FileChooser.h>
+
 #include <Commands/CommandOpenImage.h>
-#include <Commands/CommandOpenResourcesDir.h>
 #include <Commands/CommandBuildIndex.h>
+#include <Commands/CommandCreateMosaic.h>
+#include <Commands/CommandOpenResourcesDir.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -105,6 +107,8 @@ void MainWindow::onIndexBuilt()
 
 void MainWindow::makeMosaicRequested()
 {
+    CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(this);
 
+    mCommandRecycler->executeAndDispose(createMosaicCmd);
 }
 

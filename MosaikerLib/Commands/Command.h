@@ -21,6 +21,8 @@ signals:
     void commandFinished();
 
 protected:
+    // every derrived class must call finish (or use CommandFinisher)
+    // to finish command exection
     void finish() { mFinished = true; emit commandFinished(); }
 
 protected:
