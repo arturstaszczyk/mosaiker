@@ -24,11 +24,22 @@ FORMS    += MainWindow.ui
 RESOURCES += \
     qmlResources.qrc
 
-unix|win32:CONFIG(debug, debug|release) {
-    LIBS += -L$$OUT_PWD/../MosaikerLib/debug
+win32: {
+    CONFIG(debug, debug|release) {
+        LIBS += -L$$OUT_PWD/../MosaikerLib/debug
+    }
+    else {
+        LIBS += -L$$OUT_PWD/../MosaikerLib/release
+    }
 }
-else {
-    LIBS += -L$$OUT_PWD/../../MosaikerLib/release
+
+unix: {
+    CONFIG(debug, debug|release) {
+        LIBS += -L$$OUT_PWD/../MosaikerLib
+    }
+    else {
+        LIBS += -L$$OUT_PWD/../MosaikerLib
+    }
 }
 unix|win32: LIBS += -lMosaikerLib
 

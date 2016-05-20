@@ -10,6 +10,7 @@
 
 #include <ResourceFinder.h>
 #include <FileChooser.h>
+#include <IndexBuilder.h>
 
 #include <Commands/CommandOpenImage.h>
 #include <Commands/CommandBuildIndex.h>
@@ -77,14 +78,16 @@ void MainWindow::buildIndexRequested()
     auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
     QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
 
-    ResourceFinder* finder = new ResourceFinder(resourcesDir);
-    CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(finder, indexFilePath, this);
+    IndexBuilder* indexBuilder = new IndexBuilder(indexFilePath);
+    ResourceFinder* resourcesFinder = new ResourceFinder(resourcesDir);
+    CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(resourcesFinder, indexBuilder, this);
 
     connect(buildIndexCmd, SIGNAL(resourcesCount(quint32)), this, SLOT(onResourcesCount(quint32)));
     connect(buildIndexCmd, SIGNAL(updateProgress(quint32)), this, SLOT(onUpdateIndexBuildProgress(quint32)));
     connect(buildIndexCmd, SIGNAL(commandFinished()), this, SLOT(onIndexBuilt()));
 
     mResourcesDirModelPtr->setIndexBuilding(true);
+
     mCommandRecycler->executeAndDispose(buildIndexCmd);
 }
 

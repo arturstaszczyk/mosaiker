@@ -23,7 +23,8 @@ SOURCES += ResourceFinder.cpp \
     Models/ProgressBarModel.cpp \
     Commands/CommandRecycler.cpp \
     Models/MainImageModel.cpp \
-    Commands/CommandCreateMosaic.cpp
+    Commands/CommandCreateMosaic.cpp \
+    IndexBuilder.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -39,7 +40,9 @@ HEADERS += ResourceFinder.h \
     Models/ProgressBarModel.h \
     Commands/CommandRecycler.h \
     Models/MainImageModel.h \
-    Commands/CommandCreateMosaic.h
+    Commands/CommandCreateMosaic.h \
+    Interfaces/IIndexBuilder.h \
+    IndexBuilder.h
 
 unix {
     target.path = /usr/lib
