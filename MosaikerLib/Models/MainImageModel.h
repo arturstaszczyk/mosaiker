@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QQuickImageProvider>
 
-class MainImageModel : public QObject, public QQuickImageProvider
+class PictureModel : public QObject, public QQuickImageProvider
 {
     Q_OBJECT
 
@@ -14,9 +14,10 @@ public:
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY imageUpdated)
 
 public:
-    explicit MainImageModel(QObject *parent = 0);
+    explicit PictureModel(QObject *parent = 0);
 
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
+
     QImage image() const { return mOriginalImage; }
     QSize size() const { return mDesiredSize; }
     bool isLoaded() const { return !mOriginalImage.isNull(); }
@@ -26,7 +27,7 @@ signals:
     void sizeChanged();
 
 public slots:
-    void setMainImage(const QImage& image);
+    void setImage(const QImage& image);
 
 private:
     QImage mOriginalImage;

@@ -36,7 +36,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
 
-    MainImageModel* mImageModelPtr;
+    PictureModel* mImageModelPtr;
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
 

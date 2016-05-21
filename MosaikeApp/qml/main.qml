@@ -22,17 +22,16 @@ Rectangle {
 
     Column {
         id: column1
+        anchors.margins: 0
+
         anchors.top: parent.top
-        anchors.topMargin: 0
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
         anchors.right: column2.left
-        anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 0
         Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
         Item {
+            id: imageContainer
             width: parent.width
             height: parent.height
 
@@ -41,10 +40,11 @@ Rectangle {
                 anchors.centerIn: parent
                 width: mainImageModel.size.width
                 height: mainImageModel.size.height
-                sourceSize.width: parent.width
-                sourceSize.height: parent.height
+                sourceSize.width: imageContainer.width;
+                sourceSize.height: imageContainer.height;
                 source: ""
                 cache: false
+
                 function reload()
                 {
                     source = "";

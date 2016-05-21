@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    mImageModelPtr = new MainImageModel(this);
+    mImageModelPtr = new PictureModel(this);
     mResourcesDirModelPtr = new ResourcesDirModel(this);
     mProgressBarModelPtr = new ProgressBarModel(this);
 
@@ -59,7 +59,7 @@ void MainWindow::openOriginalFileRequest()
 
     CommandOpenImage* openImageCmd = new CommandOpenImage(pathChooser);
     QObject::connect(openImageCmd, SIGNAL(imageOpened(QImage)),
-                     mImageModelPtr, SLOT(setMainImage(QImage)));
+                     mImageModelPtr, SLOT(setImage(QImage)));
 
     mCommandRecycler->executeAndDispose(openImageCmd);
 }
@@ -119,7 +119,7 @@ void MainWindow::makeMosaicRequested()
     ImageSlicer* imageSlicer = new ImageSlicer();
 
     CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, indexLoader,
-                                                                   mImageModelPtr, this);
+                                                                   mImageModelPtr, nullptr, this);
 
     mCommandRecycler->executeAndDispose(createMosaicCmd);
 }

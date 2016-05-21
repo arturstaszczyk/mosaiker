@@ -7,11 +7,13 @@
 #include "ImageIndexer.h"
 
 CommandCreateMosaic::CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
-                                         MainImageModel* imageModel, QObject* parent)
+                                         PictureModel* primaryImage, PictureModel* secondaryImage,
+                                         QObject* parent)
     : Command(COMMAND_NAME(CommandCreateMosaic), parent)
     , mImageSlicer(imageSlicer)
     , mIndexLoader(indexLoader)
-    , mMainImageModel(imageModel)
+    , mMainImageModel(primaryImage)
+    , mSecondaryImageModel(secondaryImage)
 {
     dynamic_cast<QObject*>(mImageSlicer)->setParent(this);
     dynamic_cast<QObject*>(mIndexLoader)->setParent(this);

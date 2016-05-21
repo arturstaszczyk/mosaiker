@@ -13,7 +13,8 @@ class CommandCreateMosaic : public Command
 
 public:
     explicit CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
-                                 MainImageModel* imageModel, QObject* parent = nullptr);
+                                 PictureModel* primaryImage, PictureModel* secondaryImage,
+                                 QObject* parent = nullptr);
 
     virtual void execute();
 
@@ -24,7 +25,8 @@ public slots:
 private:
     IImageSlicer* mImageSlicer;
     IIndexLoader* mIndexLoader;
-    MainImageModel* mMainImageModel;
+    PictureModel* mMainImageModel;
+    PictureModel* mSecondaryImageModel;
 };
 
 #endif // COMMANDCREATEMOSAIC_H
