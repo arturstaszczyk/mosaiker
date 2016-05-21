@@ -11,6 +11,7 @@
 #include <ResourceFinder.h>
 #include <FileChooser.h>
 #include <IndexBuilder.h>
+#include <ImageSlicer.h>
 
 #include <Commands/CommandOpenImage.h>
 #include <Commands/CommandBuildIndex.h>
@@ -110,7 +111,10 @@ void MainWindow::onIndexBuilt()
 
 void MainWindow::makeMosaicRequested()
 {
-    CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(this);
+    ImageSlicer* imageSlicer = new ImageSlicer();
+
+    CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer,
+                                                                   mImageModelPtr, this);
 
     mCommandRecycler->executeAndDispose(createMosaicCmd);
 }

@@ -1,9 +1,9 @@
-#include "ProgressBarModel.h"
+﻿#include "ProgressBarModel.h"
 
 ProgressBarModel::ProgressBarModel(QObject *parent)
     : QObject(parent)
-    , mValue(0)
     , mMaxValue(1)
+    , mValue(0)
 {
 
 }

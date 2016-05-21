@@ -11,6 +11,11 @@ class CannotLoadImage : public std::exception
 
 };
 
+class CannotIndexFiles : public std::exception
+{
+
+};
+
 
 #endif // EXCEPTIONS_H
 

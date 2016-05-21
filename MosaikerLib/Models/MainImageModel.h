@@ -17,6 +17,7 @@ public:
     explicit MainImageModel(QObject *parent = 0);
 
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
+    QImage image() const { return mOriginalImage; }
     QSize size() const { return mDesiredSize; }
     bool isLoaded() const { return !mOriginalImage.isNull(); }
 
