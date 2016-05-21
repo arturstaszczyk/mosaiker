@@ -3,6 +3,8 @@
 
 #include "Command.h"
 #include "Interfaces/IImageSlicer.h"
+#include "Interfaces/IIndexLoader.h"
+
 #include "Models/MainImageModel.h"
 
 class CommandCreateMosaic : public Command
@@ -10,8 +12,8 @@ class CommandCreateMosaic : public Command
     Q_OBJECT
 
 public:
-    explicit CommandCreateMosaic(IImageSlicer* imageSlicer, MainImageModel* imageModel,
-                                 QObject* parent = nullptr);
+    explicit CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
+                                 MainImageModel* imageModel, QObject* parent = nullptr);
 
     virtual void execute();
 
@@ -21,6 +23,7 @@ public slots:
 
 private:
     IImageSlicer* mImageSlicer;
+    IIndexLoader* mIndexLoader;
     MainImageModel* mMainImageModel;
 };
 

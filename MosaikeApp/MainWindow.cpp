@@ -3,15 +3,16 @@
 
 #include <QFile>
 #include <QDebug>
+#include <QThread>
 #include <QQuickItem>
 #include <QQmlEngine>
 #include <QQmlContext>
-#include <QThread>
 
-#include <ResourceFinder.h>
 #include <FileChooser.h>
-#include <IndexBuilder.h>
 #include <ImageSlicer.h>
+#include <IndexLoader.h>
+#include <IndexBuilder.h>
+#include <ResourceFinder.h>
 
 #include <Commands/CommandOpenImage.h>
 #include <Commands/CommandBuildIndex.h>
@@ -111,9 +112,13 @@ void MainWindow::onIndexBuilt()
 
 void MainWindow::makeMosaicRequested()
 {
+    auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
+    QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
+    IndexLoader* indexLoader = new IndexLoader(indexFilePath);
+
     ImageSlicer* imageSlicer = new ImageSlicer();
 
-    CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer,
+    CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, indexLoader,
                                                                    mImageModelPtr, this);
 
     mCommandRecycler->executeAndDispose(createMosaicCmd);
