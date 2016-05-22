@@ -34,8 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     mProgressBarModelPtr = new ProgressBarModel(this);
 
     ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
+    ui->quickWidget->engine()->addImageProvider("secondaryImageModel", mSecondaryImageModel);
 
     ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mPrimaryImageModel);
+    ui->quickWidget->rootContext()->setContextProperty("secondaryImageModel", mSecondaryImageModel);
     ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);
 
@@ -132,5 +134,6 @@ void MainWindow::makeMosaicRequested()
 
 void MainWindow::onMosaicCreated()
 {
-    mPrimaryImageModel->setImage(mSecondaryImageModel->image());
+    //mPrimaryImageModel->setImage(mSecondaryImageModel->image());
+    mSecondaryImageModel->setImage(mSecondaryImageModel->image());
 }

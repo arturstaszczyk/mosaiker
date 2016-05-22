@@ -2,6 +2,7 @@
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.2
 import QtQuick.Extras 1.4
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: rootItem
@@ -18,6 +19,11 @@ Rectangle {
     Connections {
         target: mainImageModel
         onImageUpdated: imgOriginal.reload()
+    }
+
+    Connections {
+        target: secondaryImageModel
+        onImageUpdated: imgCreated.reload()
     }
 
     Column {
@@ -57,6 +63,24 @@ Rectangle {
                 anchors.centerIn: parent
                 width: imgOriginal.width
                 height: imgOriginal.height
+
+                source: ""
+                cache: false
+
+                function reload()
+                {
+                    source = ""
+                    source = "image://secondaryImageModel/image"
+                }
+            }
+
+            Blend
+            {
+                anchors.fill: imgOriginal
+                source: imgOriginal
+                foregroundSource: imgCreated
+                mode: "average"
+                cached: false
             }
         }
     }
