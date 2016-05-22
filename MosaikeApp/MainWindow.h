@@ -29,9 +29,9 @@ public slots:
     void buildIndexRequested();
     void makeMosaicRequested();
 
-    void onResourcesCount(quint32 resourcesCount);
-    void onUpdateIndexBuildProgress(quint32 progress);
+    void onAsyncCommandProgress(quint32 progress);
     void onIndexBuilt();
+
     void onMosaicCreated();
 
 private:

@@ -18,6 +18,7 @@ public:
     QString name() const { return mName; }
 
 signals:
+    void commandProgress(quint32 updateProgress);
     void commandFinished();
 
 protected:

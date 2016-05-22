@@ -31,6 +31,8 @@ void ImageCreator::run()
                                 mSliceSize.width(), mSliceSize.height()), toDraw);
 
         qDebug() << mImageNames[imageNo] << " " << imageNo << "/" << mImageNames.count();
+
+        emit sliceDrawn(imageNo);
     }
 
     emit imageCreated(surface);

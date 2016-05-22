@@ -221,7 +221,7 @@ Rectangle {
                 width: parent.width
 
                 minimumValue: 0
-                maximumValue: progressBarModel.maxValue
+                maximumValue: 100
                 value: progressBarModel.value
             }
         }

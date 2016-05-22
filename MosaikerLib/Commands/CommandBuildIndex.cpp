@@ -17,7 +17,6 @@ void CommandBuildIndex::execute()
 {
     mResourceFinder->find();
     auto list = mResourceFinder->resourcesList();
-    emit resourcesCount(list.count());
 
     QThread* indexer = new ImageIndexer(list, this);
     connect(indexer, SIGNAL(imageIndexed(quint32, QString, quint32)),
@@ -29,8 +28,6 @@ void CommandBuildIndex::execute()
 void CommandBuildIndex::finished()
 {
     mIndexBuilder->save();
-
-    emit updateProgress(0);
     finish();
 }
 
@@ -38,5 +35,6 @@ void CommandBuildIndex::onImageIndexed(quint32 imageNo, QString imageName, quint
 {
     mIndexBuilder->addIndexForFilename(color, imageName);
 
-    emit updateProgress(imageNo + 1);
+    float percentComplete = (float)(imageNo + 1) / (float)(mResourceFinder->resourcesList().count());
+    emit commandProgress(100 * percentComplete);
 }

@@ -20,10 +20,6 @@ public:
 
     void execute() override;
 
-signals:
-    void resourcesCount(quint32 resourcesCount);
-    void updateProgress(quint32 updateProgress);
-
 public slots:
     void onImageIndexed(quint32 imageNo, QString imageName, quint32 color);
 

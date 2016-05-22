@@ -23,8 +23,10 @@ public:
     virtual void execute();
 
 public slots:
-    void onImageIndexed(quint32 imageNo, QString imageName, quint32 index);
+    void onSliceIndexed(quint32 imageNo, QString imageName, quint32 index);
     void indexingFinished();
+
+    void onSliceDrawn(quint32 sliceNo);
     void imageCreated(QImage image);
     void finishCommand();
 

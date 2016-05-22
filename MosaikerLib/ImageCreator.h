@@ -14,6 +14,7 @@ public:
     void run() Q_DECL_OVERRIDE;
 
 signals:
+    void sliceDrawn(quint32 sliceId);
     void imageCreated(QImage image);
 
 private:

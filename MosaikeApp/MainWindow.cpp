@@ -87,8 +87,7 @@ void MainWindow::buildIndexRequested()
     ResourceFinder* resourcesFinder = new ResourceFinder(resourcesDir);
     CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(resourcesFinder, indexBuilder, this);
 
-    connect(buildIndexCmd, SIGNAL(resourcesCount(quint32)), this, SLOT(onResourcesCount(quint32)));
-    connect(buildIndexCmd, SIGNAL(updateProgress(quint32)), this, SLOT(onUpdateIndexBuildProgress(quint32)));
+    connect(buildIndexCmd, SIGNAL(commandProgress(quint32)), this, SLOT(onAsyncCommandProgress(quint32)));
     connect(buildIndexCmd, SIGNAL(commandFinished()), this, SLOT(onIndexBuilt()));
 
     mResourcesDirModelPtr->setIndexBuilding(true);
@@ -96,13 +95,7 @@ void MainWindow::buildIndexRequested()
     mCommandRecycler->executeAndDispose(buildIndexCmd);
 }
 
-void MainWindow::onResourcesCount(quint32 resourcesCount)
-{
-    mProgressBarModelPtr->setMaxValue(resourcesCount);
-    qDebug() << "Found resources: " << resourcesCount;
-}
-
-void MainWindow::onUpdateIndexBuildProgress(quint32 progress)
+void MainWindow::onAsyncCommandProgress(quint32 progress)
 {
     mProgressBarModelPtr->setValue(progress);
 }
@@ -111,6 +104,7 @@ void MainWindow::onIndexBuilt()
 {
     mResourcesDirModelPtr->setIndexBuilt(true);
     mResourcesDirModelPtr->setIndexBuilding(false);
+    mProgressBarModelPtr->setValue(0);
 }
 
 void MainWindow::makeMosaicRequested()
@@ -126,6 +120,8 @@ void MainWindow::makeMosaicRequested()
                                                                    this);
     createMosaicCmd->setSliceSize(128);
 
+    connect(createMosaicCmd, SIGNAL(commandProgress(quint32)),
+            this, SLOT(onAsyncCommandProgress(quint32)));
     connect(createMosaicCmd, SIGNAL(commandFinished()),
             this, SLOT(onMosaicCreated()));
 
@@ -134,5 +130,5 @@ void MainWindow::makeMosaicRequested()
 
 void MainWindow::onMosaicCreated()
 {
-//    mSecondaryImageModel->setImage(mSecondaryImageModel->image());
+    mProgressBarModelPtr->setValue(0);
 }

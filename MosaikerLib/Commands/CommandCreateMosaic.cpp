@@ -49,18 +49,18 @@ void CommandCreateMosaic::execute()
     mSecondaryImageModel->setImage(surfaceImage);
 
     auto image = mMainImageModel->image();
-    auto quads = mImageSlicer->slice(image, mSliceSize);
+    auto slices = mImageSlicer->slice(image, mSliceSize);
 
-    QThread* indexer = new ImageIndexer(quads, this);
+    QThread* indexer = new ImageIndexer(slices, this);
     connect(indexer, SIGNAL(imageIndexed(quint32, QString, quint32)),
-                     this, SLOT(onImageIndexed(quint32, QString, quint32)));
+                     this, SLOT(onSliceIndexed(quint32, QString, quint32)));
     connect(indexer, SIGNAL(finished()), this, SLOT(indexingFinished()));
 
     indexer->start();
 
 }
 
-void CommandCreateMosaic::onImageIndexed(quint32 imageNo, QString imageName, quint32 index)
+void CommandCreateMosaic::onSliceIndexed(quint32 imageNo, QString imageName, quint32 index)
 {
     Q_UNUSED(imageNo);
     imageName = mIndexLoader->closestFileNameByIndex(index);
@@ -73,10 +73,17 @@ void CommandCreateMosaic::indexingFinished()
 {
     ImageCreator* imageCreator = new ImageCreator(mMainImageModel->image().size(), mSliceSize,
                                                   mImageNames, this);
+    connect(imageCreator, SIGNAL(sliceDrawn(quint32)), this, SLOT(onSliceDrawn(quint32)));
     connect(imageCreator, SIGNAL(imageCreated(QImage)), this, SLOT(imageCreated(QImage)));
     connect(imageCreator, SIGNAL(finished()), this, SLOT(finishCommand()));
 
     imageCreator->start();
+}
+
+void CommandCreateMosaic::onSliceDrawn(quint32 sliceNo)
+{
+    float percentDone = (float)(sliceNo + 1) / (float)mImageSlicer->slices();
+    emit commandProgress(percentDone * 100);
 }
 
 void CommandCreateMosaic::imageCreated(QImage image)
