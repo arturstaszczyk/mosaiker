@@ -15,6 +15,9 @@ public:
 
     virtual quint32 slices() const override { return mSlices; }
 
+    quint32 calculateRows(quint32 imageHeight, quint32 sliceHeight) const;
+    quint32 calculateColumns(quint32 imageWidth, quint32 sliceWidth) const;
+
 private:
     quint32 mSlices;
 };

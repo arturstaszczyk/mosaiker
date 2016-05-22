@@ -19,6 +19,7 @@ public:
                                  QObject* parent = nullptr);
 
     void setSliceSize(quint32 sizeInPixels);
+    void setSliceSize(QSize size);
     virtual void execute();
 
 public slots:
