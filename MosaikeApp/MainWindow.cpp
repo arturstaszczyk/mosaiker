@@ -1,6 +1,8 @@
 ﻿#include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <chrono>
+
 #include <QFile>
 #include <QDebug>
 #include <QThread>
@@ -24,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    mCommandRecycler = new CommandRecycler(100, this);
+    mCommandRecycler = new CommandRecycler(std::chrono::milliseconds(100), this);
 
     ui->setupUi(this);
 

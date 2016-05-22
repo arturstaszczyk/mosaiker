@@ -1,13 +1,13 @@
-#include "CommandRecycler.h"
+﻿#include "CommandRecycler.h"
 
 #include <QDebug>
 
-CommandRecycler::CommandRecycler(qint32 msecDelay, QObject *parent)
+CommandRecycler::CommandRecycler(std::chrono::milliseconds msecDelay, QObject *parent)
     : QObject(parent)
 {
     mRecyclerTimer = new QTimer();
     mRecyclerTimer->setParent(this);
-    mRecyclerTimer->setInterval(msecDelay);
+    mRecyclerTimer->setInterval(msecDelay.count());
     mRecyclerTimer->setSingleShot(false);
     connect(mRecyclerTimer, SIGNAL(timeout()), this, SLOT(recycleCommands()));
     mRecyclerTimer->start();

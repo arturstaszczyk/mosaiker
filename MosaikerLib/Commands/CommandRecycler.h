@@ -1,5 +1,7 @@
-#ifndef COMMANDRECYCLER_H
+﻿#ifndef COMMANDRECYCLER_H
 #define COMMANDRECYCLER_H
+
+#include <chrono>
 
 #include <QTimer>
 #include <QObject>
@@ -10,7 +12,7 @@ class CommandRecycler : public QObject
 {
     Q_OBJECT
 public:
-    explicit CommandRecycler(qint32 msecDelay, QObject *parent = 0);
+    explicit CommandRecycler(std::chrono::milliseconds msecDelay, QObject *parent = 0);
 
     void executeAndDispose(Command* command);
 
