@@ -26,7 +26,8 @@ SOURCES += ResourceFinder.cpp \
     Commands/CommandCreateMosaic.cpp \
     IndexBuilder.cpp \
     ImageSlicer.cpp \
-    IndexLoader.cpp
+    IndexLoader.cpp \
+    ImageCreator.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -49,7 +50,8 @@ HEADERS += ResourceFinder.h \
     ImageSlicer.h \
     Interfaces/IIndexLoader.h \
     IndexLoader.h \
-    Interfaces/IImageCreator.h
+    Interfaces/IImageCreator.h \
+    ImageCreator.h
 
 unix {
     target.path = /usr/lib

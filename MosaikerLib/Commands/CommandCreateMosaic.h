@@ -24,13 +24,17 @@ public:
 
 public slots:
     void onImageIndexed(quint32 imageNo, QString imageName, quint32 index);
-    void finished();
+    void indexingFinished();
+    void imageCreated(QImage image);
+    void finishCommand();
 
 private:
     IImageSlicer* mImageSlicer;
     IIndexLoader* mIndexLoader;
     PictureModel* mMainImageModel;
     PictureModel* mSecondaryImageModel;
+
+    QList<QString> mImageNames;
 
     QSize mSliceSize;
 };

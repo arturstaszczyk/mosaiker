@@ -134,5 +134,5 @@ void MainWindow::makeMosaicRequested()
 
 void MainWindow::onMosaicCreated()
 {
-    mSecondaryImageModel->setImage(mSecondaryImageModel->image());
+//    mSecondaryImageModel->setImage(mSecondaryImageModel->image());
 }
