@@ -31,7 +31,7 @@ void CommandCreateMosaic::setSliceSize(QSize size)
 {
     mSliceSize = size;
 }
-QList<QImage> quads;
+
 void CommandCreateMosaic::execute()
 {
     try
@@ -49,7 +49,7 @@ void CommandCreateMosaic::execute()
     mSecondaryImageModel->setImage(surfaceImage);
 
     auto image = mMainImageModel->image();
-    quads = mImageSlicer->slice(image, mSliceSize);
+    auto quads = mImageSlicer->slice(image, mSliceSize);
 
     QThread* indexer = new ImageIndexer(quads, this);
     connect(indexer, SIGNAL(imageIndexed(quint32, QString, quint32)),
@@ -78,12 +78,12 @@ void CommandCreateMosaic::onImageIndexed(quint32 imageNo, QString imageName, qui
     x = imageNo % maxX;
     y = imageNo / maxX;
     QPainter painter(&surface);
-//    painter.drawImage(QRect(x * mSliceSize.width(), y * mSliceSize.height(),
-//                            mSliceSize.width(), mSliceSize.height()), toDraw);
-
     painter.drawImage(QRect(x * mSliceSize.width(), y * mSliceSize.height(),
-                            mSliceSize.width(), mSliceSize.height()),
-                      quads[imageNo]);
+                            mSliceSize.width(), mSliceSize.height()), toDraw);
+
+//    painter.drawImage(QRect(x * mSliceSize.width(), y * mSliceSize.height(),
+//                            mSliceSize.width(), mSliceSize.height()),
+//                      quads[imageNo]);
 
     qDebug() << imageName << " " << imageNo << "/" << mImageSlicer->slices();
 }
