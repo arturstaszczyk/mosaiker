@@ -40,7 +40,7 @@ void CommandCreateMosaic::execute()
         return;
     }
 
-    QImage surfaceImage = QImage(mMainImageModel->size(), QImage::Format_RGB32);
+    QImage surfaceImage = QImage(mMainImageModel->image().size(), QImage::Format_RGB32);
     mSecondaryImageModel->setImage(surfaceImage);
 
     auto image = mMainImageModel->image();
@@ -68,8 +68,13 @@ void CommandCreateMosaic::onImageIndexed(quint32 imageNo, QString imageName, qui
 
     QImage& surface = mSecondaryImageModel->image();
 
+    int maxX = surface.width() / mSliceSize.width();
+    int x, y;
+    x = imageNo % maxX;
+    y = imageNo / maxX;
     QPainter painter(&surface);
-    painter.drawImage(QRect(0, 0, mSliceSize.width(), mSliceSize.height()), toDraw);
+    painter.drawImage(QRect(x * mSliceSize.width(), y * mSliceSize.height(),
+                            mSliceSize.width(), mSliceSize.height()), toDraw);
 
     qDebug() << imageName << " " << imageNo << "/" << mImageSlicer->slices();
 }
