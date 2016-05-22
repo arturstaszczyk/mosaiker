@@ -9,7 +9,6 @@ Rectangle {
     width: 640
     height: 480
     color: "gray"
-    property alias label1: label1
 
     signal openImage()
     signal setResourcesPath()
@@ -26,13 +25,50 @@ Rectangle {
         onImageUpdated: imgCreated.reload()
     }
 
+    Item {
+        id: statusBar
+        height: 32
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+
+        Rectangle {
+            Rectangle {
+                color: "black"
+                height: 1
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+            }
+
+            anchors.fill: parent
+            color: "light gray"
+        }
+
+        Text {
+            anchors.leftMargin: 10
+            anchors.rightMargin: 10
+            anchors.fill: parent
+
+            color: "#333333"
+            textFormat: Text.PlainText
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+
+            text: "Resources directory: " + resourcesDirModel.resourcesDir
+        }
+    }
+
     Column {
-        id: column1
+        id: leftColumn
+        anchors.bottomMargin: 0
         anchors.margins: 0
 
         anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: column2.left
+        anchors.bottom: statusBar.top
+        anchors.right: rightColumn.left
         anchors.left: parent.left
         Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
@@ -85,93 +121,97 @@ Rectangle {
         }
     }
 
-    Column {
-        id: column2
-        x: 120
+    GroupBox {
+        id: rightColumn
+        title: qsTr("Make your mosaic:")
+
         width: 200
-        anchors.top: parent.top
-        anchors.topMargin: 0
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
-        anchors.right: parent.right
-        anchors.rightMargin: 0
 
-        Button {
-            id: btnOpenImage
-            width: parent.width
-            height: 43
-            text: qsTr("Open Image")
+        anchors {
+            margins: 0
 
-            onClicked: rootItem.openImage()
+            top: parent.top
+            bottom: statusBar.top
+            right: parent.right
         }
 
-        Button {
-            id: btnMakeMosaic
-            width: parent.width
-            height: 43
-            text: qsTr("Make mosaic")
+        Column
+        {
+            id: controlColumn
+            anchors.fill: parent
 
-            enabled: mainImageModel.loaded && btnBuildIndex.enabled
-            onClicked: rootItem.makeMosaic()
-        }
+            Text {
+                id: instructionOpenImage
+                width: parent.width
+                text: "First, open your image:"
+            }
 
-        GroupBox {
-            id: groupBox1
-            width: parent.width
-            height:200
-            title: qsTr("Resources index")
+            Button {
+                id: btnOpenImage
 
+                width: parent.width
+                height: 43
+
+                text: "Open image"
+
+                onClicked: rootItem.openImage()
+
+            }
+
+            Text {
+                id: instructionOpenResources
+                width: parent.width
+                text: "Show me your resources:"
+            }
+
+            Button {
+                id: btnOpenResources
+                width: parent.width
+                height: 43
+                text: qsTr("Set resources directory")
+                enabled: !resourcesDirModel.isIndexBuilding
+
+                onClicked: rootItem.setResourcesPath()
+            }
+
+            Text {
+                id: instructionBuildIndex
+                width: parent.width
+                wrapMode: Text.Wrap
+                text: "Preproces resources (no image will be modified):"
+            }
 
             Button {
                 id: btnBuildIndex
+                width: parent.width
                 height: 43
 
                 text: resourcesDirModel.isIndexBuilt ? "Rebuild index" : "Index not found (build)"
                 isDefault: false
-                anchors.top: btnSetResourcePath.bottom
-                anchors.topMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.right: parent.right
-                anchors.rightMargin: 0
                 enabled: resourcesDirModel.resourcesDir != "" && !resourcesDirModel.isIndexBuilding
 
                 onClicked: rootItem.buildIndex();
             }
 
             Text {
-                id: label1
-                height: 24
-
-                elide: Text.ElideLeft
-                color: "#090e6d"
-                text: resourcesDirModel.resourcesDir
-                anchors.top: parent.top
-                anchors.topMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                clip: true
-                wrapMode: Text.NoWrap
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignRight
-                font.family: "Courier"
+                id: instructionMakeMosaic
+                width: parent.width
+                text: "And finally build your mosaic:"
             }
 
             Button {
-                id: btnSetResourcePath
+                id: btnMakeMosaic
+                width: parent.width
                 height: 43
-                text: qsTr("Change path")
-                anchors.top: label1.bottom
-                anchors.topMargin: 0
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                enabled: !resourcesDirModel.isIndexBuilding
+                text: qsTr("Make mosaic")
 
-                onClicked: rootItem.setResourcesPath()
+                enabled: mainImageModel.loaded && btnBuildIndex.enabled
+                onClicked: rootItem.makeMosaic()
+            }
+
+            Text {
+                id: instructionProgress
+                text: "Operation progress:"
             }
 
             ProgressBar {
@@ -179,8 +219,6 @@ Rectangle {
                 x: 0
                 y: 44
                 width: parent.width
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
 
                 minimumValue: 0
                 maximumValue: progressBarModel.maxValue
@@ -189,6 +227,7 @@ Rectangle {
         }
 
     }
+
 
 }
 
