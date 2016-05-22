@@ -7,6 +7,8 @@
 
 #include "Models/MainImageModel.h"
 
+#define DEFAULT_SLICE_SIZE 64
+
 class CommandCreateMosaic : public Command
 {
     Q_OBJECT
@@ -16,6 +18,7 @@ public:
                                  PictureModel* primaryImage, PictureModel* secondaryImage,
                                  QObject* parent = nullptr);
 
+    void setSliceSize(quint32 sizeInPixels);
     virtual void execute();
 
 public slots:
@@ -27,6 +30,8 @@ private:
     IIndexLoader* mIndexLoader;
     PictureModel* mMainImageModel;
     PictureModel* mSecondaryImageModel;
+
+    QSize mSliceSize;
 };
 
 #endif // COMMANDCREATEMOSAIC_H

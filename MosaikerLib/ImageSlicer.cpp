@@ -2,6 +2,7 @@
 
 ImageSlicer::ImageSlicer(QObject *parent)
     : QObject(parent)
+    , mSlices(0)
 {
 
 }
@@ -23,5 +24,6 @@ QList<QImage> ImageSlicer::slice(QImage image, QSize sliceSize)
         }
     }
 
+    mSlices = slicesList.count();
     return slicesList;
 }

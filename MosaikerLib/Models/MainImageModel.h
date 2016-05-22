@@ -18,7 +18,8 @@ public:
 
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
 
-    QImage image() const { return mOriginalImage; }
+    // Watch out, there is a non-const reference returned!!!
+    QImage& image() { return mOriginalImage; }
     QSize size() const { return mDesiredSize; }
     bool isLoaded() const { return !mOriginalImage.isNull(); }
 

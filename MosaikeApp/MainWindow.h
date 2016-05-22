@@ -32,11 +32,14 @@ public slots:
     void onResourcesCount(quint32 resourcesCount);
     void onUpdateIndexBuildProgress(quint32 progress);
     void onIndexBuilt();
+    void onMosaicCreated();
 
 private:
     Ui::MainWindow *ui;
 
-    PictureModel* mImageModelPtr;
+    PictureModel* mPrimaryImageModel;
+    PictureModel* mSecondaryImageModel;
+
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
 

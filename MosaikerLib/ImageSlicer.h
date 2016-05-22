@@ -12,6 +12,11 @@ public:
     explicit ImageSlicer(QObject *parent = 0);
 
     virtual QList<QImage> slice(QImage image, QSize sliceSize) override;
+
+    virtual quint32 slices() const override { return mSlices; }
+
+private:
+    quint32 mSlices;
 };
 
 #endif // IMAGESLICER_H

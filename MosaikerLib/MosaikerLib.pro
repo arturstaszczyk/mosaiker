@@ -48,7 +48,8 @@ HEADERS += ResourceFinder.h \
     Interfaces/IImageSlicer.h \
     ImageSlicer.h \
     Interfaces/IIndexLoader.h \
-    IndexLoader.h
+    IndexLoader.h \
+    Interfaces/IImageCreator.h
 
 unix {
     target.path = /usr/lib

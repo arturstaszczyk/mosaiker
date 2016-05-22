@@ -28,13 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    mImageModelPtr = new PictureModel(this);
+    mPrimaryImageModel = new PictureModel(this);
+    mSecondaryImageModel = new PictureModel(this);
     mResourcesDirModelPtr = new ResourcesDirModel(this);
     mProgressBarModelPtr = new ProgressBarModel(this);
 
-    ui->quickWidget->engine()->addImageProvider("mainImageModel", mImageModelPtr);
+    ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
 
-    ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mImageModelPtr);
+    ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mPrimaryImageModel);
     ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);
 
@@ -59,7 +60,7 @@ void MainWindow::openOriginalFileRequest()
 
     CommandOpenImage* openImageCmd = new CommandOpenImage(pathChooser);
     QObject::connect(openImageCmd, SIGNAL(imageOpened(QImage)),
-                     mImageModelPtr, SLOT(setImage(QImage)));
+                     mPrimaryImageModel, SLOT(setImage(QImage)));
 
     mCommandRecycler->executeAndDispose(openImageCmd);
 }
@@ -119,8 +120,17 @@ void MainWindow::makeMosaicRequested()
     ImageSlicer* imageSlicer = new ImageSlicer();
 
     CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, indexLoader,
-                                                                   mImageModelPtr, nullptr, this);
+                                                                   mPrimaryImageModel, mSecondaryImageModel,
+                                                                   this);
+    createMosaicCmd->setSliceSize(128);
+
+    connect(createMosaicCmd, SIGNAL(commandFinished()),
+            this, SLOT(onMosaicCreated()));
 
     mCommandRecycler->executeAndDispose(createMosaicCmd);
 }
 
+void MainWindow::onMosaicCreated()
+{
+    mPrimaryImageModel->setImage(mSecondaryImageModel->image());
+}
