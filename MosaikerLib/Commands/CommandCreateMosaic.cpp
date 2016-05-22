@@ -36,8 +36,8 @@ void CommandCreateMosaic::execute()
     auto quads = mImageSlicer->slice(image, QSize(64, 64));
 
     QThread* indexer = new ImageIndexer(quads, this);
-    connect(indexer, SIGNAL(imageIndexed(QString, quint32)),
-                     this, SLOT(onImageIndexed(QString, quint32)));
+    connect(indexer, SIGNAL(imageIndexed(quint32, QString, quint32)),
+                     this, SLOT(onImageIndexed(quint32, QString, quint32)));
     connect(indexer, SIGNAL(finished()), this, SLOT(finished()));
 
     indexer->start();
@@ -48,8 +48,9 @@ void CommandCreateMosaic::finished()
     finish();
 }
 
-void CommandCreateMosaic::onImageIndexed(QString name, quint32 color)
+void CommandCreateMosaic::onImageIndexed(quint32 imageNo, QString imageName, quint32 index)
 {
-    name = mIndexLoader->closestFileNameByIndex(color);
-    qDebug() << name;
+    Q_UNUSED(imageNo);
+    imageName = mIndexLoader->closestFileNameByIndex(index);
+    qDebug() << imageName;
 }

@@ -23,7 +23,7 @@ private:
     QRgb calculateImageIndex(QImage image);
 
 signals:
-    void imageIndexed(QString fileName, quint32 colorValue);
+    void imageIndexed(quint32 imageNumber, QString fileName, quint32 colorValue);
 
 private:
     QStringList mImageNamesList;

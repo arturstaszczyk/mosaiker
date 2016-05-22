@@ -2,8 +2,6 @@
 
 #include "ImageIndexer.h"
 
-static int imageConuter = 0;
-
 CommandBuildIndex::CommandBuildIndex(IResourceFinder* resourcesFinder, IIndexBuilder* indexBuilder, QObject* parent)
         : Command(COMMAND_NAME(CommandBuildIndex), parent)
         , mResourceFinder(resourcesFinder)
@@ -21,11 +19,9 @@ void CommandBuildIndex::execute()
     auto list = mResourceFinder->resourcesList();
     emit resourcesCount(list.count());
 
-    imageConuter = 0;
-
     QThread* indexer = new ImageIndexer(list, this);
-    connect(indexer, SIGNAL(imageIndexed(QString, quint32)),
-                     this, SLOT(onImageIndexed(QString, quint32)));
+    connect(indexer, SIGNAL(imageIndexed(quint32, QString, quint32)),
+                     this, SLOT(onImageIndexed(quint32, QString, quint32)));
     connect(indexer, SIGNAL(finished()), this, SLOT(finished()));
     indexer->start();
 }
@@ -38,9 +34,9 @@ void CommandBuildIndex::finished()
     finish();
 }
 
-void CommandBuildIndex::onImageIndexed(QString imageName, quint32 color)
+void CommandBuildIndex::onImageIndexed(quint32 imageNo, QString imageName, quint32 color)
 {
     mIndexBuilder->addIndexForFilename(color, imageName);
 
-    emit updateProgress(imageConuter++);
+    emit updateProgress(imageNo + 1);
 }

@@ -28,23 +28,22 @@ void ImageIndexer::run()
 
 void ImageIndexer::runWithImageNames()
 {
-    QString imageName;
-    foreach(imageName, mImageNamesList)
+    for (int i = 0; i < mImageNamesList.count(); ++i)
     {
+        QString imageName = mImageNamesList[i];
         QImage image(imageName);
 
         QRgb imageIndex = calculateImageIndex(image);
-        emit imageIndexed(imageName, imageIndex);
+        emit imageIndexed(i, imageName, imageIndex);
     }
 }
 
 void ImageIndexer::runWithImageList()
 {
-    QImage image;
-    foreach(image, mImagesList)
+    for (int i = 0; i < mImagesList.count(); ++i)
     {
-        QRgb imageIndex = calculateImageIndex(image);
-        emit imageIndexed("", imageIndex);
+        QRgb imageIndex = calculateImageIndex(mImagesList[i]);
+        emit imageIndexed(i, "", imageIndex);
     }
 }
 

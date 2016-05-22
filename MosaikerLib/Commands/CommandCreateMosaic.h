@@ -19,7 +19,7 @@ public:
     virtual void execute();
 
 public slots:
-    void onImageIndexed(QString, quint32);
+    void onImageIndexed(quint32 imageNo, QString imageName, quint32 index);
     void finished();
 
 private:

@@ -25,7 +25,7 @@ signals:
     void updateProgress(quint32 updateProgress);
 
 public slots:
-    void onImageIndexed(QString imageName, quint32 color);
+    void onImageIndexed(quint32 imageNo, QString imageName, quint32 color);
 
     void finished();
 
