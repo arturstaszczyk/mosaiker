@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     mSecondaryImageModel = new PictureModel(this);
     mResourcesDirModelPtr = new ResourcesDirModel(this);
     mProgressBarModelPtr = new ProgressBarModel(this);
+    mMakeMosaicButtonModelPtr = new MosaicBuildButtonModel(this);
 
     ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
     ui->quickWidget->engine()->addImageProvider("secondaryImageModel", mSecondaryImageModel);
@@ -42,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->quickWidget->rootContext()->setContextProperty("secondaryImageModel", mSecondaryImageModel);
     ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);
+    ui->quickWidget->rootContext()->setContextProperty("makeMosaicButtonModel", mMakeMosaicButtonModelPtr);
 
     ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 
@@ -127,10 +129,12 @@ void MainWindow::makeMosaicRequested()
     connect(createMosaicCmd, SIGNAL(commandFinished()),
             this, SLOT(onMosaicCreated()));
 
+    mMakeMosaicButtonModelPtr->setIsBeingCreated(true);
     mCommandRecycler->executeAndDispose(createMosaicCmd);
 }
 
 void MainWindow::onMosaicCreated()
 {
     mProgressBarModelPtr->setValue(0);
+    mMakeMosaicButtonModelPtr->setIsBeingCreated(false);
 }

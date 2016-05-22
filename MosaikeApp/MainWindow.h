@@ -8,6 +8,7 @@
 #include <Models/MainImageModel.h>
 #include <Models/ProgressBarModel.h>
 #include <Models/ResourcesDirModel.h>
+#include <Models/MosaicBuildButtonModel.h>
 
 #include <Commands/CommandRecycler.h>
 
@@ -42,6 +43,7 @@ private:
 
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
+    MosaicBuildButtonModel* mMakeMosaicButtonModelPtr;
 
     CommandRecycler* mCommandRecycler;
 

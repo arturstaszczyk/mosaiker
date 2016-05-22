@@ -205,7 +205,7 @@ Rectangle {
                 height: 43
                 text: qsTr("Make mosaic")
 
-                enabled: mainImageModel.loaded && btnBuildIndex.enabled
+                enabled: mainImageModel.loaded && btnBuildIndex.enabled && !makeMosaicButtonModel.isBeingCreated
                 onClicked: rootItem.makeMosaic()
             }
 
