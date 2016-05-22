@@ -48,8 +48,15 @@ Rectangle {
                 function reload()
                 {
                     source = "";
-                    source = "image://mainImageModel/original";
+                    source = "image://mainImageModel/image";
                 }
+            }
+
+            Image {
+                id: imgCreated
+                anchors.centerIn: parent
+                width: imgOriginal.width
+                height: imgOriginal.height
             }
         }
     }

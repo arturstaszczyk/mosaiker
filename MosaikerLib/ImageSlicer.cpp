@@ -17,7 +17,8 @@ QList<QImage> ImageSlicer::slice(QImage image, QSize sliceSize)
     {
         for(int y = 0; y < countVertical; ++y)
         {
-            QImage slice = image.copy(x, y, sliceSize.width(), sliceSize.height());
+            QImage slice = image.copy(x * sliceSize.width(), y * sliceSize.height(),
+                                      sliceSize.width(), sliceSize.height());
             slicesList.append(slice);
         }
     }
