@@ -31,16 +31,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     mPrimaryImageModel = new PictureModel(this);
-    mSecondaryImageModel = new PictureModel(this);
     mResourcesDirModelPtr = new ResourcesDirModel(this);
     mProgressBarModelPtr = new ProgressBarModel(this);
     mMakeMosaicButtonModelPtr = new MosaicBuildButtonModel(this);
 
     ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
-    ui->quickWidget->engine()->addImageProvider("secondaryImageModel", mSecondaryImageModel);
 
     ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mPrimaryImageModel);
-    ui->quickWidget->rootContext()->setContextProperty("secondaryImageModel", mSecondaryImageModel);
     ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("makeMosaicButtonModel", mMakeMosaicButtonModelPtr);
@@ -66,7 +63,7 @@ void MainWindow::openOriginalFileRequest()
 
     CommandOpenImage* openImageCmd = new CommandOpenImage(pathChooser);
     QObject::connect(openImageCmd, SIGNAL(imageOpened(QImage)),
-                     mPrimaryImageModel, SLOT(setImage(QImage)));
+                     mPrimaryImageModel, SLOT(setDisplayImage(QImage)));
 
     mCommandRecycler->executeAndDispose(openImageCmd);
 }
@@ -120,7 +117,7 @@ void MainWindow::makeMosaicRequested()
     ImageSlicer* imageSlicer = new ImageSlicer();
 
     CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, indexLoader,
-                                                                   mPrimaryImageModel, mSecondaryImageModel,
+                                                                   mPrimaryImageModel,
                                                                    this);
     createMosaicCmd->setSliceSize(128);
 

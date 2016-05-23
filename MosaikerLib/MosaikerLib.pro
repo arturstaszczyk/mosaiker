@@ -22,13 +22,13 @@ SOURCES += ResourceFinder.cpp \
     ImageIndexer.cpp \
     Models/ProgressBarModel.cpp \
     Commands/CommandRecycler.cpp \
-    Models/MainImageModel.cpp \
     Commands/CommandCreateMosaic.cpp \
     IndexBuilder.cpp \
     ImageSlicer.cpp \
     IndexLoader.cpp \
     ImageCreator.cpp \
-    Models/MosaicBuildButtonModel.cpp
+    Models/MosaicBuildButtonModel.cpp \
+    Models/PictureModel.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -43,7 +43,6 @@ HEADERS += ResourceFinder.h \
     ImageIndexer.h \
     Models/ProgressBarModel.h \
     Commands/CommandRecycler.h \
-    Models/MainImageModel.h \
     Commands/CommandCreateMosaic.h \
     Interfaces/IIndexBuilder.h \
     IndexBuilder.h \
@@ -53,7 +52,8 @@ HEADERS += ResourceFinder.h \
     IndexLoader.h \
     Interfaces/IImageCreator.h \
     ImageCreator.h \
-    Models/MosaicBuildButtonModel.h
+    Models/MosaicBuildButtonModel.h \
+    Models/PictureModel.h
 
 unix {
     target.path = /usr/lib

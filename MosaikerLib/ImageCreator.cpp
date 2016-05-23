@@ -14,7 +14,7 @@ ImageCreator::ImageCreator(QSize targetImageSize, QSize sliceSize, QStringList i
 
 void ImageCreator::run()
 {
-    QImage surface(mImageSize, QImage::Format_RGB32);
+    QImage surface(mImageSize, QImage::Format_ARGB32);
     int wholeSlices = surface.width() / mSliceSize.width();
     int maxX = wholeSlices + (wholeSlices * mSliceSize.width() < surface.width() ? 1 : 0);
 

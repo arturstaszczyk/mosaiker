@@ -20,11 +20,6 @@ Rectangle {
         onImageUpdated: imgOriginal.reload()
     }
 
-    Connections {
-        target: secondaryImageModel
-        onImageUpdated: imgCreated.reload()
-    }
-
     Item {
         id: statusBar
         height: 32
@@ -72,16 +67,17 @@ Rectangle {
         anchors.left: parent.left
         Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
-        Item {
+        Rectangle {
             id: imageContainer
+            color: "green"
             width: parent.width
             height: parent.height
 
             Image {
                 id: imgOriginal
                 anchors.centerIn: parent
-                width: mainImageModel.size.width
-                height: mainImageModel.size.height
+                width: mainImageModel.qmlSize.width
+                height: mainImageModel.qmlSize.height
                 sourceSize.width: imageContainer.width;
                 sourceSize.height: imageContainer.height;
                 source: ""
@@ -90,34 +86,38 @@ Rectangle {
                 function reload()
                 {
                     source = "";
-                    source = "image://mainImageModel/image";
+
+                    if(mainImageModel.displayImageLoaded && mainImageModel.overlayImageLoaded)
+                        source = "image://mainImageModel/compositionImage";
+                    else if(mainImageModel.displayImageLoaded)
+                        source = "image://mainImageModel/displayImage";
                 }
             }
 
-            Image {
-                id: imgCreated
-                anchors.centerIn: parent
-                width: imgOriginal.width
-                height: imgOriginal.height
+//            Image {
+//                id: imgCreated
+//                anchors.centerIn: parent
+//                width: imgOriginal.width
+//                height: imgOriginal.height
 
-                source: ""
-                cache: false
+//                source: ""
+//                cache: false
 
-                function reload()
-                {
-                    source = ""
-                    source = "image://secondaryImageModel/image"
-                }
-            }
+//                function reload()
+//                {
+//                    source = ""
+//                    source = "image://secondaryImageModel/image"
+//                }
+//            }
 
-            Blend
-            {
-                anchors.fill: imgOriginal
-                source: imgOriginal
-                foregroundSource: imgCreated
-                mode: "average"
-                cached: false
-            }
+//            Blend
+//            {
+//                anchors.fill: imgOriginal
+//                source: imgOriginal
+//                foregroundSource: imgCreated
+//                mode: "average"
+//                cached: false
+//            }
         }
     }
 
@@ -205,7 +205,7 @@ Rectangle {
                 height: 43
                 text: qsTr("Make mosaic")
 
-                enabled: mainImageModel.loaded && btnBuildIndex.enabled && !makeMosaicButtonModel.isBeingCreated
+                enabled: mainImageModel.displayImageLoaded && btnBuildIndex.enabled && !makeMosaicButtonModel.isBeingCreated
                 onClicked: rootItem.makeMosaic()
             }
 

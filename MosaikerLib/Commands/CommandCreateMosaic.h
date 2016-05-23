@@ -5,7 +5,7 @@
 #include "Interfaces/IImageSlicer.h"
 #include "Interfaces/IIndexLoader.h"
 
-#include "Models/MainImageModel.h"
+#include "Models/PictureModel.h"
 
 #define DEFAULT_SLICE_SIZE 64
 
@@ -15,8 +15,7 @@ class CommandCreateMosaic : public Command
 
 public:
     explicit CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
-                                 PictureModel* primaryImage, PictureModel* secondaryImage,
-                                 QObject* parent = nullptr);
+                                 PictureModel* primaryImage, QObject* parent = nullptr);
 
     void setSliceSize(quint32 sizeInPixels);
     void setSliceSize(QSize size);
@@ -33,8 +32,7 @@ public slots:
 private:
     IImageSlicer* mImageSlicer;
     IIndexLoader* mIndexLoader;
-    PictureModel* mMainImageModel;
-    PictureModel* mSecondaryImageModel;
+    PictureModel* mPictureModel;
 
     QList<QString> mImageNames;
 

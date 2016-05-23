@@ -8,13 +8,11 @@
 #include "ImageCreator.h"
 
 CommandCreateMosaic::CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
-                                         PictureModel* primaryImage, PictureModel* secondaryImage,
-                                         QObject* parent)
+                                         PictureModel* primaryImage, QObject* parent)
     : Command(COMMAND_NAME(CommandCreateMosaic), parent)
     , mImageSlicer(imageSlicer)
     , mIndexLoader(indexLoader)
-    , mMainImageModel(primaryImage)
-    , mSecondaryImageModel(secondaryImage)
+    , mPictureModel(primaryImage)
     , mSliceSize(DEFAULT_SLICE_SIZE, DEFAULT_SLICE_SIZE)
 {
     dynamic_cast<QObject*>(mImageSlicer)->setParent(this);
@@ -45,10 +43,10 @@ void CommandCreateMosaic::execute()
         return;
     }
 
-    QImage surfaceImage = QImage(mMainImageModel->image().size(), QImage::Format_RGB32);
-    mSecondaryImageModel->setImage(surfaceImage);
+    QImage surfaceImage = QImage(mPictureModel->displayImage().size(), QImage::Format_ARGB32);
+    mPictureModel->setOverlayImage(surfaceImage);
 
-    auto image = mMainImageModel->image();
+    auto image = mPictureModel->displayImage();
     auto slices = mImageSlicer->slice(image, mSliceSize);
 
     QThread* indexer = new ImageIndexer(slices, this);
@@ -71,7 +69,7 @@ void CommandCreateMosaic::onSliceIndexed(quint32 imageNo, QString imageName, qui
 
 void CommandCreateMosaic::indexingFinished()
 {
-    ImageCreator* imageCreator = new ImageCreator(mMainImageModel->image().size(), mSliceSize,
+    ImageCreator* imageCreator = new ImageCreator(mPictureModel->displayImage().size(), mSliceSize,
                                                   mImageNames, this);
     connect(imageCreator, SIGNAL(sliceDrawn(quint32)), this, SLOT(onSliceDrawn(quint32)));
     connect(imageCreator, SIGNAL(imageCreated(QImage)), this, SLOT(imageCreated(QImage)));
@@ -88,7 +86,7 @@ void CommandCreateMosaic::onSliceDrawn(quint32 sliceNo)
 
 void CommandCreateMosaic::imageCreated(QImage image)
 {
-    mSecondaryImageModel->setImage(image);
+    mPictureModel->setOverlayImage(image);
 }
 
 void CommandCreateMosaic::finishCommand()

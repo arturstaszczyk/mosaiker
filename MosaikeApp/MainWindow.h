@@ -5,7 +5,7 @@
 
 #include <Interfaces/IResourceFinder.h>
 
-#include <Models/MainImageModel.h>
+#include <Models/PictureModel.h>
 #include <Models/ProgressBarModel.h>
 #include <Models/ResourcesDirModel.h>
 #include <Models/MosaicBuildButtonModel.h>
@@ -39,7 +39,6 @@ private:
     Ui::MainWindow *ui;
 
     PictureModel* mPrimaryImageModel;
-    PictureModel* mSecondaryImageModel;
 
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
