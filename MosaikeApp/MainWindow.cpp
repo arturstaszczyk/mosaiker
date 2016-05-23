@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(root, SIGNAL(setResourcesPath()), this, SLOT(openResourcesDirRequested()));
     connect(root, SIGNAL(buildIndex()), this, SLOT(buildIndexRequested()));
     connect(root, SIGNAL(makeMosaic()), this, SLOT(makeMosaicRequested()));
+
+    connect(root, SIGNAL(opacityChanged(QVariant)), this, SLOT(onOpacityChanged(QVariant)));
 }
 
 MainWindow::~MainWindow()
@@ -134,4 +136,9 @@ void MainWindow::onMosaicCreated()
 {
     mProgressBarModelPtr->setValue(0);
     mMakeMosaicButtonModelPtr->setIsBeingCreated(false);
+}
+
+void MainWindow::onOpacityChanged(QVariant opacity)
+{
+    qDebug() << opacity.toFloat();
 }

@@ -14,6 +14,7 @@ Rectangle {
     signal setResourcesPath()
     signal buildIndex();
     signal makeMosaic();
+    signal opacityChanged(var opacityValue);
 
     Connections {
         target: mainImageModel
@@ -67,9 +68,9 @@ Rectangle {
         anchors.left: parent.left
         Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
-        Rectangle {
+        Item {
             id: imageContainer
-            color: "green"
+            //color: "green"
             width: parent.width
             height: parent.height
 
@@ -93,31 +94,6 @@ Rectangle {
                         source = "image://mainImageModel/displayImage";
                 }
             }
-
-//            Image {
-//                id: imgCreated
-//                anchors.centerIn: parent
-//                width: imgOriginal.width
-//                height: imgOriginal.height
-
-//                source: ""
-//                cache: false
-
-//                function reload()
-//                {
-//                    source = ""
-//                    source = "image://secondaryImageModel/image"
-//                }
-//            }
-
-//            Blend
-//            {
-//                anchors.fill: imgOriginal
-//                source: imgOriginal
-//                foregroundSource: imgCreated
-//                mode: "average"
-//                cached: false
-//            }
         }
     }
 
@@ -216,18 +192,29 @@ Rectangle {
 
             ProgressBar {
                 id: progressBar
-                x: 0
-                y: 44
                 width: parent.width
 
                 minimumValue: 0
                 maximumValue: 100
                 value: progressBarModel.value
             }
+
+            Text {
+                id: instructionSlider
+                text: "Adjust opacity:"
+            }
+
+            Slider {
+                id: opacitySlider
+
+                minimumValue: 0
+                maximumValue: 1
+                stepSize: 0.01
+                width: parent.width
+
+                onValueChanged: rootItem.opacityChanged(value)
+            }
         }
-
     }
-
-
 }
 
