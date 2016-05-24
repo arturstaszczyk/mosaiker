@@ -9,9 +9,15 @@ PathChooser::PathChooser(QObject* parent)
 
 }
 
-QString PathChooser::chooseFile()
+QString PathChooser::chooseFile(OperationType operationType)
 {
-    return QFileDialog::getOpenFileName();
+    switch(operationType)
+    {
+        case OT_OPEN:
+            return QFileDialog::getOpenFileName();
+        case OT_WRITE:
+            return QFileDialog::getSaveFileName();
+    }
 }
 
 QString PathChooser::chooseDir()

@@ -13,7 +13,7 @@ void CommandOpenImage::execute()
 {
     CommandFinisher finisher(this);
 
-    QString fileName = mFileChooser->chooseFile();
+    QString fileName = mFileChooser->chooseFile(IPathChooser::OT_OPEN);
     if(fileName.isEmpty())
         return;
 

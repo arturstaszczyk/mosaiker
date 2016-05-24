@@ -14,6 +14,7 @@ Rectangle {
     signal setResourcesPath()
     signal buildIndex();
     signal makeMosaic();
+    signal saveMosaic();
     signal opacityChanged(var opacityValue);
 
     Connections {
@@ -117,7 +118,6 @@ Rectangle {
             anchors.fill: parent
 
             Text {
-                id: instructionOpenImage
                 width: parent.width
                 text: "First, open your image:"
             }
@@ -135,7 +135,6 @@ Rectangle {
             }
 
             Text {
-                id: instructionOpenResources
                 width: parent.width
                 text: "Show me your resources:"
             }
@@ -151,7 +150,6 @@ Rectangle {
             }
 
             Text {
-                id: instructionBuildIndex
                 width: parent.width
                 wrapMode: Text.Wrap
                 text: "Preproces resources (no image will be modified):"
@@ -170,7 +168,6 @@ Rectangle {
             }
 
             Text {
-                id: instructionMakeMosaic
                 width: parent.width
                 text: "And finally build your mosaic:"
             }
@@ -186,7 +183,6 @@ Rectangle {
             }
 
             Text {
-                id: instructionProgress
                 text: "Operation progress:"
             }
 
@@ -200,7 +196,6 @@ Rectangle {
             }
 
             Text {
-                id: instructionSlider
                 text: "Adjust opacity:"
             }
 
@@ -216,6 +211,21 @@ Rectangle {
                 width: parent.width
 
                 onValueChanged: rootItem.opacityChanged(value)
+            }
+
+            Text {
+                text: "Save your image:"
+            }
+
+            Button {
+                id: btnSave
+
+                width: parent.width
+                height: 43
+                text: qsTr("Save mosaic")
+
+                enabled: makeMosaicButtonModel.wasCreated
+                onClicked: rootItem.saveMosaic()
             }
         }
     }

@@ -6,7 +6,14 @@
 class IPathChooser
 {
 public:
-    virtual QString chooseFile() = 0;
+    enum OperationType
+    {
+        OT_OPEN,
+        OT_WRITE,
+    };
+
+public:
+    virtual QString chooseFile(OperationType) = 0;
     virtual QString chooseDir() = 0;
 };
 

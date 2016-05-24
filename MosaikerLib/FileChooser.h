@@ -12,7 +12,7 @@ class PathChooser : public QObject, public IPathChooser
 public:
     explicit PathChooser(QObject* parent = nullptr);
 
-    QString chooseFile() override;
+    QString chooseFile(OperationType operationType) override;
     QString chooseDir() override;
 };
 

@@ -28,7 +28,8 @@ SOURCES += ResourceFinder.cpp \
     IndexLoader.cpp \
     ImageCreator.cpp \
     Models/MosaicBuildButtonModel.cpp \
-    Models/PictureModel.cpp
+    Models/PictureModel.cpp \
+    Commands/CommandSaveMosaic.cpp
 
 HEADERS += ResourceFinder.h \
     Exceptions.h \
@@ -53,7 +54,8 @@ HEADERS += ResourceFinder.h \
     Interfaces/IImageCreator.h \
     ImageCreator.h \
     Models/MosaicBuildButtonModel.h \
-    Models/PictureModel.h
+    Models/PictureModel.h \
+    Commands/CommandSaveMosaic.h
 
 unix {
     target.path = /usr/lib

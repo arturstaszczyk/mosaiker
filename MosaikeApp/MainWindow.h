@@ -29,6 +29,7 @@ public slots:
     void openResourcesDirRequested();
     void buildIndexRequested();
     void makeMosaicRequested();
+    void saveMosaicRequested();
     void onOpacityChanged(QVariant opacity);
 
     void onAsyncCommandProgress(quint32 progress);

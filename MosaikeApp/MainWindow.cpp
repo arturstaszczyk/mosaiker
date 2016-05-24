@@ -19,6 +19,7 @@
 
 #include <Commands/CommandOpenImage.h>
 #include <Commands/CommandBuildIndex.h>
+#include <Commands/CommandSaveMosaic.h>
 #include <Commands/CommandCreateMosaic.h>
 #include <Commands/CommandOpenResourcesDir.h>
 
@@ -54,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(root, SIGNAL(setResourcesPath()), this, SLOT(openResourcesDirRequested()));
     connect(root, SIGNAL(buildIndex()), this, SLOT(buildIndexRequested()));
     connect(root, SIGNAL(makeMosaic()), this, SLOT(makeMosaicRequested()));
+    connect(root, SIGNAL(saveMosaic()), this, SLOT(saveMosaicRequested()));
 
     connect(root, SIGNAL(opacityChanged(QVariant)), this, SLOT(onOpacityChanged(QVariant)));
 }
@@ -143,6 +145,13 @@ void MainWindow::onMosaicCreated()
     mProgressBarModelPtr->setValue(0);
     mMakeMosaicButtonModelPtr->setIsBeingCreated(false);
     mMakeMosaicButtonModelPtr->setWasCreated(true);
+}
+
+void MainWindow::saveMosaicRequested()
+{
+    PathChooser* pathChooser = new PathChooser();
+    CommandSaveMosaic* cmdSaveMosaic = new CommandSaveMosaic(pathChooser, mPrimaryImageModel, this);
+    mCommandRecycler->executeAndDispose(cmdSaveMosaic);
 }
 
 void MainWindow::onOpacityChanged(QVariant opacity)

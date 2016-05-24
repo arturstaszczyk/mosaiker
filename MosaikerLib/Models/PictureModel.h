@@ -24,6 +24,7 @@ public:
     // Watch out, there is a non-const reference returned!!!
     QImage& displayImage() { return mDisplayImage; }
     QImage& overlayImage() { return mOverlayImage; }
+    QImage& composedImage() { return mCompositionImage; }
 
     QSize qmlSize() const { return mQmlSize; }
     bool isDisplayImageLoaded() const { return !mDisplayImage.isNull(); }
