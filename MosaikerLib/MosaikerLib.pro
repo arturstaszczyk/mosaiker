@@ -12,28 +12,28 @@ TARGET = MosaikerLib
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += ResourceFinder.cpp \
-    FileChooser.cpp \
+SOURCES += FileSystemOps/ResourceFinder.cpp \
+    FileSystemOps/FileChooser.cpp \
     Commands/CommandOpenImage.cpp \
     Commands/Command.cpp \
     Commands/CommandOpenResourcesDir.cpp \
     Models/ResourcesDirModel.cpp \
     Commands/CommandBuildIndex.cpp \
-    ImageIndexer.cpp \
+    IndexingOps/ImageIndexer.cpp \
     Models/ProgressBarModel.cpp \
     Commands/CommandRecycler.cpp \
     Commands/CommandCreateMosaic.cpp \
-    IndexBuilder.cpp \
-    ImageSlicer.cpp \
-    IndexLoader.cpp \
-    ImageCreator.cpp \
+    IndexingOps/IndexBuilder.cpp \
+    ImageOps/ImageSlicer.cpp \
+    IndexingOps/IndexLoader.cpp \
+    ImageOps/ImageCreator.cpp \
     Models/MosaicBuildButtonModel.cpp \
     Models/PictureModel.cpp \
     Commands/CommandSaveMosaic.cpp
 
-HEADERS += ResourceFinder.h \
+HEADERS += FileSystemOps/ResourceFinder.h \
     Exceptions.h \
-    FileChooser.h \
+    FileSystemOps/FileChooser.h \
     Interfaces/IFileChooser.h \
     Commands/CommandOpenImage.h \
     Commands/Command.h \
@@ -41,18 +41,18 @@ HEADERS += ResourceFinder.h \
     Models/ResourcesDirModel.h \
     Commands/CommandBuildIndex.h \
     Interfaces/IResourceFinder.h \
-    ImageIndexer.h \
+    IndexingOps/ImageIndexer.h \
     Models/ProgressBarModel.h \
     Commands/CommandRecycler.h \
     Commands/CommandCreateMosaic.h \
     Interfaces/IIndexBuilder.h \
-    IndexBuilder.h \
+    IndexingOps/IndexBuilder.h \
     Interfaces/IImageSlicer.h \
-    ImageSlicer.h \
+    ImageOps/ImageSlicer.h \
     Interfaces/IIndexLoader.h \
-    IndexLoader.h \
+    IndexingOps/IndexLoader.h \
     Interfaces/IImageCreator.h \
-    ImageCreator.h \
+    ImageOps/ImageCreator.h \
     Models/MosaicBuildButtonModel.h \
     Models/PictureModel.h \
     Commands/CommandSaveMosaic.h

@@ -5,12 +5,12 @@
 
 #include "Interfaces/IFileChooser.h"
 
-class PathChooser : public QObject, public IPathChooser
+class FileChooser : public QObject, public IPathChooser
 {
     Q_OBJECT
 
 public:
-    explicit PathChooser(QObject* parent = nullptr);
+    explicit FileChooser(QObject* parent = nullptr);
 
     QString chooseFile(OperationType operationType) override;
     QString chooseDir() override;

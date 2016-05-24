@@ -11,11 +11,11 @@
 #include <QQmlContext>
 #include <QQmlProperty>
 
-#include <FileChooser.h>
-#include <ImageSlicer.h>
-#include <IndexLoader.h>
-#include <IndexBuilder.h>
-#include <ResourceFinder.h>
+#include <ImageOps/ImageSlicer.h>
+#include <IndexingOps/IndexLoader.h>
+#include <IndexingOps/IndexBuilder.h>
+#include <FileSystemOps/ResourceFinder.h>
+#include <FileSystemOps/FileChooser.h>
 
 #include <Commands/CommandOpenImage.h>
 #include <Commands/CommandBuildIndex.h>
@@ -67,7 +67,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openOriginalFileRequest()
 {
-    PathChooser* pathChooser = new PathChooser;
+    FileChooser* pathChooser = new FileChooser;
 
     CommandOpenImage* openImageCmd = new CommandOpenImage(pathChooser);
     QObject::connect(openImageCmd, SIGNAL(imageOpened(QImage)),
@@ -80,7 +80,7 @@ void MainWindow::openOriginalFileRequest()
 
 void MainWindow::openResourcesDirRequested()
 {
-    PathChooser* pathChooser = new PathChooser;
+    FileChooser* pathChooser = new FileChooser;
     CommandOpenResourcesDir* openResourcesCmd = new CommandOpenResourcesDir(pathChooser);
 
     QObject::connect(openResourcesCmd, SIGNAL(dirOpened(QString)),
@@ -150,7 +150,7 @@ void MainWindow::onMosaicCreated()
 
 void MainWindow::saveMosaicRequested()
 {
-    PathChooser* pathChooser = new PathChooser();
+    FileChooser* pathChooser = new FileChooser;
     CommandSaveMosaic* cmdSaveMosaic = new CommandSaveMosaic(pathChooser, mPrimaryImageModel, this);
     mCommandRecycler->executeAndDispose(cmdSaveMosaic);
 }

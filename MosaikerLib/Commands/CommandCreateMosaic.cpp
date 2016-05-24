@@ -4,8 +4,8 @@
 #include <QDebug>
 
 #include "Exceptions.h"
-#include "ImageIndexer.h"
-#include "ImageCreator.h"
+#include "ImageOps/ImageCreator.h"
+#include "IndexingOps/ImageIndexer.h"
 
 CommandCreateMosaic::CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
                                          PictureModel* primaryImage, QObject* parent)
@@ -42,9 +42,6 @@ void CommandCreateMosaic::execute()
         finish();
         return;
     }
-
-    QImage surfaceImage = QImage(mPictureModel->displayImage().size(), QImage::Format_ARGB32);
-    mPictureModel->setOverlayImage(surfaceImage);
 
     auto image = mPictureModel->displayImage();
     auto slices = mImageSlicer->slice(image, mSliceSize);

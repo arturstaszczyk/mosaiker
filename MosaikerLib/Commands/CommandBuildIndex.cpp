@@ -1,6 +1,6 @@
 ﻿#include "CommandBuildIndex.h"
 
-#include "ImageIndexer.h"
+#include "IndexingOps/ImageIndexer.h"
 
 CommandBuildIndex::CommandBuildIndex(IResourceFinder* resourcesFinder, IIndexBuilder* indexBuilder, QObject* parent)
         : Command(COMMAND_NAME(CommandBuildIndex), parent)

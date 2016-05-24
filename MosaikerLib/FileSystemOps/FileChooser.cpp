@@ -3,13 +3,13 @@
 #include <QDebug>
 #include <QFileDialog>
 
-PathChooser::PathChooser(QObject* parent)
+FileChooser::FileChooser(QObject* parent)
     : QObject(parent)
 {
 
 }
 
-QString PathChooser::chooseFile(OperationType operationType)
+QString FileChooser::chooseFile(OperationType operationType)
 {
     switch(operationType)
     {
@@ -20,7 +20,7 @@ QString PathChooser::chooseFile(OperationType operationType)
     }
 }
 
-QString PathChooser::chooseDir()
+QString FileChooser::chooseDir()
 {
     QString dirName = "";
     try
