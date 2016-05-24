@@ -96,6 +96,7 @@ void MainWindow::buildIndexRequested()
 
     IndexBuilder* indexBuilder = new IndexBuilder(indexFilePath);
     ResourceFinder* resourcesFinder = new ResourceFinder(resourcesDir);
+    resourcesFinder->addFilter({"*.jpg", "*.png", "*.jpeg"});
     CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(resourcesFinder, indexBuilder, this);
 
     connect(buildIndexCmd, SIGNAL(commandProgress(quint32)), this, SLOT(onAsyncCommandProgress(quint32)));

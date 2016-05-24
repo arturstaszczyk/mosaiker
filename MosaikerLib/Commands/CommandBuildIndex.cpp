@@ -9,8 +9,6 @@ CommandBuildIndex::CommandBuildIndex(IResourceFinder* resourcesFinder, IIndexBui
 {
     dynamic_cast<QObject*>(indexBuilder)->setParent(this);
     dynamic_cast<QObject*>(mResourceFinder)->setParent(this);
-
-    mResourceFinder->addFilter({"*.jpg", "*.png", "*.jpeg"});
 }
 
 void CommandBuildIndex::execute()
