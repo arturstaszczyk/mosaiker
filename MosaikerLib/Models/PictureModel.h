@@ -38,6 +38,10 @@ public slots:
     void setOverlayImage(const QImage& displayImage);
 
 private:
+    void calculateSize(QSize* size, const QSize& requestedSize);
+    void mergeDisplayWithOverlayImages();
+
+private:
     QImage mDisplayImage;
     QImage mOverlayImage;
     QImage mCompositionImage;

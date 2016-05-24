@@ -39,33 +39,7 @@ QImage PictureModel::requestImage(const QString &id, QSize *size, const QSize &r
 {
     Q_UNUSED(id);
 
-    if(id == "displayImage" && mDisplayImage.isNull())
-        return mDisplayImage;
-
-    if(id == "overlayImage" && mOverlayImage.isNull())
-        return mOverlayImage;
-
-    if(id == "compositionImage" && mOverlayImage.isNull())
-        return mDisplayImage;
-
-    if(size)
-    {
-        *size = QSize(mDisplayImage.width(), mDisplayImage.height());
-
-        if(!requestedSize.isEmpty())
-        {
-            mQmlSize = mDisplayImage.size().scaled(requestedSize.width(), requestedSize.height(),
-                                                             Qt::KeepAspectRatio);
-#ifdef TARGET_OS_MAC
-            // mQmlSize is used to determine QML image size
-            mQmlSize /= 2;
-#endif
-
-            *size = mQmlSize;
-        }
-    }
-
-    emit sizeChanged();
+    calculateSize(size, requestedSize);
 
     if(id == "displayImage")
         return mDisplayImage;
@@ -75,17 +49,44 @@ QImage PictureModel::requestImage(const QString &id, QSize *size, const QSize &r
 
     if(id == "compositionImage")
     {
-        mCompositionImage = QImage(mDisplayImage.size(), QImage::Format_ARGB32);
-        QPainter painter(&mCompositionImage);
-
-        painter.setCompositionMode(QPainter::CompositionMode_Source);
-        painter.drawImage(0, 0, mDisplayImage);
-        painter.setOpacity(mImageOpacity);
-
-        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        painter.drawImage(0, 0, mOverlayImage);
+        mergeDisplayWithOverlayImages();
         return mCompositionImage;
     }
 
     return mDisplayImage;
+}
+
+void PictureModel::calculateSize(QSize *size, const QSize& requestedSize)
+{
+    if(!requestedSize.isEmpty())
+    {
+        mQmlSize = mDisplayImage.size().scaled(requestedSize.width(), requestedSize.height(),
+                                                         Qt::KeepAspectRatio);
+#ifdef TARGET_OS_MAC
+        // mQmlSize is used to determine QML image size
+        mQmlSize /= 2;
+#endif
+    }
+    else
+    {
+        mQmlSize = QSize(mDisplayImage.width(), mDisplayImage.height());
+    }
+
+    if(size && !mDisplayImage.isNull())
+        *size = mQmlSize;
+
+    emit sizeChanged();
+}
+
+void PictureModel::mergeDisplayWithOverlayImages()
+{
+    mCompositionImage = QImage(mDisplayImage.size(), QImage::Format_ARGB32);
+    QPainter painter(&mCompositionImage);
+
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+    painter.drawImage(0, 0, mDisplayImage);
+    painter.setOpacity(mImageOpacity);
+
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.drawImage(0, 0, mOverlayImage);
 }
