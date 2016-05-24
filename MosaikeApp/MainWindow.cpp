@@ -9,6 +9,7 @@
 #include <QQuickItem>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QQmlProperty>
 
 #include <FileChooser.h>
 #include <ImageSlicer.h>
@@ -44,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 
+    QObject* slider = ui->quickWidget->rootObject()->findChild<QObject*>("opacitySlider");
+    mPrimaryImageModel->setImageOpacity(slider->property("value").toFloat());
+
     QObject* root = ui->quickWidget->rootObject();
 
     connect(root, SIGNAL(openImage()), this, SLOT(openOriginalFileRequest()));
@@ -68,6 +72,8 @@ void MainWindow::openOriginalFileRequest()
                      mPrimaryImageModel, SLOT(setDisplayImage(QImage)));
 
     mCommandRecycler->executeAndDispose(openImageCmd);
+
+    mMakeMosaicButtonModelPtr->setWasCreated(false);
 }
 
 void MainWindow::openResourcesDirRequested()
@@ -136,9 +142,10 @@ void MainWindow::onMosaicCreated()
 {
     mProgressBarModelPtr->setValue(0);
     mMakeMosaicButtonModelPtr->setIsBeingCreated(false);
+    mMakeMosaicButtonModelPtr->setWasCreated(true);
 }
 
 void MainWindow::onOpacityChanged(QVariant opacity)
 {
-    qDebug() << opacity.toFloat();
+    mPrimaryImageModel->setImageOpacity(opacity.toFloat());
 }

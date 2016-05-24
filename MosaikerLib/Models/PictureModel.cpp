@@ -8,6 +8,7 @@
 PictureModel::PictureModel(QObject *parent)
     : QObject(parent)
     , QQuickImageProvider(QQmlImageProviderBase::Image, 0)
+    , mImageOpacity(0.5)
 {
 
 }
@@ -15,13 +16,19 @@ PictureModel::PictureModel(QObject *parent)
 void PictureModel::setDisplayImage(const QImage &image)
 {
     mDisplayImage = image;
-    emit imageUpdated();
+    emit composedImageUpdated();
 }
 
 void PictureModel::setOverlayImage(const QImage &image)
 {
     mOverlayImage = image;
-    emit imageUpdated();
+    emit composedImageUpdated();
+}
+
+void PictureModel::setImageOpacity(float opacity)
+{
+    mImageOpacity = opacity;
+    emit composedImageUpdated();
 }
 
 // Used by QtQuickEngine to display image in QML
@@ -73,7 +80,7 @@ QImage PictureModel::requestImage(const QString &id, QSize *size, const QSize &r
 
         painter.setCompositionMode(QPainter::CompositionMode_Source);
         painter.drawImage(0, 0, mDisplayImage);
-        painter.setOpacity(0.5);
+        painter.setOpacity(mImageOpacity);
 
         painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
         painter.drawImage(0, 0, mOverlayImage);

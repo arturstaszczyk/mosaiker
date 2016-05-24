@@ -18,7 +18,7 @@ Rectangle {
 
     Connections {
         target: mainImageModel
-        onImageUpdated: imgOriginal.reload()
+        onComposedImageUpdated: imgOriginal.reload()
     }
 
     Item {
@@ -206,10 +206,13 @@ Rectangle {
 
             Slider {
                 id: opacitySlider
+                objectName: "opacitySlider"
+                enabled: makeMosaicButtonModel.wasCreated
 
                 minimumValue: 0
                 maximumValue: 1
-                stepSize: 0.01
+                value: 0.2
+                stepSize: 0.05
                 width: parent.width
 
                 onValueChanged: rootItem.opacityChanged(value)

@@ -11,13 +11,15 @@ class PictureModel : public QObject, public QQuickImageProvider
 
 public:
     Q_PROPERTY(QSize qmlSize READ qmlSize NOTIFY sizeChanged)
-    Q_PROPERTY(bool displayImageLoaded READ isDisplayImageLoaded NOTIFY imageUpdated)
-    Q_PROPERTY(bool overlayImageLoaded READ isOverlayImageLoaded NOTIFY imageUpdated)
+    Q_PROPERTY(bool displayImageLoaded READ isDisplayImageLoaded NOTIFY composedImageUpdated)
+    Q_PROPERTY(bool overlayImageLoaded READ isOverlayImageLoaded NOTIFY composedImageUpdated)
 
 public:
     explicit PictureModel(QObject *parent = 0);
 
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
+
+    void setImageOpacity(float opacity);
 
     // Watch out, there is a non-const reference returned!!!
     QImage& displayImage() { return mDisplayImage; }
@@ -28,7 +30,7 @@ public:
     bool isOverlayImageLoaded() const { return !mOverlayImage.isNull(); }
 
 signals:
-    void imageUpdated();
+    void composedImageUpdated();
     void sizeChanged();
 
 public slots:
@@ -41,6 +43,7 @@ private:
     QImage mCompositionImage;
 
     QSize mQmlSize;
+    float mImageOpacity;
 };
 
 #endif // IMAGEMODEL_H
