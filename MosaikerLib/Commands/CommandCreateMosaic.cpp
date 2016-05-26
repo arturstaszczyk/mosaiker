@@ -3,6 +3,8 @@
 #include <QThread>
 #include <QDebug>
 
+#include <HptIntegration.h>
+
 #include "Exceptions.h"
 #include "ImageOps/ImageCreator.h"
 #include "IndexingOps/ImageIndexer.h"
@@ -32,6 +34,7 @@ void CommandCreateMosaic::setSliceSize(QSize size)
 
 void CommandCreateMosaic::execute()
 {
+    PROFILE_SCOPE_START("CommandCreateMosaic::execute-loadIndex")
     try
     {
         mIndexLoader->loadIndex();
@@ -42,7 +45,9 @@ void CommandCreateMosaic::execute()
         finish();
         return;
     }
+    PROFILE_SCOPE_END()
 
+    PROFILE_SCOPE_START("CommandCreateMosaic::execute-sliceImage")
     auto image = mPictureModel->displayImage();
     auto slices = mImageSlicer->slice(image, mSliceSize);
 
@@ -53,6 +58,7 @@ void CommandCreateMosaic::execute()
 
     indexer->start();
 
+    PROFILE_SCOPE_END()
 }
 
 void CommandCreateMosaic::onSliceIndexed(quint32 imageNo, QString imageName, quint32 index)

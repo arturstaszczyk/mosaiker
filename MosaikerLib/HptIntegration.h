@@ -6,7 +6,7 @@
 #include <HPT/PerformanceHelper.h>
 
 #define PROFILE_SCOPE_START(x) MEASURE_SCOPE_START(x)
-#define PROFILE_SCOPE_END MEASURE_SCOPE_END
+#define PROFILE_SCOPE_END() MEASURE_SCOPE_END()
 #define PROFILE_END FRAME_END
 
 #else
