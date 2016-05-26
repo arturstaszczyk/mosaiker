@@ -25,17 +25,16 @@ public:
     ~MainWindow();
 
 public slots:
-    void openOriginalFileRequest();
-    void openResourcesDirRequested();
-    void buildIndexRequested();
-    void makeMosaicRequested();
-    void saveMosaicRequested();
+    void onOpenOriginalFileButton();
+    void onOpenResourcesDirButton();
+    void onBuildIndexButton();
+    void onMakeMosaicButton();
+    void onSaveMosaicButton();
     void onOpacityChanged(QVariant opacity);
 
     void onAsyncCommandProgress(quint32 progress);
-    void onIndexBuilt();
-
-    void onMosaicCreated();
+    void onCommandIndexBuilt();
+    void onCommandMosaicCreated();
 
 private:
     Ui::MainWindow *ui;

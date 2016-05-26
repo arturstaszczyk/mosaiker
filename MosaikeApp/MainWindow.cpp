@@ -51,11 +51,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject* root = ui->quickWidget->rootObject();
 
-    connect(root, SIGNAL(openImage()), this, SLOT(openOriginalFileRequest()));
-    connect(root, SIGNAL(setResourcesPath()), this, SLOT(openResourcesDirRequested()));
-    connect(root, SIGNAL(buildIndex()), this, SLOT(buildIndexRequested()));
-    connect(root, SIGNAL(makeMosaic()), this, SLOT(makeMosaicRequested()));
-    connect(root, SIGNAL(saveMosaic()), this, SLOT(saveMosaicRequested()));
+    connect(root, SIGNAL(openImage()), this, SLOT(onOpenOriginalFileButton()));
+    connect(root, SIGNAL(setResourcesPath()), this, SLOT(onOpenResourcesDirButton()));
+    connect(root, SIGNAL(buildIndex()), this, SLOT(onBuildIndexButton()));
+    connect(root, SIGNAL(makeMosaic()), this, SLOT(onMakeMosaicButton()));
+    connect(root, SIGNAL(saveMosaic()), this, SLOT(onSaveMosaicButton()));
 
     connect(root, SIGNAL(opacityChanged(QVariant)), this, SLOT(onOpacityChanged(QVariant)));
 }
@@ -65,7 +65,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::openOriginalFileRequest()
+void MainWindow::onOpenOriginalFileButton()
 {
     FileChooser* pathChooser = new FileChooser;
 
@@ -78,7 +78,7 @@ void MainWindow::openOriginalFileRequest()
     mMakeMosaicButtonModelPtr->setWasCreated(false);
 }
 
-void MainWindow::openResourcesDirRequested()
+void MainWindow::onOpenResourcesDirButton()
 {
     FileChooser* pathChooser = new FileChooser;
     CommandOpenResourcesDir* openResourcesCmd = new CommandOpenResourcesDir(pathChooser);
@@ -89,7 +89,7 @@ void MainWindow::openResourcesDirRequested()
     mCommandRecycler->executeAndDispose(openResourcesCmd);
 }
 
-void MainWindow::buildIndexRequested()
+void MainWindow::onBuildIndexButton()
 {
     auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
     QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
@@ -100,7 +100,7 @@ void MainWindow::buildIndexRequested()
     CommandBuildIndex* buildIndexCmd = new CommandBuildIndex(resourcesFinder, indexBuilder, this);
 
     connect(buildIndexCmd, SIGNAL(commandProgress(quint32)), this, SLOT(onAsyncCommandProgress(quint32)));
-    connect(buildIndexCmd, SIGNAL(commandFinished()), this, SLOT(onIndexBuilt()));
+    connect(buildIndexCmd, SIGNAL(commandFinished()), this, SLOT(onCommandIndexBuilt()));
 
     mResourcesDirModelPtr->setIndexBuilding(true);
 
@@ -112,14 +112,14 @@ void MainWindow::onAsyncCommandProgress(quint32 progress)
     mProgressBarModelPtr->setValue(progress);
 }
 
-void MainWindow::onIndexBuilt()
+void MainWindow::onCommandIndexBuilt()
 {
     mResourcesDirModelPtr->setIndexBuilt(true);
     mResourcesDirModelPtr->setIndexBuilding(false);
     mProgressBarModelPtr->setValue(0);
 }
 
-void MainWindow::makeMosaicRequested()
+void MainWindow::onMakeMosaicButton()
 {
     auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
     QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
@@ -135,20 +135,20 @@ void MainWindow::makeMosaicRequested()
     connect(createMosaicCmd, SIGNAL(commandProgress(quint32)),
             this, SLOT(onAsyncCommandProgress(quint32)));
     connect(createMosaicCmd, SIGNAL(commandFinished()),
-            this, SLOT(onMosaicCreated()));
+            this, SLOT(onCommandMosaicCreated()));
 
     mMakeMosaicButtonModelPtr->setIsBeingCreated(true);
     mCommandRecycler->executeAndDispose(createMosaicCmd);
 }
 
-void MainWindow::onMosaicCreated()
+void MainWindow::onCommandMosaicCreated()
 {
     mProgressBarModelPtr->setValue(0);
     mMakeMosaicButtonModelPtr->setIsBeingCreated(false);
     mMakeMosaicButtonModelPtr->setWasCreated(true);
 }
 
-void MainWindow::saveMosaicRequested()
+void MainWindow::onSaveMosaicButton()
 {
     FileChooser* pathChooser = new FileChooser;
     CommandSaveMosaic* cmdSaveMosaic = new CommandSaveMosaic(pathChooser, mPrimaryImageModel, this);
