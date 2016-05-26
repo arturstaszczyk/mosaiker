@@ -1,6 +1,8 @@
 ﻿#include "ImageIndexer.h"
 
+#include <QDebug>
 #include <HptIntegration.h>
+
 #include "Exceptions.h"
 
 ImageIndexer::ImageIndexer(QStringList imageList, QObject *parent)
@@ -42,7 +44,7 @@ void ImageIndexer::runWithImageNames()
         PROFILE_SCOPE_END()
 
         PROFILE_SCOPE_START("ImageIndexer::runWithImageNames-calculate")
-        QRgb imageIndex = calculateImageIndex(image);
+        QRgb imageIndex = calculateImageIndex(convertToArgb(image));
         emit imageIndexed(i, imageName, imageIndex);
         PROFILE_SCOPE_END()
     }
@@ -53,15 +55,27 @@ void ImageIndexer::runWithImageList()
     for (int i = 0; i < mImagesList.count(); ++i)
     {
         PROFILE_SCOPE_START("ImageIndexer::runWithImageList-calculate")
-        QRgb imageIndex = calculateImageIndex(mImagesList[i]);
+        QRgb imageIndex = calculateImageIndex(convertToArgb(mImagesList[i]));
         emit imageIndexed(i, "", imageIndex);
         PROFILE_SCOPE_END()
     }
 }
 
+QImage ImageIndexer::convertToArgb(QImage image)
+{
+    if(image.format() != QImage::Format_ARGB32 && image.format() != QImage::Format_RGB32)
+    {
+        qWarning() << "Need to convert image to ARGB32 format";
+        return image.convertToFormat(QImage::Format_ARGB32, Qt::AutoColor);
+    }
+
+    return image;
+}
+
 QRgb ImageIndexer::calculateImageIndex(QImage image)
 {
-    quint32 r = 0, g = 0, b = 0;
+    quint64 r, g, b, a;
+    r = g = b = a = 0;
 
     for(int x = 0; x < image.width(); ++x)
     {

@@ -21,6 +21,7 @@ private:
     void runWithImageList();
 
     QRgb calculateImageIndex(QImage image);
+    QImage convertToArgb(QImage image);
 
 signals:
     void imageIndexed(quint32 imageNumber, QString fileName, quint32 colorValue);
