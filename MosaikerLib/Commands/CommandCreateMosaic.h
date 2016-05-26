@@ -23,11 +23,11 @@ public:
 
 public slots:
     void onSliceIndexed(quint32 imageNo, QString imageName, quint32 index);
-    void indexingFinished();
+    void onIndexingFinished();
 
-    void onSliceDrawn(quint32 sliceNo);
-    void imageCreated(QImage image);
-    void finishCommand();
+    void onImageCreatorDrawn(quint32 sliceNo);
+    void onImageCreated(QImage image);
+    void onImageCreatorFinished();
 
 private:
     IImageSlicer* mImageSlicer;

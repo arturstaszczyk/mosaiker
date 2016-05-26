@@ -49,7 +49,7 @@ void CommandCreateMosaic::execute()
     QThread* indexer = new ImageIndexer(slices, this);
     connect(indexer, SIGNAL(imageIndexed(quint32, QString, quint32)),
                      this, SLOT(onSliceIndexed(quint32, QString, quint32)));
-    connect(indexer, SIGNAL(finished()), this, SLOT(indexingFinished()));
+    connect(indexer, SIGNAL(finished()), this, SLOT(onIndexingFinished()));
 
     indexer->start();
 
@@ -64,29 +64,29 @@ void CommandCreateMosaic::onSliceIndexed(quint32 imageNo, QString imageName, qui
     qDebug() << "Images " << imageNo + 1 << "/" << mImageSlicer->slices() << " indexed";
 }
 
-void CommandCreateMosaic::indexingFinished()
+void CommandCreateMosaic::onIndexingFinished()
 {
     ImageCreator* imageCreator = new ImageCreator(mPictureModel->displayImage().size(), mSliceSize,
                                                   mImageNames, this);
-    connect(imageCreator, SIGNAL(sliceDrawn(quint32)), this, SLOT(onSliceDrawn(quint32)));
-    connect(imageCreator, SIGNAL(imageCreated(QImage)), this, SLOT(imageCreated(QImage)));
-    connect(imageCreator, SIGNAL(finished()), this, SLOT(finishCommand()));
+    connect(imageCreator, SIGNAL(sliceDrawn(quint32)), this, SLOT(onImageCreatorDrawn(quint32)));
+    connect(imageCreator, SIGNAL(imageCreated(QImage)), this, SLOT(onImageCreated(QImage)));
+    connect(imageCreator, SIGNAL(finished()), this, SLOT(onImageCreatorFinished()));
 
     imageCreator->start();
 }
 
-void CommandCreateMosaic::onSliceDrawn(quint32 sliceNo)
+void CommandCreateMosaic::onImageCreatorDrawn(quint32 sliceNo)
 {
     float percentDone = (float)(sliceNo + 1) / (float)mImageSlicer->slices();
     emit commandProgress(percentDone * 100);
 }
 
-void CommandCreateMosaic::imageCreated(QImage image)
+void CommandCreateMosaic::onImageCreated(QImage image)
 {
     mPictureModel->setOverlayImage(image);
 }
 
-void CommandCreateMosaic::finishCommand()
+void CommandCreateMosaic::onImageCreatorFinished()
 {
     finish();
 }
