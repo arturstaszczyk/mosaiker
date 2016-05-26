@@ -1,5 +1,6 @@
 ﻿#include "ImageIndexer.h"
 
+#include <HptIntegration.h>
 #include "Exceptions.h"
 
 ImageIndexer::ImageIndexer(QStringList imageList, QObject *parent)
@@ -18,23 +19,32 @@ ImageIndexer::ImageIndexer(QList<QImage> imageList, QObject *parent)
 
 void ImageIndexer::run()
 {
+    PROFILE_SCOPE_START("ImageIndexer::start")
     if(!mImageNamesList.empty())
         runWithImageNames();
     else if(!mImagesList.empty())
         runWithImageList();
     else
         throw CannotIndexFiles();
+    PROFILE_SCOPE_END()
 }
 
 void ImageIndexer::runWithImageNames()
 {
+    static QImage image;
+    static QString imageName;
+
     for (int i = 0; i < mImageNamesList.count(); ++i)
     {
-        QString imageName = mImageNamesList[i];
-        QImage image(imageName);
+        PROFILE_SCOPE_START("ImageIndexer::runWithImageNames-loadImage")
+        imageName = mImageNamesList[i];
+        image = QImage(imageName);
+        PROFILE_SCOPE_END()
 
+        PROFILE_SCOPE_START("ImageIndexer::runWithImageNames-calculate")
         QRgb imageIndex = calculateImageIndex(image);
         emit imageIndexed(i, imageName, imageIndex);
+        PROFILE_SCOPE_END()
     }
 }
 
@@ -42,8 +52,10 @@ void ImageIndexer::runWithImageList()
 {
     for (int i = 0; i < mImagesList.count(); ++i)
     {
+        PROFILE_SCOPE_START("ImageIndexer::runWithImageList-calculate")
         QRgb imageIndex = calculateImageIndex(mImagesList[i]);
         emit imageIndexed(i, "", imageIndex);
+        PROFILE_SCOPE_END()
     }
 }
 

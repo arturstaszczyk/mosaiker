@@ -55,7 +55,8 @@ HEADERS += FileSystemOps/ResourceFinder.h \
     ImageOps/ImageCreator.h \
     Models/MosaicBuildButtonModel.h \
     Models/PictureModel.h \
-    Commands/CommandSaveMosaic.h
+    Commands/CommandSaveMosaic.h \
+    HptIntegration.h
 
 unix {
     target.path = /usr/lib
