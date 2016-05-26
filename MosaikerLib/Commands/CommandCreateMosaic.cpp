@@ -9,16 +9,16 @@
 #include "ImageOps/ImageCreator.h"
 #include "IndexingOps/ImageIndexer.h"
 
-CommandCreateMosaic::CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
+CommandCreateMosaic::CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexMatcherStrategy* indexMatcher,
                                          PictureModel* primaryImage, QObject* parent)
     : Command(COMMAND_NAME(CommandCreateMosaic), parent)
     , mImageSlicer(imageSlicer)
-    , mIndexLoader(indexLoader)
+    , mIndexMatcher(indexMatcher)
     , mPictureModel(primaryImage)
     , mSliceSize(DEFAULT_SLICE_SIZE, DEFAULT_SLICE_SIZE)
 {
     dynamic_cast<QObject*>(mImageSlicer)->setParent(this);
-    dynamic_cast<QObject*>(mIndexLoader)->setParent(this);
+    dynamic_cast<QObject*>(mIndexMatcher)->setParent(this);
 }
 
 void CommandCreateMosaic::setSliceSize(quint32 sizeInPixels)
@@ -34,19 +34,6 @@ void CommandCreateMosaic::setSliceSize(QSize size)
 
 void CommandCreateMosaic::execute()
 {
-    PROFILE_SCOPE_START("CommandCreateMosaic::execute-loadIndex")
-    try
-    {
-        mIndexLoader->loadIndex();
-    }
-    catch(PathDoNotExists ex)
-    {
-        qDebug() << "PathDoNotExists" << ex.what();
-        finish();
-        return;
-    }
-    PROFILE_SCOPE_END()
-
     PROFILE_SCOPE_START("CommandCreateMosaic::execute-sliceImage")
     auto image = mPictureModel->displayImage();
     auto slices = mImageSlicer->slice(image, mSliceSize);
@@ -64,7 +51,7 @@ void CommandCreateMosaic::execute()
 void CommandCreateMosaic::onSliceIndexed(quint32 imageNo, QString imageName, quint32 index)
 {
     Q_UNUSED(imageNo);
-    imageName = mIndexLoader->closestFileNameByIndex(index);
+    imageName = mIndexMatcher->matchFileWithIndex(index);
     mImageNames.append(imageName);
 
     qDebug() << "Images " << imageNo + 1 << "/" << mImageSlicer->slices() << " indexed";

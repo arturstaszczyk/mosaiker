@@ -4,6 +4,7 @@
 #include "Command.h"
 #include "Interfaces/IImageSlicer.h"
 #include "Interfaces/IIndexLoader.h"
+#include "Interfaces/IIndexMatcherStrategy.h"
 
 #include "Models/PictureModel.h"
 
@@ -14,7 +15,7 @@ class CommandCreateMosaic : public Command
     Q_OBJECT
 
 public:
-    explicit CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexLoader* indexLoader,
+    explicit CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexMatcherStrategy* indexMather,
                                  PictureModel* primaryImage, QObject* parent = nullptr);
 
     void setSliceSize(quint32 sizeInPixels);
@@ -31,7 +32,7 @@ public slots:
 
 private:
     IImageSlicer* mImageSlicer;
-    IIndexLoader* mIndexLoader;
+    IIndexMatcherStrategy* mIndexMatcher;
     PictureModel* mPictureModel;
 
     QList<QString> mImageNames;

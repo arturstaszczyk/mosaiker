@@ -29,7 +29,8 @@ SOURCES += FileSystemOps/ResourceFinder.cpp \
     ImageOps/ImageCreator.cpp \
     Models/MosaicBuildButtonModel.cpp \
     Models/PictureModel.cpp \
-    Commands/CommandSaveMosaic.cpp
+    Commands/CommandSaveMosaic.cpp \
+    IndexingOps/ImageMatcherGreedy.cpp
 
 HEADERS += FileSystemOps/ResourceFinder.h \
     Exceptions.h \
@@ -56,7 +57,9 @@ HEADERS += FileSystemOps/ResourceFinder.h \
     Models/MosaicBuildButtonModel.h \
     Models/PictureModel.h \
     Commands/CommandSaveMosaic.h \
-    HptIntegration.h
+    HptIntegration.h \
+    Interfaces/IIndexMatcherStrategy.h \
+    IndexingOps/ImageMatcherGreedy.h
 
 unix {
     target.path = /usr/lib
