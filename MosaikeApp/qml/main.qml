@@ -169,6 +169,40 @@ Rectangle {
 
             Text {
                 width: parent.width
+                wrapMode: Text.Wrap
+                text: "Select match algorithm:"
+            }
+
+            ComboBox {
+                id: cmbMatcher
+                width: parent.width
+
+                enabled: btnMakeMosaic.enabled
+                currentIndex: 1
+
+                model: ["Greedy matcher", "Distance matcher"]
+            }
+
+            Text {
+                width: parent.width
+
+                text: "Matcher params:"
+            }
+
+            SpinBox {
+                id: spinDistance
+                width: parent.width
+
+                height: cmbMatcher.currentIndex != 0 ? 24 : 0
+                enabled: cmbMatcher.currentIndex != 0 && btnMakeMosaic.enabled
+
+                minimumValue: 0
+                stepSize: 1
+                value: 5
+            }
+
+            Text {
+                width: parent.width
                 text: "And finally build your mosaic:"
             }
 
