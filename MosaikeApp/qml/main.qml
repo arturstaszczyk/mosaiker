@@ -3,6 +3,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.2
 import QtQuick.Extras 1.4
 import QtGraphicalEffects 1.0
+import Matchers 1.0
 
 Rectangle {
     id: rootItem
@@ -131,7 +132,6 @@ Rectangle {
                 text: "Open image"
 
                 onClicked: rootItem.openImage()
-
             }
 
             Text {
@@ -180,7 +180,12 @@ Rectangle {
                 enabled: btnMakeMosaic.enabled
                 currentIndex: 1
 
-                model: ["Greedy matcher", "Distance matcher"]
+                model: ListModel
+                {
+                    id: cmbMatcherItems
+                    ListElement { text: "Greedy matcher"; matcher: Matchers.MatcherGreedy; }
+                    ListElement { text : "Distance matcher"; matcher: Matchers.MatcherDistance; }
+                }
             }
 
             Text {

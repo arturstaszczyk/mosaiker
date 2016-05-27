@@ -31,7 +31,8 @@ SOURCES += FileSystemOps/ResourceFinder.cpp \
     Models/PictureModel.cpp \
     Commands/CommandSaveMosaic.cpp \
     IndexingOps/ImageMatcherGreedy.cpp \
-    IndexingOps/ImageMatcherDistance.cpp
+    IndexingOps/ImageMatcherDistance.cpp \
+    Models/MatcherModel.cpp
 
 HEADERS += FileSystemOps/ResourceFinder.h \
     Exceptions.h \
@@ -61,7 +62,9 @@ HEADERS += FileSystemOps/ResourceFinder.h \
     HptIntegration.h \
     Interfaces/IIndexMatcherStrategy.h \
     IndexingOps/ImageMatcherGreedy.h \
-    IndexingOps/ImageMatcherDistance.h
+    IndexingOps/ImageMatcherDistance.h \
+    Models/MatcherModel.h \
+    Models/MatcherEnum.h
 
 unix {
     target.path = /usr/lib
