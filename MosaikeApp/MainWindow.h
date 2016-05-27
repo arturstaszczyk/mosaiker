@@ -7,6 +7,7 @@
 
 #include <Models/MatcherModel.h>
 #include <Models/PictureModel.h>
+#include <Models/SliceSizeModel.h>
 #include <Models/ProgressBarModel.h>
 #include <Models/ResourcesDirModel.h>
 #include <Models/MosaicBuildButtonModel.h>
@@ -46,6 +47,7 @@ private:
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
     MosaicBuildButtonModel* mMakeMosaicButtonModelPtr;
+    SliceSizeModel* mSliceSizeModel;
 
     CommandRecycler* mCommandRecycler;
 

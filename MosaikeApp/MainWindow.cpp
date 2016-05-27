@@ -40,10 +40,12 @@ MainWindow::MainWindow(QWidget *parent)
     mResourcesDirModelPtr = new ResourcesDirModel(this);
     mProgressBarModelPtr = new ProgressBarModel(this);
     mMakeMosaicButtonModelPtr = new MosaicBuildButtonModel(this);
+    mSliceSizeModel = new SliceSizeModel(this);
 
     ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
 
-    ui->quickWidget->rootContext()->setContextProperty("matcher", mMatcherModel);
+    ui->quickWidget->rootContext()->setContextProperty("sliceSizeModel", mSliceSizeModel);
+    ui->quickWidget->rootContext()->setContextProperty("matcherModel", mMatcherModel);
     ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mPrimaryImageModel);
     ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);
@@ -63,6 +65,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(root, SIGNAL(saveMosaic()), this, SLOT(onSaveMosaicButton()));
 
     connect(root, SIGNAL(opacityChanged(QVariant)), this, SLOT(onOpacityChanged(QVariant)));
+
+    mMatcherModel->setDistance(5);
+    mSliceSizeModel->setSliceSize(QSize(64, 64));
 }
 
 MainWindow::~MainWindow()
@@ -135,7 +140,7 @@ void MainWindow::onMakeMosaicButton()
     CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, indexMatcher,
                                                                    mPrimaryImageModel,
                                                                    this);
-    createMosaicCmd->setSliceSize(128);
+    createMosaicCmd->setSliceSize(mSliceSizeModel->sliceSize());
 
     connect(createMosaicCmd, SIGNAL(commandProgress(quint32)),
             this, SLOT(onAsyncCommandProgress(quint32)));

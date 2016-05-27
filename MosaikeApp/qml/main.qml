@@ -11,6 +11,10 @@ Rectangle {
     height: 480
     color: "gray"
 
+    property alias sliceSize: spinSliceSize.value
+
+    sliceSize: 64
+
     signal openImage()
     signal setResourcesPath()
     signal buildIndex();
@@ -169,6 +173,28 @@ Rectangle {
 
             Text {
                 width: parent.width
+                text: "Slice size:"
+            }
+
+            SpinBox {
+                id: spinSliceSize
+                width: parent.width
+                value: sliceSizeModel.sliceSize.width
+                opacity: 0.8
+
+                enabled: btnMakeMosaic.enabled
+                minimumValue: 16
+                maximumValue: 256
+                stepSize: 16
+
+                onValueChanged: {
+                    sliceSizeModel.sliceSize.width = value;
+                    sliceSizeModel.sliceSize.height = value;
+                }
+            }
+
+            Text {
+                width: parent.width
                 wrapMode: Text.Wrap
                 text: "Select match algorithm:"
             }
@@ -187,13 +213,13 @@ Rectangle {
                     ListElement { text : "Distance matcher"; matcher: Matchers.MatcherDistance; }
                 }
 
-                onCurrentIndexChanged: matcher.updateMatcher(cmbMatcherItems.get(cmbMatcher.currentIndex).matcher)
+                onCurrentIndexChanged: matcherModel.updateMatcher(cmbMatcherItems.get(cmbMatcher.currentIndex).matcher)
 
             }
 
             Text {
                 width: parent.width
-
+                height: cmbMatcher.currentIndex != 0 ? 24 : 0
                 text: "Matcher params:"
             }
 
@@ -204,11 +230,11 @@ Rectangle {
                 height: cmbMatcher.currentIndex != 0 ? 24 : 0
                 enabled: cmbMatcher.currentIndex != 0 && btnMakeMosaic.enabled
 
-                minimumValue: 0
+                minimumValue: 1
                 stepSize: 1
-                value: 5
 
-                onValueChanged: matcher.updateDistance(value)
+                value: matcherModel.distance
+                onValueChanged: matcherModel.updateDistance(value)
             }
 
             Text {

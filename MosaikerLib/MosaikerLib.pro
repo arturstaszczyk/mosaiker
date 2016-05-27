@@ -33,7 +33,8 @@ SOURCES += FileSystemOps/ResourceFinder.cpp \
     Models/MatcherModel.cpp \
     IndexingOps/IndexMatcherDistance.cpp \
     IndexingOps/IndexMatcherFactory.cpp \
-    IndexingOps/IndexMatcherGreedy.cpp
+    IndexingOps/IndexMatcherGreedy.cpp \
+    Models/SliceSizeModel.cpp
 
 HEADERS += FileSystemOps/ResourceFinder.h \
     Exceptions.h \
@@ -64,7 +65,8 @@ HEADERS += FileSystemOps/ResourceFinder.h \
     Models/MatcherModel.h \
     IndexingOps/IndexMatcherGreedy.h \
     IndexingOps/IndexMatcherFactory.h \
-    IndexingOps/IndexMatcherDistance.h
+    IndexingOps/IndexMatcherDistance.h \
+    Models/SliceSizeModel.h
 
 unix {
     target.path = /usr/lib
