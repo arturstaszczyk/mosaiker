@@ -7,12 +7,12 @@
 
 #include "Interfaces/IIndexLoader.h"
 
-class ImageMatcherGreedy : public QObject, public IIndexMatcherStrategy
+class IndexMatcherGreedy : public QObject, public IIndexMatcherStrategy
 {
     Q_OBJECT
 
 public:
-    explicit ImageMatcherGreedy(IIndexLoader* indexLoader, QObject* parent = nullptr);
+    explicit IndexMatcherGreedy(IIndexLoader* indexLoader, QObject* parent = nullptr);
 
     virtual QString matchFileWithIndex(quint32 index) override;
 

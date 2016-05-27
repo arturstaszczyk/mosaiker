@@ -5,14 +5,14 @@
 #include "Interfaces/IIndexLoader.h"
 #include "Interfaces/IIndexMatcherStrategy.h"
 
-class ImageMatcherFactory
+class IndexMatcherFactory
 {
 public:
     static IIndexMatcherStrategy* create(IIndexLoader* indexLoader, const MatcherModel* model);
 
 private:
-    ImageMatcherFactory() {}
-    ImageMatcherFactory(const ImageMatcherFactory&){}
+    IndexMatcherFactory() {}
+    IndexMatcherFactory(const IndexMatcherFactory&){}
 };
 
 #endif // IMAGEMATCHERFACTORY_H

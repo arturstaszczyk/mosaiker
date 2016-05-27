@@ -7,10 +7,10 @@
 #include "Interfaces/IIndexLoader.h"
 #include "Interfaces/IIndexMatcherStrategy.h"
 
-class ImageMatcherDistance : public QObject, public IIndexMatcherStrategy
+class IndexMatcherDistance : public QObject, public IIndexMatcherStrategy
 {
 public:
-    ImageMatcherDistance(IIndexLoader* indexLoader, quint32 distance, QObject* parent = nullptr);
+    IndexMatcherDistance(IIndexLoader* indexLoader, quint32 distance, QObject* parent = nullptr);
 
     virtual QString matchFileWithIndex(quint32 index) override;
 

@@ -1,10 +1,10 @@
-﻿#include "ImageMatcherGreedy.h"
+﻿#include "IndexMatcherGreedy.h"
 
 #include <QDebug>
 
 #include "Exceptions.h"
 
-ImageMatcherGreedy::ImageMatcherGreedy(IIndexLoader* indexLoader, QObject* parent)
+IndexMatcherGreedy::IndexMatcherGreedy(IIndexLoader* indexLoader, QObject* parent)
     : QObject(parent)
     , mIndexLoader(indexLoader)
 {
@@ -12,7 +12,7 @@ ImageMatcherGreedy::ImageMatcherGreedy(IIndexLoader* indexLoader, QObject* paren
     mIndexLoader->loadIndex();
 }
 
-QString ImageMatcherGreedy::matchFileWithIndex(quint32 index)
+QString IndexMatcherGreedy::matchFileWithIndex(quint32 index)
 {
     return mIndexLoader->closestFileNameByIndex(index);
 }

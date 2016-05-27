@@ -16,7 +16,7 @@
 #include <IndexingOps/IndexBuilder.h>
 #include <FileSystemOps/FileChooser.h>
 #include <FileSystemOps/ResourceFinder.h>
-#include <IndexingOps/ImageMatcherFactory.h>
+#include <IndexingOps/IndexMatcherFactory.h>
 #include <Interfaces/IIndexMatcherStrategy.h>
 
 #include <Commands/CommandOpenImage.h>
@@ -131,7 +131,7 @@ void MainWindow::onMakeMosaicButton()
     IndexLoader* indexLoader = new IndexLoader(indexFilePath);
 
     ImageSlicer* imageSlicer = new ImageSlicer();
-    IIndexMatcherStrategy* indexMatcher = ImageMatcherFactory::create(indexLoader, mMatcherModel);
+    IIndexMatcherStrategy* indexMatcher = IndexMatcherFactory::create(indexLoader, mMatcherModel);
     CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, indexMatcher,
                                                                    mPrimaryImageModel,
                                                                    this);

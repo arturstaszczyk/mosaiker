@@ -1,6 +1,6 @@
-﻿#include "ImageMatcherDistance.h"
+﻿#include "IndexMatcherDistance.h"
 
-ImageMatcherDistance::ImageMatcherDistance(IIndexLoader* indexLoader, quint32 distance, QObject* parent)
+IndexMatcherDistance::IndexMatcherDistance(IIndexLoader* indexLoader, quint32 distance, QObject* parent)
     : QObject(parent)
     , mIndexLoader(indexLoader)
     , mDistance(distance)
@@ -10,7 +10,7 @@ ImageMatcherDistance::ImageMatcherDistance(IIndexLoader* indexLoader, quint32 di
     mIndexLoader->loadIndex();
 }
 
-QString ImageMatcherDistance::matchFileWithIndex(quint32 index)
+QString IndexMatcherDistance::matchFileWithIndex(quint32 index)
 {
     QString bestFit = mIndexLoader->closestFileNameByIndex(index);
     if(mUsageMap.find(bestFit) == mUsageMap.end())
