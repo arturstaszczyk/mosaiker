@@ -63,8 +63,7 @@ HEADERS += FileSystemOps/ResourceFinder.h \
     Interfaces/IIndexMatcherStrategy.h \
     IndexingOps/ImageMatcherGreedy.h \
     IndexingOps/ImageMatcherDistance.h \
-    Models/MatcherModel.h \
-    Models/MatcherEnum.h
+    Models/MatcherModel.h
 
 unix {
     target.path = /usr/lib

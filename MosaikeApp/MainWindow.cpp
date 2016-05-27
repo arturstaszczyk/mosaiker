@@ -11,7 +11,6 @@
 #include <QQmlContext>
 #include <QQmlProperty>
 
-#include <Models/MatcherEnum.h>
 #include <ImageOps/ImageSlicer.h>
 #include <IndexingOps/IndexLoader.h>
 #include <IndexingOps/IndexBuilder.h>
@@ -31,11 +30,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    MatcherEnum::declareInQml();
     mCommandRecycler = new CommandRecycler(std::chrono::milliseconds(100), this);
 
     ui->setupUi(this);
+    MatcherModel::declareInQml();
 
+    mMatcherModel = new MatcherModel(this);
     mPrimaryImageModel = new PictureModel(this);
     mResourcesDirModelPtr = new ResourcesDirModel(this);
     mProgressBarModelPtr = new ProgressBarModel(this);
@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
 
+    ui->quickWidget->rootContext()->setContextProperty("matcher", mMatcherModel);
     ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mPrimaryImageModel);
     ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
     ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);

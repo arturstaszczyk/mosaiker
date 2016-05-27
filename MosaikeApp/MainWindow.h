@@ -5,6 +5,7 @@
 
 #include <Interfaces/IResourceFinder.h>
 
+#include <Models/MatcherModel.h>
 #include <Models/PictureModel.h>
 #include <Models/ProgressBarModel.h>
 #include <Models/ResourcesDirModel.h>
@@ -41,6 +42,7 @@ private:
 
     PictureModel* mPrimaryImageModel;
 
+    MatcherModel* mMatcherModel;
     ResourcesDirModel* mResourcesDirModelPtr;
     ProgressBarModel* mProgressBarModelPtr;
     MosaicBuildButtonModel* mMakeMosaicButtonModelPtr;

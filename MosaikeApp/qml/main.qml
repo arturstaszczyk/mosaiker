@@ -186,6 +186,9 @@ Rectangle {
                     ListElement { text: "Greedy matcher"; matcher: Matchers.MatcherGreedy; }
                     ListElement { text : "Distance matcher"; matcher: Matchers.MatcherDistance; }
                 }
+
+                onCurrentIndexChanged: matcher.updateMatcher(cmbMatcherItems.get(cmbMatcher.currentIndex).matcher)
+
             }
 
             Text {
