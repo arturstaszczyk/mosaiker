@@ -15,6 +15,7 @@
 #include <IndexingOps/IndexLoader.h>
 #include <IndexingOps/IndexBuilder.h>
 #include <IndexingOps/ImageMatcherGreedy.h>
+#include <IndexingOps/ImageMatcherDistance.h>
 #include <FileSystemOps/ResourceFinder.h>
 #include <FileSystemOps/FileChooser.h>
 
@@ -127,7 +128,7 @@ void MainWindow::onMakeMosaicButton()
     IndexLoader* indexLoader = new IndexLoader(indexFilePath);
 
     ImageSlicer* imageSlicer = new ImageSlicer();
-    ImageMatcherGreedy* imageMatcher = new ImageMatcherGreedy(indexLoader);
+    ImageMatcherDistance* imageMatcher = new ImageMatcherDistance(indexLoader, 5);
 
 
     CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, imageMatcher,

@@ -49,3 +49,24 @@ QString IndexLoader::closestFileNameByIndex(quint32 index)
 
     return foundIndex.fileName;
 }
+
+QString IndexLoader::closestFileNameByIndexExcluding(quint32 index, QStringList excludes)
+{
+    quint32 distance = 10e5;
+    IndexLoader::Index currentIndex;
+    IndexLoader::Index foundIndex;
+    foreach(currentIndex, mFileIndex)
+    {
+        if(excludes.contains(currentIndex.fileName))
+            continue;
+
+        quint32 actDistance = currentIndex.distanceToIndex(index);
+        if(actDistance < distance)
+        {
+            foundIndex = currentIndex;
+            distance = actDistance;
+        }
+    }
+
+    return foundIndex.fileName;
+}

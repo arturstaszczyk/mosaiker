@@ -30,6 +30,7 @@ public:
     virtual void loadIndex() override;
 
     virtual QString closestFileNameByIndex(quint32 index) override;
+    virtual QString closestFileNameByIndexExcluding(quint32 index, QStringList excludes) override;
 
 private:
     QString mIndexFileName;

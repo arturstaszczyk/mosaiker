@@ -30,7 +30,8 @@ SOURCES += FileSystemOps/ResourceFinder.cpp \
     Models/MosaicBuildButtonModel.cpp \
     Models/PictureModel.cpp \
     Commands/CommandSaveMosaic.cpp \
-    IndexingOps/ImageMatcherGreedy.cpp
+    IndexingOps/ImageMatcherGreedy.cpp \
+    IndexingOps/ImageMatcherDistance.cpp
 
 HEADERS += FileSystemOps/ResourceFinder.h \
     Exceptions.h \
@@ -59,7 +60,8 @@ HEADERS += FileSystemOps/ResourceFinder.h \
     Commands/CommandSaveMosaic.h \
     HptIntegration.h \
     Interfaces/IIndexMatcherStrategy.h \
-    IndexingOps/ImageMatcherGreedy.h
+    IndexingOps/ImageMatcherGreedy.h \
+    IndexingOps/ImageMatcherDistance.h
 
 unix {
     target.path = /usr/lib

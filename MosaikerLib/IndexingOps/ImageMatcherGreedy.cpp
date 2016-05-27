@@ -9,7 +9,6 @@ ImageMatcherGreedy::ImageMatcherGreedy(IIndexLoader* indexLoader, QObject* paren
     , mIndexLoader(indexLoader)
 {
     dynamic_cast<QObject*>(mIndexLoader)->setParent(this);
-
     mIndexLoader->loadIndex();
 }
 
