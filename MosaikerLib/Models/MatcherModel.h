@@ -28,10 +28,7 @@ public:
 
 public:
 
-    void setDistance(quint32);
     quint32 distance() const { return mDistance; }
-
-    void setMatcher(MatcherType matcher);
     MatcherType matcher() const { return mMatcher; }
 
 signals:
@@ -39,8 +36,8 @@ signals:
     void distanceChanged(quint32 distance);
 
 public slots:
-    void updateMatcher(MatcherType matcher);
-    void updateDistance(quint32 distance);
+    void setDistance(quint32);
+    void setMatcher(MatcherType matcher);
 
 private:
     MatcherType mMatcher;

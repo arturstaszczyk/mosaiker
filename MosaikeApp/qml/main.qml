@@ -11,16 +11,11 @@ Rectangle {
     height: 480
     color: "gray"
 
-    property alias sliceSize: spinSliceSize.value
-
-    sliceSize: 64
-
     signal openImage()
     signal setResourcesPath()
     signal buildIndex();
     signal makeMosaic();
     signal saveMosaic();
-    signal opacityChanged(var opacityValue);
 
     Connections {
         target: mainImageModel
@@ -179,18 +174,14 @@ Rectangle {
             SpinBox {
                 id: spinSliceSize
                 width: parent.width
-                value: sliceSizeModel.sliceSize.width
-                opacity: 0.8
 
                 enabled: btnMakeMosaic.enabled
                 minimumValue: 16
                 maximumValue: 256
                 stepSize: 16
 
-                onValueChanged: {
-                    sliceSizeModel.sliceSize.width = value;
-                    sliceSizeModel.sliceSize.height = value;
-                }
+                value: sliceSizeModel.sliceSize
+                onValueChanged: sliceSizeModel.setSliceSize(value)
             }
 
             Text {
@@ -213,7 +204,7 @@ Rectangle {
                     ListElement { text : "Distance matcher"; matcher: Matchers.MatcherDistance; }
                 }
 
-                onCurrentIndexChanged: matcherModel.updateMatcher(cmbMatcherItems.get(cmbMatcher.currentIndex).matcher)
+                onCurrentIndexChanged: matcherModel.setMatcher(cmbMatcherItems.get(cmbMatcher.currentIndex).matcher)
 
             }
 
@@ -234,7 +225,7 @@ Rectangle {
                 stepSize: 1
 
                 value: matcherModel.distance
-                onValueChanged: matcherModel.updateDistance(value)
+                onValueChanged: matcherModel.setDistance(value)
             }
 
             Text {
@@ -271,16 +262,15 @@ Rectangle {
 
             Slider {
                 id: opacitySlider
-                objectName: "opacitySlider"
+                width: parent.width
                 enabled: makeMosaicButtonModel.wasCreated
 
                 minimumValue: 0
                 maximumValue: 1
-                value: 0.2
                 stepSize: 0.05
-                width: parent.width
 
-                onValueChanged: rootItem.opacityChanged(value)
+                value: mainImageModel.opacity
+                onValueChanged: mainImageModel.setOpacity(value)
             }
 
             Text {

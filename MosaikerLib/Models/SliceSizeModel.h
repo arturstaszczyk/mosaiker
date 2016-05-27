@@ -10,19 +10,18 @@ class SliceSizeModel : public QObject
 public:
     explicit SliceSizeModel(QObject *parent = 0);
 
-    Q_PROPERTY(QSize sliceSize READ sliceSize WRITE setSliceSize NOTIFY sliceSizeChanged)
+    Q_PROPERTY(quint32 sliceSize READ sliceSize WRITE setSliceSize NOTIFY sliceSizeChanged)
 
-    void setSliceSize(QSize size);
-    QSize sliceSize() const { return mSliceSize; }
+    quint32 sliceSize() const { return mSliceSize; }
 
 signals:
-    void sliceSizeChanged(QSize);
+    void sliceSizeChanged(quint32);
 
 public slots:
-    void updateSliceSize(QSize sliceSize);
+    void setSliceSize(quint32 size);
 
 private:
-    QSize mSliceSize;
+    quint32 mSliceSize;
 };
 
 #endif // SLICESIZEMODEL_H

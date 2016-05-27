@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QColor>
+#include <cmath>
 
 #include "Exceptions.h"
 
@@ -25,10 +26,14 @@ void PictureModel::setOverlayImage(const QImage &image)
     emit composedImageUpdated();
 }
 
-void PictureModel::setImageOpacity(float opacity)
+void PictureModel::setOpacity(qreal opacity)
 {
-    mImageOpacity = opacity;
-    emit composedImageUpdated();
+    if(std::abs(mImageOpacity - opacity) > 0.0001)
+    {
+        mImageOpacity = opacity;
+        emit opacityChanged(mImageOpacity);
+        emit composedImageUpdated();
+    }
 }
 
 // Used by QtQuickEngine to display image in QML

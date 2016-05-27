@@ -32,11 +32,14 @@ public slots:
     void onBuildIndexButton();
     void onMakeMosaicButton();
     void onSaveMosaicButton();
-    void onOpacityChanged(QVariant opacity);
 
     void onAsyncCommandProgress(quint32 progress);
     void onCommandIndexBuilt();
     void onCommandMosaicCreated();
+
+private:
+    void createModels();
+    void setQmlContextProps();
 
 private:
     Ui::MainWindow *ui;
@@ -44,9 +47,9 @@ private:
     PictureModel* mPrimaryImageModel;
 
     MatcherModel* mMatcherModel;
-    ResourcesDirModel* mResourcesDirModelPtr;
-    ProgressBarModel* mProgressBarModelPtr;
-    MosaicBuildButtonModel* mMakeMosaicButtonModelPtr;
+    ResourcesDirModel* mResourcesDirModel;
+    ProgressBarModel* mProgressBarModel;
+    MosaicBuildButtonModel* mMakeMosaicButtonModel;
     SliceSizeModel* mSliceSizeModel;
 
     CommandRecycler* mCommandRecycler;

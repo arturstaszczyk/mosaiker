@@ -15,11 +15,6 @@ void MatcherModel::setMatcher(MatcherType matcher)
     }
 }
 
-void MatcherModel::updateMatcher(MatcherType matcher)
-{
-    setMatcher(matcher);
-}
-
 void MatcherModel::setDistance(quint32 distance)
 {
     if(mDistance != distance)
@@ -27,9 +22,4 @@ void MatcherModel::setDistance(quint32 distance)
         mDistance = distance;
         emit distanceChanged(mDistance);
     }
-}
-
-void MatcherModel::updateDistance(quint32 distance)
-{
-    setDistance(distance);
 }

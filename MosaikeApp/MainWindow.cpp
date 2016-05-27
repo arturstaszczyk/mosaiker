@@ -35,26 +35,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     MatcherModel::declareInQml();
 
-    mMatcherModel = new MatcherModel(this);
-    mPrimaryImageModel = new PictureModel(this);
-    mResourcesDirModelPtr = new ResourcesDirModel(this);
-    mProgressBarModelPtr = new ProgressBarModel(this);
-    mMakeMosaicButtonModelPtr = new MosaicBuildButtonModel(this);
-    mSliceSizeModel = new SliceSizeModel(this);
-
-    ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
-
-    ui->quickWidget->rootContext()->setContextProperty("sliceSizeModel", mSliceSizeModel);
-    ui->quickWidget->rootContext()->setContextProperty("matcherModel", mMatcherModel);
-    ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mPrimaryImageModel);
-    ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModelPtr);
-    ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModelPtr);
-    ui->quickWidget->rootContext()->setContextProperty("makeMosaicButtonModel", mMakeMosaicButtonModelPtr);
+    createModels();
+    setQmlContextProps();
 
     ui->quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 
-    QObject* slider = ui->quickWidget->rootObject()->findChild<QObject*>("opacitySlider");
-    mPrimaryImageModel->setImageOpacity(slider->property("value").toFloat());
 
     QObject* root = ui->quickWidget->rootObject();
 
@@ -64,10 +49,31 @@ MainWindow::MainWindow(QWidget *parent)
     connect(root, SIGNAL(makeMosaic()), this, SLOT(onMakeMosaicButton()));
     connect(root, SIGNAL(saveMosaic()), this, SLOT(onSaveMosaicButton()));
 
-    connect(root, SIGNAL(opacityChanged(QVariant)), this, SLOT(onOpacityChanged(QVariant)));
-
     mMatcherModel->setDistance(5);
-    mSliceSizeModel->setSliceSize(QSize(64, 64));
+    mSliceSizeModel->setSliceSize(64);
+    mPrimaryImageModel->setOpacity(0.9);
+}
+
+void MainWindow::createModels()
+{
+    mMatcherModel = new MatcherModel(this);
+    mPrimaryImageModel = new PictureModel(this);
+    mResourcesDirModel = new ResourcesDirModel(this);
+    mProgressBarModel = new ProgressBarModel(this);
+    mMakeMosaicButtonModel = new MosaicBuildButtonModel(this);
+    mSliceSizeModel = new SliceSizeModel(this);
+}
+
+void MainWindow::setQmlContextProps()
+{
+    ui->quickWidget->engine()->addImageProvider("mainImageModel", mPrimaryImageModel);
+
+    ui->quickWidget->rootContext()->setContextProperty("sliceSizeModel", mSliceSizeModel);
+    ui->quickWidget->rootContext()->setContextProperty("matcherModel", mMatcherModel);
+    ui->quickWidget->rootContext()->setContextProperty("mainImageModel", mPrimaryImageModel);
+    ui->quickWidget->rootContext()->setContextProperty("resourcesDirModel", mResourcesDirModel);
+    ui->quickWidget->rootContext()->setContextProperty("progressBarModel", mProgressBarModel);
+    ui->quickWidget->rootContext()->setContextProperty("makeMosaicButtonModel", mMakeMosaicButtonModel);
 }
 
 MainWindow::~MainWindow()
@@ -85,7 +91,7 @@ void MainWindow::onOpenOriginalFileButton()
 
     mCommandRecycler->executeAndDispose(openImageCmd);
 
-    mMakeMosaicButtonModelPtr->setWasCreated(false);
+    mMakeMosaicButtonModel->setWasCreated(false);
 }
 
 void MainWindow::onOpenResourcesDirButton()
@@ -94,14 +100,14 @@ void MainWindow::onOpenResourcesDirButton()
     CommandOpenResourcesDir* openResourcesCmd = new CommandOpenResourcesDir(pathChooser);
 
     QObject::connect(openResourcesCmd, SIGNAL(dirOpened(QString)),
-                     mResourcesDirModelPtr, SLOT(setResourcesDir(QString)));
+                     mResourcesDirModel, SLOT(setResourcesDir(QString)));
 
     mCommandRecycler->executeAndDispose(openResourcesCmd);
 }
 
 void MainWindow::onBuildIndexButton()
 {
-    auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
+    auto resourcesDir = mResourcesDirModel->resourcesDir();
     QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
 
     IndexBuilder* indexBuilder = new IndexBuilder(indexFilePath);
@@ -112,26 +118,26 @@ void MainWindow::onBuildIndexButton()
     connect(buildIndexCmd, SIGNAL(commandProgress(quint32)), this, SLOT(onAsyncCommandProgress(quint32)));
     connect(buildIndexCmd, SIGNAL(commandFinished()), this, SLOT(onCommandIndexBuilt()));
 
-    mResourcesDirModelPtr->setIndexBuilding(true);
+    mResourcesDirModel->setIndexBuilding(true);
 
     mCommandRecycler->executeAndDispose(buildIndexCmd);
 }
 
 void MainWindow::onAsyncCommandProgress(quint32 progress)
 {
-    mProgressBarModelPtr->setValue(progress);
+    mProgressBarModel->setValue(progress);
 }
 
 void MainWindow::onCommandIndexBuilt()
 {
-    mResourcesDirModelPtr->setIndexBuilt(true);
-    mResourcesDirModelPtr->setIndexBuilding(false);
-    mProgressBarModelPtr->setValue(0);
+    mResourcesDirModel->setIndexBuilt(true);
+    mResourcesDirModel->setIndexBuilding(false);
+    mProgressBarModel->setValue(0);
 }
 
 void MainWindow::onMakeMosaicButton()
 {
-    auto resourcesDir = mResourcesDirModelPtr->resourcesDir();
+    auto resourcesDir = mResourcesDirModel->resourcesDir();
     QString indexFilePath = QDir::cleanPath(resourcesDir + "/" +  ResourcesDirModel::INDEX_FILE);
     IndexLoader* indexLoader = new IndexLoader(indexFilePath);
 
@@ -147,15 +153,15 @@ void MainWindow::onMakeMosaicButton()
     connect(createMosaicCmd, SIGNAL(commandFinished()),
             this, SLOT(onCommandMosaicCreated()));
 
-    mMakeMosaicButtonModelPtr->setIsBeingCreated(true);
+    mMakeMosaicButtonModel->setIsBeingCreated(true);
     mCommandRecycler->executeAndDispose(createMosaicCmd);
 }
 
 void MainWindow::onCommandMosaicCreated()
 {
-    mProgressBarModelPtr->setValue(0);
-    mMakeMosaicButtonModelPtr->setIsBeingCreated(false);
-    mMakeMosaicButtonModelPtr->setWasCreated(true);
+    mProgressBarModel->setValue(0);
+    mMakeMosaicButtonModel->setIsBeingCreated(false);
+    mMakeMosaicButtonModel->setWasCreated(true);
 }
 
 void MainWindow::onSaveMosaicButton()
@@ -163,9 +169,4 @@ void MainWindow::onSaveMosaicButton()
     FileChooser* pathChooser = new FileChooser;
     CommandSaveMosaic* cmdSaveMosaic = new CommandSaveMosaic(pathChooser, mPrimaryImageModel, this);
     mCommandRecycler->executeAndDispose(cmdSaveMosaic);
-}
-
-void MainWindow::onOpacityChanged(QVariant opacity)
-{
-    mPrimaryImageModel->setImageOpacity(opacity.toFloat());
 }

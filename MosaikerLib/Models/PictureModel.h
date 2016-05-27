@@ -13,13 +13,12 @@ public:
     Q_PROPERTY(QSize qmlSize READ qmlSize NOTIFY sizeChanged)
     Q_PROPERTY(bool displayImageLoaded READ isDisplayImageLoaded NOTIFY composedImageUpdated)
     Q_PROPERTY(bool overlayImageLoaded READ isOverlayImageLoaded NOTIFY composedImageUpdated)
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
 
 public:
     explicit PictureModel(QObject *parent = 0);
 
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
-
-    void setImageOpacity(float opacity);
 
     // Watch out, there is a non-const reference returned!!!
     QImage& displayImage() { return mDisplayImage; }
@@ -29,14 +28,17 @@ public:
     QSize qmlSize() const { return mQmlSize; }
     bool isDisplayImageLoaded() const { return !mDisplayImage.isNull(); }
     bool isOverlayImageLoaded() const { return !mOverlayImage.isNull(); }
+    qreal opacity() const { return mImageOpacity; }
 
 signals:
     void composedImageUpdated();
     void sizeChanged();
+    void opacityChanged(qreal);
 
 public slots:
     void setDisplayImage(const QImage& displayImage);
     void setOverlayImage(const QImage& displayImage);
+    void setOpacity(qreal opacity);
 
 private:
     void calculateSize(QSize* size, const QSize& requestedSize);
@@ -48,7 +50,7 @@ private:
     QImage mCompositionImage;
 
     QSize mQmlSize;
-    float mImageOpacity;
+    qreal mImageOpacity;
 };
 
 #endif // IMAGEMODEL_H

@@ -5,16 +5,11 @@ SliceSizeModel::SliceSizeModel(QObject *parent) : QObject(parent)
 
 }
 
-void SliceSizeModel::setSliceSize(QSize size)
+void SliceSizeModel::setSliceSize(quint32 size)
 {
     if(mSliceSize != size)
     {
         mSliceSize = size;
         emit sliceSizeChanged(mSliceSize);
     }
-}
-
-void SliceSizeModel::updateSliceSize(QSize sliceSize)
-{
-    setSliceSize(sliceSize);
 }
