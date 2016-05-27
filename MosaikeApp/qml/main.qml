@@ -207,6 +207,8 @@ Rectangle {
                 minimumValue: 0
                 stepSize: 1
                 value: 5
+
+                onValueChanged: matcher.updateDistance(value)
             }
 
             Text {
