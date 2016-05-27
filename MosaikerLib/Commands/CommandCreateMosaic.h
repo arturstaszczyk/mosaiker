@@ -7,6 +7,7 @@
 #include "Interfaces/IIndexMatcherStrategy.h"
 
 #include "Models/PictureModel.h"
+#include "Models/MatcherModel.h"
 
 #define DEFAULT_SLICE_SIZE 64
 
@@ -16,7 +17,8 @@ class CommandCreateMosaic : public Command
 
 public:
     explicit CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexMatcherStrategy* indexMather,
-                                 PictureModel* primaryImage, QObject* parent = nullptr);
+                                 PictureModel* primaryImage,
+                                 QObject* parent = nullptr);
 
     void setSliceSize(quint32 sizeInPixels);
     void setSliceSize(QSize size);
@@ -33,6 +35,8 @@ public slots:
 private:
     IImageSlicer* mImageSlicer;
     IIndexMatcherStrategy* mIndexMatcher;
+
+    MatcherModel* mMatcherModel;
     PictureModel* mPictureModel;
 
     QList<QString> mImageNames;

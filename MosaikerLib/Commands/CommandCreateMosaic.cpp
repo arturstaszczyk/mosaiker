@@ -10,7 +10,8 @@
 #include "IndexingOps/ImageIndexer.h"
 
 CommandCreateMosaic::CommandCreateMosaic(IImageSlicer* imageSlicer, IIndexMatcherStrategy* indexMatcher,
-                                         PictureModel* primaryImage, QObject* parent)
+                                         PictureModel* primaryImage,
+                                         QObject* parent)
     : Command(COMMAND_NAME(CommandCreateMosaic), parent)
     , mImageSlicer(imageSlicer)
     , mIndexMatcher(indexMatcher)

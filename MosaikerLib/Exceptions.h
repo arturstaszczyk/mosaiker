@@ -16,6 +16,11 @@ class CannotIndexFiles : public std::exception
 
 };
 
+class CannotCreateMatcher : public std::exception
+{
+
+};
+
 
 #endif // EXCEPTIONS_H
 

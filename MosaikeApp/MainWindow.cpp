@@ -14,10 +14,10 @@
 #include <ImageOps/ImageSlicer.h>
 #include <IndexingOps/IndexLoader.h>
 #include <IndexingOps/IndexBuilder.h>
-#include <IndexingOps/ImageMatcherGreedy.h>
-#include <IndexingOps/ImageMatcherDistance.h>
-#include <FileSystemOps/ResourceFinder.h>
 #include <FileSystemOps/FileChooser.h>
+#include <FileSystemOps/ResourceFinder.h>
+#include <IndexingOps/ImageMatcherFactory.h>
+#include <Interfaces/IIndexMatcherStrategy.h>
 
 #include <Commands/CommandOpenImage.h>
 #include <Commands/CommandBuildIndex.h>
@@ -131,10 +131,8 @@ void MainWindow::onMakeMosaicButton()
     IndexLoader* indexLoader = new IndexLoader(indexFilePath);
 
     ImageSlicer* imageSlicer = new ImageSlicer();
-    ImageMatcherDistance* imageMatcher = new ImageMatcherDistance(indexLoader, 5);
-
-
-    CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, imageMatcher,
+    IIndexMatcherStrategy* indexMatcher = ImageMatcherFactory::create(indexLoader, mMatcherModel);
+    CommandCreateMosaic* createMosaicCmd = new CommandCreateMosaic(imageSlicer, indexMatcher,
                                                                    mPrimaryImageModel,
                                                                    this);
     createMosaicCmd->setSliceSize(128);
