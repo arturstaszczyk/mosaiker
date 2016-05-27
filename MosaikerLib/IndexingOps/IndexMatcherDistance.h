@@ -15,6 +15,10 @@ public:
     virtual QString matchFileWithIndex(quint32 index) override;
 
 private:
+    bool availableForUse(QString item);
+    bool invalidCandidate(QString item);
+
+private:
     IIndexLoader* mIndexLoader;
     QMap<QString, qint32> mUsageMap;
 

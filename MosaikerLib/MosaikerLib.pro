@@ -55,7 +55,6 @@ HEADERS += FileSystemOps/ResourceFinder.h \
     ImageOps/ImageSlicer.h \
     Interfaces/IIndexLoader.h \
     IndexingOps/IndexLoader.h \
-    Interfaces/IImageCreator.h \
     ImageOps/ImageCreator.h \
     Models/MosaicBuildButtonModel.h \
     Models/PictureModel.h \

@@ -10,35 +10,44 @@ IndexMatcherDistance::IndexMatcherDistance(IIndexLoader* indexLoader, quint32 di
     mIndexLoader->loadIndex();
 }
 
+bool IndexMatcherDistance::availableForUse(QString item)
+{
+    QMap<QString, qint32>::const_iterator foundItem = mUsageMap.find(item);
+    return (foundItem == mUsageMap.end() || mExecutionCounter - foundItem.value() >= mDistance);
+}
+
+bool IndexMatcherDistance::invalidCandidate(QString item)
+{
+    return item == "";
+}
+
 QString IndexMatcherDistance::matchFileWithIndex(quint32 index)
 {
     QString bestFit = mIndexLoader->closestFileNameByIndex(index);
-    if(mUsageMap.find(bestFit) == mUsageMap.end())
+    if(availableForUse(bestFit))
     {
-        mUsageMap.insert(bestFit, mExecutionCounter);
+        mUsageMap[bestFit] = mExecutionCounter;
         mExecutionCounter++;
         return bestFit;
     }
     else
     {
-        bool canUse = false;
+        bool canUseBestFit = false;
         QStringList excludes;
+        excludes.append(bestFit);
 
-        while(!canUse)
+        while(!canUseBestFit)
         {
             QString nextCandidate = mIndexLoader->closestFileNameByIndexExcluding(index, excludes);
-            if(nextCandidate == "")
+            if(invalidCandidate(nextCandidate))
             {
-                mExecutionCounter++;
-                return bestFit;
+                canUseBestFit = true;
             }
-
-            QMap<QString, qint32>::const_iterator foundItem = mUsageMap.find(nextCandidate);
-            if(foundItem == mUsageMap.end() || mExecutionCounter - foundItem.value() >= mDistance)
+            else if(availableForUse(nextCandidate))
             {
                 mUsageMap[nextCandidate] = mExecutionCounter;
-                mExecutionCounter++;
-                return nextCandidate;
+                bestFit = nextCandidate;
+                canUseBestFit = true;
             }
             else
             {
