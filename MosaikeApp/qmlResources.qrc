@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>qml/main.qml</file>
         <file>qml/ResourcesDirControl.qml</file>
+        <file>qml/MosaicControl.qml</file>
     </qresource>
 </RCC>

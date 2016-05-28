@@ -8,6 +8,15 @@ MosaicBuildButtonModel::MosaicBuildButtonModel(QObject *parent)
 
 }
 
+void MosaicBuildButtonModel::setCanCreate(bool canCreate)
+{
+    if(mCanCreate != canCreate)
+    {
+        mCanCreate = canCreate;
+        emit canCreateChanged(mCanCreate);
+    }
+}
+
 void MosaicBuildButtonModel::setIsBeingCreated(bool isBeingCreated)
 {
     if(mIsBeingCreated != isBeingCreated)

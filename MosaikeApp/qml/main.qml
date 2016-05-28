@@ -8,7 +8,7 @@ import Matchers 1.0
 Rectangle {
     id: rootItem
     width: 640
-    height: 480
+    height: 500
     color: "gray"
 
     property int buttonHeight: 32
@@ -104,6 +104,7 @@ Rectangle {
         id: rightColumn
         width: 200
         color: "light gray"
+        clip: true
 
         anchors {
             margins: 0
@@ -148,81 +149,12 @@ Rectangle {
                 onBuildResourcesButton: rootItem.buildIndex()
             }
 
-            Text {
+            MosaicControl {
+                id: gbMosaicControl
                 width: parent.width
-                text: "Slice size:"
-            }
+                anchors.topMargin: 10
 
-            SpinBox {
-                id: spinSliceSize
-                width: parent.width
-
-                enabled: btnMakeMosaic.enabled
-                minimumValue: 16
-                maximumValue: 256
-                stepSize: 16
-
-                value: sliceSizeModel.sliceSize
-                onValueChanged: sliceSizeModel.setSliceSize(value)
-            }
-
-            Text {
-                width: parent.width
-                wrapMode: Text.Wrap
-                text: "Select match algorithm:"
-            }
-
-            ComboBox {
-                id: cmbMatcher
-                width: parent.width
-
-                enabled: btnMakeMosaic.enabled
-                currentIndex: 1
-
-                model: ListModel
-                {
-                    id: cmbMatcherItems
-                    ListElement { text: "Greedy matcher"; matcher: Matchers.MatcherGreedy; }
-                    ListElement { text : "Distance matcher"; matcher: Matchers.MatcherDistance; }
-                }
-
-                onCurrentIndexChanged: matcherModel.setMatcher(cmbMatcherItems.get(cmbMatcher.currentIndex).matcher)
-
-            }
-
-            Text {
-                width: parent.width
-                height: cmbMatcher.currentIndex != 0 ? 18 : 0
-                text: "Matcher params:"
-            }
-
-            SpinBox {
-                id: spinDistance
-                width: parent.width
-
-                height: cmbMatcher.currentIndex != 0 ? 24 : 0
-                enabled: cmbMatcher.currentIndex != 0 && btnMakeMosaic.enabled
-
-                minimumValue: 1
-                stepSize: 1
-
-                value: matcherModel.distance
-                onValueChanged: matcherModel.setDistance(value)
-            }
-
-            Text {
-                width: parent.width
-                text: "And finally build your mosaic:"
-            }
-
-            Button {
-                id: btnMakeMosaic
-                width: parent.width
-                height: rootItem.buttonHeight
-                text: qsTr("Make mosaic")
-
-                enabled: mainImageModel.displayImageLoaded && btnBuildIndex.enabled && !makeMosaicButtonModel.isBeingCreated
-                onClicked: rootItem.makeMosaic()
+                onMakeMosaicButton: rootItem.makeMosaic()
             }
 
             Text {
