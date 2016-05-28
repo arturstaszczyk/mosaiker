@@ -11,6 +11,8 @@ Rectangle {
     height: 480
     color: "gray"
 
+    property int buttonHeight: 32
+
     signal openImage()
     signal setResourcesPath()
     signal buildIndex();
@@ -98,11 +100,10 @@ Rectangle {
         }
     }
 
-    GroupBox {
+    Rectangle {
         id: rightColumn
-        title: qsTr("Make your mosaic:")
-
         width: 200
+        color: "light gray"
 
         anchors {
             margins: 0
@@ -115,7 +116,15 @@ Rectangle {
         Column
         {
             id: controlColumn
-            anchors.fill: parent
+            anchors {
+
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                bottom: instructionProgress.top
+
+                margins: 10
+            }
 
             Text {
                 width: parent.width
@@ -124,46 +133,19 @@ Rectangle {
 
             Button {
                 id: btnOpenImage
-
                 width: parent.width
-                height: 43
-
                 text: "Open image"
 
                 onClicked: rootItem.openImage()
             }
 
-            Text {
+            ResourcesDirControl {
+                id: gbResourcesDirControl
                 width: parent.width
-                text: "Show me your resources:"
-            }
+                anchors.topMargin: 10
 
-            Button {
-                id: btnOpenResources
-                width: parent.width
-                height: 43
-                text: qsTr("Set resources directory")
-                enabled: !resourcesDirModel.isIndexBuilding
-
-                onClicked: rootItem.setResourcesPath()
-            }
-
-            Text {
-                width: parent.width
-                wrapMode: Text.Wrap
-                text: "Preproces resources (no image will be modified):"
-            }
-
-            Button {
-                id: btnBuildIndex
-                width: parent.width
-                height: 43
-
-                text: resourcesDirModel.isIndexBuilt ? "Rebuild index" : "Index not found (build)"
-                isDefault: false
-                enabled: resourcesDirModel.resourcesDir != "" && !resourcesDirModel.isIndexBuilding
-
-                onClicked: rootItem.buildIndex();
+                onOpenResourcesButton: rootItem.setResourcesPath()
+                onBuildResourcesButton: rootItem.buildIndex()
             }
 
             Text {
@@ -210,7 +192,7 @@ Rectangle {
 
             Text {
                 width: parent.width
-                height: cmbMatcher.currentIndex != 0 ? 24 : 0
+                height: cmbMatcher.currentIndex != 0 ? 18 : 0
                 text: "Matcher params:"
             }
 
@@ -236,24 +218,11 @@ Rectangle {
             Button {
                 id: btnMakeMosaic
                 width: parent.width
-                height: 43
+                height: rootItem.buttonHeight
                 text: qsTr("Make mosaic")
 
                 enabled: mainImageModel.displayImageLoaded && btnBuildIndex.enabled && !makeMosaicButtonModel.isBeingCreated
                 onClicked: rootItem.makeMosaic()
-            }
-
-            Text {
-                text: "Operation progress:"
-            }
-
-            ProgressBar {
-                id: progressBar
-                width: parent.width
-
-                minimumValue: 0
-                maximumValue: 100
-                value: progressBarModel.value
             }
 
             Text {
@@ -281,12 +250,43 @@ Rectangle {
                 id: btnSave
 
                 width: parent.width
-                height: 43
+                height: rootItem.buttonHeight
                 text: qsTr("Save mosaic")
 
                 enabled: makeMosaicButtonModel.wasCreated
                 onClicked: rootItem.saveMosaic()
             }
+        }
+
+        Text {
+            id: instructionProgress
+            text: "Operation progress:"
+
+            anchors {
+                bottom: progressBar.top
+                left: parent.left
+                right: parent.right
+                topMargin: 10
+                leftMargin: 10
+                rightMargin: 10
+            }
+        }
+
+        ProgressBar {
+            id: progressBar
+
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
+                leftMargin: 10
+                rightMargin: 10
+                bottomMargin: 10
+            }
+
+            minimumValue: 0
+            maximumValue: 100
+            value: progressBarModel.value
         }
     }
 }

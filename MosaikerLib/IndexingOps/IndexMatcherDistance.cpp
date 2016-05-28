@@ -27,8 +27,6 @@ QString IndexMatcherDistance::matchFileWithIndex(quint32 index)
     if(availableForUse(bestFit))
     {
         mUsageMap[bestFit] = mExecutionCounter;
-        mExecutionCounter++;
-        return bestFit;
     }
     else
     {
